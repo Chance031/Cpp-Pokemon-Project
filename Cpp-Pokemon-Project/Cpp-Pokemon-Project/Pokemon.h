@@ -2,7 +2,10 @@
 
 #include <string>
 #include <vector>
+#include <array>
+
 #include "Skill.h"
+#include "Enums.h"
 
 class Pokemon
 {
