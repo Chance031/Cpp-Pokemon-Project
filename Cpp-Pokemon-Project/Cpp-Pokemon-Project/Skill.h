@@ -5,7 +5,15 @@
 class Skill
 {
 public:
-	// TODO
+	// 생성자 선언
+	Skill(std::string name, int power, int accuracy, int maxPp);
+
+	// Getter 함수
+	std::string getName() const { return name_; }
+	int getPower() const { return power_; }
+	int getAccuracy() const { return accuracy_; }
+	int getMaxPp() const { return maxPp_; }
+	int getCurrentPp() const { return currentPp_; }
 
 private:
 	std::string name_;
