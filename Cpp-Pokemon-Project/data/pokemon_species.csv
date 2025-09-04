@@ -1,0 +1,8 @@
+id,name,hp,attack,defense,sp_attack,sp_defense,speed,type1,type2,ability1,ability2,hidden_ability,exp_group
+1,Bulbasaur,45,49,49,65,65,45,GRASS,POISON,Overgrow,,Chlorophyll,MEDIUM_SLOW
+2,Ivysaur,60,62,63,80,80,60,GRASS,POISON,Overgrow,,Chlorophyll,MEDIUM_SLOW
+3,Venusaur,80,82,83,100,100,80,GRASS,POISON,Overgrow,,Chlorophyll,MEDIUM_SLOW
+4,Charmander,39,52,43,60,50,65,FIRE,NONE,Blaze,,Solar Power,MEDIUM_SLOW
+5,Charmeleon,58,64,58,80,65,80,FIRE,NONE,Blaze,,Solar Power,MEDIUM_SLOW
+6,Charizard,78,84,78,109,85,100,FIRE,FLYING,Blaze,,Solar Power,MEDIUM_SLOW
+7,Squirtle,44,48,65,50,64,43,WATER,NONE,Torrent,,Rain Dish,MEDIUM_SLOW
