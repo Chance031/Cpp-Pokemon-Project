@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 
-#include "Skill.h"
+#include "Move.h"
 #include "Enums.h"
 
 class Pokemon
@@ -21,8 +21,8 @@ public:
 	int getDefense() const { return defense_; }
 	int getSpeed() const { return speed_; }
 
-	bool addSkill(const Skill& skill);
-	const std::vector<Skill>& getSkills() const;
+	bool addSkill(const Move& move);
+	const std::vector<Move>& getMoves() const;
 
 private:
 	std::string name_;
@@ -32,5 +32,5 @@ private:
 	int defense_;
 	int speed_;
 
-	std::vector<Skill> skills_;
+	std::vector<Move> moves_;
 };

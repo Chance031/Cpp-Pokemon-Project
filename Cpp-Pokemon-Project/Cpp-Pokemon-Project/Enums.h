@@ -88,7 +88,7 @@ enum class MoveCategory {
 };
 
 // 기술의 대상 범위
-enum class TargetType {
+enum class MoveTarget {
     SINGLE_OPPONENT,    // 상대 하나
     ALL_OPPONENTS,      // 인접한 모든 상대
     SELF,               // 자기 자신
@@ -98,7 +98,7 @@ enum class TargetType {
 
 
 // 기술의 특수 행동 방식
-enum class MoveBehavior {
+enum class MoveExecutionType {
     NORMAL,             // 일반 실행
     CHARGE,             // 1턴 모으기 (솔라빔)
     TWO_TURN,           // 1턴 숨고 2턴 공격 (공중날기, 구멍파기)

@@ -126,11 +126,11 @@
     <ClCompile Include="Enums.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pokemon.cpp" />
-    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pokemon.h" />
-    <ClInclude Include="Skill.h" />
+    <ClInclude Include="Move.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

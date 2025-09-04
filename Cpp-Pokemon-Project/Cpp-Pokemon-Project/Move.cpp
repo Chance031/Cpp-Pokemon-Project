@@ -1,9 +1,14 @@
-#include "Skill.h"
+#include "Move.h"
 
-// 생성자 구현
-Skill::Skill(std::string name, Type type, SkillCategory category, int power, int accuracy, int maxPp)
-	: name_(name), type_(type), category_(category), power_(power), accuracy_(accuracy), maxPp_(maxPp)
+
+
+Move::Move(int id, const std::string& name, const std::string& description, Type type, MoveCategory category, int power, int accuracy, int pp, int priority, MoveTarget target, bool isContact, bool isSoundMove, bool isSpreadMove, bool isProtectable, bool canBeRedirected)
+	: id_(id), name_(name), description_(description), type_(type), category_(category), power_(power), accuracy_(accuracy), maxPp_(pp), currentPp_(pp), priority_(priority), moveTarget_(target), isContact_(isContact), isSpreadMove_(isSpreadMove), isProtectable_(isProtectable), canBeRedirected_(canBeRedirected)
 {
-	// 생성 시 PP를 최대로 채워줌
-	currentPp_ = maxPp_;
+}
+
+void Move::DecrementPp()
+{
+	if (currentPp_ > 0)
+		currentPp_--;
 }
