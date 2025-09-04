@@ -123,12 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Enums.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pokemon.cpp" />
     <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Pokemon.h" />
     <ClInclude Include="Move.h" />
   </ItemGroup>
