@@ -22,7 +22,7 @@ public:
     bool LearnMove(const Move& move);
 
     // --- Getter 함수 ---
-    std::string GetNickname() const { return nickname_; }
+    std::string GetName() const { return name_; }
     int GetLevel() const { return level_; }
     int GetCurrentHP() const { return currentHp_; }
     int GetMaxHP() const { return maxHp_; }
@@ -41,7 +41,7 @@ private:
 
     // 기본 정보
     int speciesId_;
-    std::string nickname_;
+    std::string name_;
     int level_;
     int currentExp_;
     int friendship_;
