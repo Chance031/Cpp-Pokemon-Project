@@ -1,5 +1,9 @@
 #pragma once
 
+// ============================================================
+// 1. 포켓몬의 고유 속성 (Pokemon's Intrinsic Properties) 
+// ============================================================
+
 // 포켓몬 타입
 enum class Type {
     NONE,
@@ -25,12 +29,12 @@ enum class Type {
 
 // 포켓몬의 능력치 종류
 enum class Stat {
-    HP,
-    ATTACK,
-    DEFENSE,
-    SPECIAL_ATTACK,
-    SPECIAL_DEFENSE,
-    SPEED
+    HP,                 // H
+    ATTACK,             // A
+    DEFENSE,            // B
+    SPECIAL_ATTACK,     // C
+    SPECIAL_DEFENSE,    // D
+    SPEED               // S
 };
 
 // 포켓몬의 성격
@@ -72,8 +76,12 @@ enum class ExpGroup {
     FLUCTUATING         // 1,640,000    (변동)
 };
 
+// ============================================================
+// 2. 기술 관련 속성 (Move-related Properties) 
+// ============================================================
+
 // 기술 타입
-enum class SkillCategory {
+enum class MoveCategory {
     PHYSICAL,   // 물리
     SPECIAL,    // 특수
     STATUS      // 변화
@@ -90,16 +98,18 @@ enum class TargetType {
 
 
 // 기술의 특수 행동 방식
-enum class SkillBehavior {
-    NORMAL,
-    TWO_TURN_INVULNERABLE,      // 공중날기, 구멍파기처럼 1턴째에 피하는 기술
-    CHARGE_NO_INVULNERABLE,     // 솔라빔처럼 1턴째에 기를 모으는 기술
-    DIGGING,                    // 땅속에 숨은 상태
-    FLYING,                     // 공중에 있는 상태
-    // ... 등등
+enum class MoveBehavior {
+    NORMAL,             // 일반 실행
+    CHARGE,             // 1턴 모으기 (솔라빔)
+    TWO_TURN,           // 1턴 숨고 2턴 공격 (공중날기, 구멍파기)
+    RECHARGE            // 사용 후 1턴 행동불가 (파괴광선)
 };
 
-// 상태 이상
+// ============================================================
+// 3. 상태 관련 속성 (Status-related Properties)
+// ============================================================
+
+// 지속되는 주요 상태 이상
 enum class StatusCondition {
     NONE,
     POISON,     // 독
@@ -110,22 +120,26 @@ enum class StatusCondition {
     FREEZE      // 얼음
 };
 
-// 상태 변화
+// 일시적인 전투 상태
 enum class VolatileStatus {
     NONE,
     CONFUSION,    // 혼란
-    INFATUATION,  // 헤롱헤롱
+    FLINCH,       // 풀죽음
     LEECH_SEED,   // 씨뿌리기
-    FLINCH        // 풀죽음
+    TRAPPED       // 함정
 };
 
+// ============================================================
+// 4. 환경 관련 속성 (Environment-related Properties)
+// ============================================================
+ 
 // 날씨 상태
 enum class Weather {
     NONE,
-    HARSH_SUNLIGHT,     // 쾌청
-    RAIN,               // 비
-    SANDSTORM,          // 모래바람
-    SNOW                // 설경
+    HARSH_SUNLIGHT, // 쾌청
+    RAIN,           // 비
+    SANDSTORM,      // 모래바람
+    SNOW            // 설경
 };
 
 // 필드 상태
