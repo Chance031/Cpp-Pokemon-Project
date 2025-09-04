@@ -2,35 +2,70 @@
 
 #include <string>
 #include <vector>
-#include <array>
+#include <map>
 
-#include "Move.h"
 #include "Enums.h"
+#include "Move.h"
 
-class Pokemon
-{
+class Item;
+class Ability;
+
+class Pokemon {
 public:
-	// 생성자 선언
-	Pokemon(std::string name, int maxHp, int attack, int defense, int speed);
+    // 생성자
+    Pokemon(int speciesId, int level);
 
-	// Getter 함수
-	std::string getName() const { return name_; }
-	int getMaxHp() const { return maxHp_; }
-	int getCurrentHp() const { return currentHp_; }
-	int getAttack() const { return attack_; }
-	int getDefense() const { return defense_; }
-	int getSpeed() const { return speed_; }
+    // --- 공개 멤버 함수 ---
+    void TakeDamage(int damage);
+    void Heal(int amount);
+    void AddExp(int amount);
+    bool LearnMove(const Move& move);
 
-	bool addSkill(const Move& move);
-	const std::vector<Move>& getMoves() const;
+    // --- Getter 함수 ---
+    std::string GetNickname() const { return nickname_; }
+    int GetLevel() const { return level_; }
+    int GetCurrentHP() const { return currentHp_; }
+    int GetMaxHP() const { return maxHp_; }
+    int GetStat(Stat stat) const; // 특정 스탯의 최종 계산값을 반환
+    const std::vector<Move>& GetMoveset() const { return moveset_; }
+    // ... 등등 필요한 모든 Getter ...
 
 private:
-	std::string name_;
-	int maxHp_;
-	int currentHp_;
-	int attack_;
-	int defense_;
-	int speed_;
+    // --- 비공개 멤버 함수 ---
+    void RecalculateStats();
+    void LevelUp();
+    void CheckForEvolution();
+    void CheckForNewMoves();
 
-	std::vector<Move> moves_;
+    // --- 멤버 변수 (GDD 기반 최종본) ---
+
+    // 기본 정보
+    int speciesId_;
+    std::string nickname_;
+    int level_;
+    int currentExp_;
+    int friendship_;
+
+    // 능력치 '재료'
+    Nature nature_;
+    std::map<Stat, int> ivs_;
+    std::map<Stat, int> evs_;
+
+    // 계산된 최종 능력치 (실수치)
+    int maxHp_;
+    int currentHp_;
+    int attack_;
+    int defense_;
+    int specialAttack_;
+    int specialDefense_;
+    int speed_;
+
+    // 기타 시스템 데이터
+    Type type1_;
+    Type type2_;
+    std::vector<Move> moveset_;
+    std::map<Stat, int> statStages_;
+    StatusCondition primaryStatus_;
+    // Ability ability_;
+    // Item heldItem_;
 };
