@@ -137,6 +137,17 @@ void Pokemon::RecalculateStats()
 
 void Pokemon::LevelUp()
 {
+    level_++;
+    std::cout << GetName() << "의 레벨이 " << level_ << "(으)로 올랐다!" << std::endl;
+
+    // 1. 능력치 재계산 (가장 중요)
+    RecalculateStats();
+
+    // 2. 새로운 기술을 배우는지 확인
+    CheckForNewMoves();
+
+    // 3. 진화하는지 확인
+    CheckForEvolution();
 }
 
 void Pokemon::CheckForEvolution()
