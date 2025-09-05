@@ -1,71 +1,32 @@
 #pragma once
 
-#include <string>
 #include <vector>
-#include <map>
 
-#include "Enums.h"
-#include "Move.h"
+#include "PokemonData.h"
 
-class Item;
-class Ability;
+class Move;
 
-class Pokemon {
+class Pokemon
+{
 public:
-    // 생성자
-    Pokemon(int speciesId, int level);
+	// 생성자
+	Pokemon(const PokemonSpecies& species, const PokemonIndividual& individual);
 
-    // --- 공개 멤버 함수 ---
-    void TakeDamage(int damage);
-    void Heal(int amount);
-    void AddExp(int amount);
-    bool LearnMove(const Move& move);
+	// --- 공개 인터페이스 (Public API) ---
 
-    // --- Getter 함수 ---
-    std::string GetName() const { return name_; }
-    int GetLevel() const { return level_; }
-    int GetCurrentHP() const { return currentHp_; }
-    int GetMaxHP() const { return maxHp_; }
-    int GetStat(Stat stat) const; // 특정 스탯의 최종 계산값을 반환
-    const std::vector<Move>& GetMoveset() const { return moveset_; }
-    // ... 등등 필요한 모든 Getter ...
-
+	// Getter 함수
+	
 private:
-    // --- 비공개 멤버 함수 ---
-    void RecalculateStats();
-    void LevelUp();
-    void CheckForEvolution();
-    void CheckForNewMoves();
+	// --- 비공개 로직 (Internal Logic) ---
 
-    // --- 멤버 변수 (GDD 기반 최종본) ---
+	// 1. 불변 데이터 (포켓몬 종족 정보)
+	const PokemonSpecies& species_;
 
-    // 기본 정보
-    int speciesId_;
-    std::string name_;
-    int level_;
-    int currentExp_;
-    int friendship_;
+	// 2. 가변 데이터 (포켓몬 개체 정보)
+	PokemonIndividual individual_;
 
-    // 능력치 '재료'
-    Nature nature_;
-    std::map<Stat, int> ivs_;
-    std::map<Stat, int> evs_;
-
-    // 계산된 최종 능력치 (실수치)
-    int maxHp_;
-    int currentHp_;
-    int attack_;
-    int defense_;
-    int specialAttack_;
-    int specialDefense_;
-    int speed_;
-
-    // 기타 시스템 데이터
-    Type type1_;
-    Type type2_;
-    std::vector<Move> moveset_;
-    std::map<Stat, int> statStages_;
-    StatusCondition primaryStatus_;
-    // Ability ability_;
-    // Item heldItem_;
+	// 3. 계산된 현재 상태 (Derived State)
+	std::map<Stat, int> finalStats_;	// HP, 공격, 방어 등 최종 능력치
+	int currentHp_;
+	std::vector<Move> moveset_;	// 기술폭
 };

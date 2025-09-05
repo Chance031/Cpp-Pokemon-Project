@@ -1,161 +1,141 @@
 #include "Pokemon.h"
+#include "DataManager.h"
 
 #include <iostream>
+#include <cmath>
 
-Pokemon::Pokemon(int speciesId, int level)
-	: speciesId_(speciesId), level_(level)
-{
-    // 개체값(IV)은 0~31 사이의 난수로 설정합니다. (지금은 예시로 31로 고정)
-    ivs_[Stat::HP] = 31;
-    ivs_[Stat::ATTACK] = 31;
-    ivs_[Stat::DEFENSE] = 31;
-    ivs_[Stat::SPECIAL_ATTACK] = 31;
-    ivs_[Stat::SPECIAL_DEFENSE] = 31;
-    ivs_[Stat::SPEED] = 31;
-
-    // 노력치(EV)는 처음에는 모두 0입니다.
-    evs_[Stat::HP] = 0;
-    evs_[Stat::ATTACK] = 0;
-    evs_[Stat::DEFENSE] = 0;
-    evs_[Stat::SPECIAL_ATTACK] = 0;
-    evs_[Stat::SPECIAL_DEFENSE] = 0;
-    evs_[Stat::SPEED] = 0;
-
-    // 성격(Nature)은 25가지 중 하나로 랜덤하게 설정합니다. (지금은 예시로 고정)
-    nature_ = Nature::MODEST; // 조심 성격
-
-    // 기타 변수 초기화
-    currentExp_ = 0; // 경험치는 0부터 시작
-    primaryStatus_ = StatusCondition::NONE; // 상태 이상 없음
-    // ...
-
-    // --- 마지막으로, 설정된 재료들로 첫 능력치를 계산합니다 ---
-    RecalculateStats();
-
-    // HP는 처음에는 가득 차 있습니다.
-    currentHp_ = maxHp_;
-
-    std::cout << "레벨 " << level_ << " 포켓몬 생성 완료!" << std::endl;
+// (임시) 성격에 따른 능력치 보정 데이터를 가져오는 함수
+// 실제로는 DataManager나 별도의 NatureManager가 이 역할을 해야 합니다.
+std::pair<Stat, Stat> GetNatureStatMods(Nature nature) {
+    // 예시: 조심(MODEST) 성격은 특수공격(SPECIAL_ATTACK)을 올리고 공격(ATTACK)을 내림
+    if (nature == Nature::MODEST) {
+        return { Stat::SPECIAL_ATTACK, Stat::ATTACK };
+    }
+    // ... 다른 모든 성격에 대한 데이터 추가 ...
+    // 보정이 없는 성격
+    return { Stat::HP, Stat::HP }; // 임의의 중복 스탯으로 보정 없음을 표시
 }
 
-void Pokemon::TakeDamage(int damage)
+// (임시) 경험치 그룹에 따라 다음 레벨 필요 경험치를 계산하는 함수
+int GetRequiredExpForLevel(int level, ExpGroup group) {
+    // GDD의 경험치 곡선 규칙에 따라 계산
+    if (group == ExpGroup::MEDIUM_FAST) {
+        return level * level * level;
+    }
+    // ... 다른 모든 경험치 그룹에 대한 공식 추가 ...
+    return level * level * level; // 기본값
+}
+
+// ==========================================================
+// Pokemon 클래스 구현
+// ==========================================================
+
+Pokemon::Pokemon(int speciesId, int level)
+// --- 멤버 이니셜라이저 리스트를 사용한 효율적인 초기화 ---
+    : speciesId_(speciesId),
+    level_(level),
+    // DataManager에서 해당 포켓몬의 '원형 데이터'를 가져와 초기화
+    name_(DataManager::GetInstance()->GetPokemonSpeciesData(speciesId).name),
+    type1_(DataManager::GetInstance()->GetPokemonSpeciesData(speciesId).type1),
+    type2_(DataManager::GetInstance()->GetPokemonSpeciesData(speciesId).type2),
+    // TODO: Ability, Item도 DataManager에서 가져와서 초기화
+    ivs_({ {Stat::HP, 31}, {Stat::ATTACK, 31}, {Stat::DEFENSE, 31}, {Stat::SPECIAL_ATTACK, 31}, {Stat::SPECIAL_DEFENSE, 31}, {Stat::SPEED, 31} }),
+    evs_({ {Stat::HP, 0}, {Stat::ATTACK, 0}, {Stat::DEFENSE, 0}, {Stat::SPECIAL_ATTACK, 0}, {Stat::SPECIAL_DEFENSE, 0}, {Stat::SPEED, 0} }),
+    nature_(Nature::MODEST), // 예시로 '조심' 성격으로 고정
+    currentExp_(0),
+    friendship_(70), // 기본 친밀도
+    primaryStatus_(StatusCondition::NONE)
 {
+    // --- 생성자 본문에서는 로직만 처리 ---
+    RecalculateStats();
+    currentHp_ = maxHp_; // 최대 HP로 현재 HP 설정
+
+    std::cout << name_ << " (Lv. " << level_ << ") 생성 완료!" << std::endl;
+}
+
+void Pokemon::TakeDamage(int damage) {
     currentHp_ -= damage;
     if (currentHp_ < 0)
         currentHp_ = 0;
 }
 
-void Pokemon::Heal(int amount)
-{
+void Pokemon::Heal(int amount) {
     currentHp_ += amount;
     if (currentHp_ > maxHp_)
         currentHp_ = maxHp_;
 }
 
-void Pokemon::AddExp(int amount)
-{
-    // TODO: GDD의 '경험치 공식'에 따라 amount를 조절하는 로직 추가
-    // (예: 상대 레벨, 트레이너전 보너스 등)
+void Pokemon::AddExp(int amount) {
     currentExp_ += amount;
     std::cout << GetName() << "은(는) " << amount << "의 경험치를 얻었다!" << std::endl;
 
-    // --- 레벨 업 체크 ---
-    // 여러 번 레벨업 할 수 있으므로 while 루프로 체크합니다.
-    while (true)
-    {
-        // DataManager에서 다음 레벨에 필요한 총 경험치를 가져온다고 가정
-        // int requiredExp = DataManager::GetInstance()->GetTotalExpForLevel(level_ + 1, expGroup_);
+    while (true) {
+        ExpGroup expGroup = DataManager::GetInstance()->GetPokemonSpeciesData(speciesId_).exp_group;
+        int requiredExp = GetRequiredExpForLevel(level_ + 1, expGroup);
 
-        // 임시 필요 경험치 (실제로는 경험치 곡선 함수 사용)
-        int requiredExp = (level_ + 1) * (level_ + 1) * (level_ + 1);
-
-        if (currentExp_ >= requiredExp)
-        {
-            LevelUp(); // 필요 경험치를 넘었으면 레벨 업!
+        if (currentExp_ >= requiredExp) {
+            LevelUp();
         }
-        else
-        {
-            break; // 넘지 못하면 루프 종료
+        else {
+            break;
         }
     }
 }
 
-bool Pokemon::LearnMove(const Move& move)
-{
-    if (moveset_.size() < 4)
-    {
+bool Pokemon::LearnMove(const Move& move) {
+    if (moveset_.size() < 4) {
         moveset_.push_back(move);
-        return true; // 배우기 성공
+        return true;
     }
-
-    // TODO: 4개를 초과했을 때, 기존 기술을 잊고 배울지 물어보는 UI 로직 호출
-
-    return false; // 배우기 실패 (자리가 없음)
+    return false;
 }
 
-int Pokemon::GetStat(Stat stat) const
-{
-    switch (stat)
-    {
-    case Stat::HP: return maxHp_; // 현재 HP가 아닌 최대 HP를 반환하는 것이 일반적
+int Pokemon::GetStat(Stat stat) const {
+    switch (stat) {
+    case Stat::HP: return maxHp_;
     case Stat::ATTACK: return attack_;
     case Stat::DEFENSE: return defense_;
     case Stat::SPECIAL_ATTACK: return specialAttack_;
     case Stat::SPECIAL_DEFENSE: return specialDefense_;
     case Stat::SPEED: return speed_;
-    default: return 0; // 예외 처리
+    default: return 0;
     }
 }
 
-void Pokemon::RecalculateStats()
-{
-    // DataManager에서 이 포켓몬의 종족값(Base Stat)을 가져왔다고 가정합니다.
-    // int baseHp = DataManager::GetInstance()->GetSpecies(speciesId_)->GetBaseStat(Stat::HP);
-    // int baseAttack = ...;
+void Pokemon::RecalculateStats() {
+    const PokemonSpeciesData& speciesData = DataManager::GetInstance()->GetPokemonSpeciesData(speciesId_);
 
-    // --- 임시 종족값 (예: 이상해씨) ---
-    int baseHp = 45;
-    int baseAttack = 49;
-    int baseDefense = 49;
-    int baseSpecialAttack = 65;
-    int baseSpecialDefense = 65;
-    int baseSpeed = 45;
+    // HP 계산
+    maxHp_ = floor(0.01 * (2 * speciesData.hp + ivs_.at(Stat::HP) + floor(0.25 * evs_.at(Stat::HP))) * level_) + level_ + 10;
 
-    // --- HP 계산 (GDD 공식) ---
-    maxHp_ = floor(0.01 * (2 * baseHp + ivs_[Stat::HP] + floor(0.25 * evs_[Stat::HP])) * level_) + level_ + 10;
+    // 성격 보정치 계산 로직
+    auto natureMods = GetNatureStatMods(nature_);
+    Stat raisedStat = natureMods.first;
+    Stat loweredStat = natureMods.second;
 
-    // --- 나머지 능력치 계산 (GDD 공식) ---
-    // 실제 구현에서는 Nature의 보정치(1.1, 1.0, 0.9)를 가져오는 로직이 필요합니다.
-    double natureModifier = 1.0;
+    // 각 능력치별로 성격 보정 계수(Modifier)를 계산
+    double attackMod = (raisedStat == Stat::ATTACK) ? 1.1 : (loweredStat == Stat::ATTACK) ? 0.9 : 1.0;
+    double defenseMod = (raisedStat == Stat::DEFENSE) ? 1.1 : (loweredStat == Stat::DEFENSE) ? 0.9 : 1.0;
+    double spAttackMod = (raisedStat == Stat::SPECIAL_ATTACK) ? 1.1 : (loweredStat == Stat::SPECIAL_ATTACK) ? 0.9 : 1.0;
+    double spDefenseMod = (raisedStat == Stat::SPECIAL_DEFENSE) ? 1.1 : (loweredStat == Stat::SPECIAL_DEFENSE) ? 0.9 : 1.0;
+    double speedMod = (raisedStat == Stat::SPEED) ? 1.1 : (loweredStat == Stat::SPEED) ? 0.9 : 1.0;
 
-    attack_ = floor((floor(0.01 * (2 * baseAttack + ivs_[Stat::ATTACK] + floor(0.25 * evs_[Stat::ATTACK])) * level_) + 5) * natureModifier);
-    defense_ = floor((floor(0.01 * (2 * baseDefense + ivs_[Stat::DEFENSE] + floor(0.25 * evs_[Stat::DEFENSE])) * level_) + 5) * natureModifier);
-    specialAttack_ = floor((floor(0.01 * (2 * baseSpecialAttack + ivs_[Stat::SPECIAL_ATTACK] + floor(0.25 * evs_[Stat::SPECIAL_ATTACK])) * level_) + 5) * natureModifier);
-    specialDefense_ = floor((floor(0.01 * (2 * baseSpecialDefense + ivs_[Stat::SPECIAL_DEFENSE] + floor(0.25 * evs_[Stat::SPECIAL_DEFENSE])) * level_) + 5) * natureModifier);
-    speed_ = floor((floor(0.01 * (2 * baseSpeed + ivs_[Stat::SPEED] + floor(0.25 * evs_[Stat::SPEED])) * level_) + 5) * natureModifier);
+    // 나머지 능력치 계산
+    attack_ = floor((floor(0.01 * (2 * speciesData.attack + ivs_.at(Stat::ATTACK) + floor(0.25 * evs_.at(Stat::ATTACK))) * level_) + 5) * attackMod);
+    defense_ = floor((floor(0.01 * (2 * speciesData.defense + ivs_.at(Stat::DEFENSE) + floor(0.25 * evs_.at(Stat::DEFENSE))) * level_) + 5) * defenseMod);
+    specialAttack_ = floor((floor(0.01 * (2 * speciesData.sp_attack + ivs_.at(Stat::SPECIAL_ATTACK) + floor(0.25 * evs_.at(Stat::SPECIAL_ATTACK))) * level_) + 5) * spAttackMod);
+    specialDefense_ = floor((floor(0.01 * (2 * speciesData.sp_defense + ivs_.at(Stat::SPECIAL_DEFENSE) + floor(0.25 * evs_.at(Stat::SPECIAL_DEFENSE))) * level_) + 5) * spDefenseMod);
+    speed_ = floor((floor(0.01 * (2 * speciesData.speed + ivs_.at(Stat::SPEED) + floor(0.25 * evs_.at(Stat::SPEED))) * level_) + 5) * speedMod);
 }
 
-void Pokemon::LevelUp()
-{
+void Pokemon::LevelUp() {
     level_++;
     std::cout << GetName() << "의 레벨이 " << level_ << "(으)로 올랐다!" << std::endl;
-
-    // 1. 능력치 재계산 (가장 중요)
     RecalculateStats();
-
-    // 2. 새로운 기술을 배우는지 확인
-    CheckForNewMoves();
-
-    // 3. 진화하는지 확인
-    CheckForEvolution();
+    // CheckForNewMoves(); // TODO: DataManager와 연동하여 구현
+    // CheckForEvolution(); // TODO: DataManager와 연동하여 구현
 }
 
-void Pokemon::CheckForEvolution()
-{
-}
-
-void Pokemon::CheckForNewMoves()
-{
-}
-
-
+// 이 함수들은 DataManager가 완성된 후, 그곳의 데이터를 이용해 구현해야 합니다.
+void Pokemon::CheckForEvolution() {}
+void Pokemon::CheckForNewMoves() {}

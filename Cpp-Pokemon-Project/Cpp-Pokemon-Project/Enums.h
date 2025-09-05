@@ -5,7 +5,8 @@
 // ============================================================
 
 // 포켓몬 타입
-enum class Type {
+enum class Type 
+{
     NONE,
     NORMAL,     // 노말
     FIRE,       // 불
@@ -28,7 +29,8 @@ enum class Type {
 };
 
 // 포켓몬의 능력치 종류
-enum class Stat {
+enum class Stat 
+{
     HP,                 // H
     ATTACK,             // A
     DEFENSE,            // B
@@ -38,7 +40,8 @@ enum class Stat {
 };
 
 // 포켓몬의 성격
-enum class Nature {
+enum class Nature 
+{
     HARDY,      // 노력 
     LONELY,     // 외로움
     ADAMANT,    // 고집
@@ -67,7 +70,8 @@ enum class Nature {
 };
 
 // 경험치 그룹 (성장 속도)
-enum class ExpGroup {
+enum class ExpGroup 
+{
     ERRATIC,            // 600,000      (불규칙)
     FAST,               // 800,000      (빠름)
     MEDIUM_FAST,        // 1,000,000    (중간 빠름)
@@ -81,14 +85,16 @@ enum class ExpGroup {
 // ============================================================
 
 // 기술 타입
-enum class MoveCategory {
+enum class MoveCategory 
+{
     PHYSICAL,   // 물리
     SPECIAL,    // 특수
     STATUS      // 변화
 };
 
 // 기술의 대상 범위
-enum class MoveTarget {
+enum class MoveTarget 
+{
     SINGLE_OPPONENT,    // 상대 하나
     ALL_OPPONENTS,      // 인접한 모든 상대
     SELF,               // 자기 자신
@@ -98,7 +104,8 @@ enum class MoveTarget {
 
 
 // 기술의 특수 행동 방식
-enum class MoveExecutionType {
+enum class MoveExecutionType 
+{
     NORMAL,             // 일반 실행
     CHARGE,             // 1턴 모으기 (솔라빔)
     TWO_TURN,           // 1턴 숨고 2턴 공격 (공중날기, 구멍파기)
@@ -110,7 +117,8 @@ enum class MoveExecutionType {
 // ============================================================
 
 // 지속되는 주요 상태 이상
-enum class StatusCondition {
+enum class StatusCondition 
+{
     NONE,
     POISON,     // 독
     TOXIC,      // 맹독
@@ -121,7 +129,8 @@ enum class StatusCondition {
 };
 
 // 일시적인 전투 상태
-enum class VolatileStatus {
+enum class VolatileStatus 
+{
     NONE,
     CONFUSION,    // 혼란
     FLINCH,       // 풀죽음
@@ -134,7 +143,8 @@ enum class VolatileStatus {
 // ============================================================
  
 // 날씨 상태
-enum class Weather {
+enum class Weather 
+{
     NONE,
     HARSH_SUNLIGHT, // 쾌청
     RAIN,           // 비
@@ -143,7 +153,8 @@ enum class Weather {
 };
 
 // 필드 상태
-enum class Terrain {
+enum class Terrain 
+{
     NONE,
     ELECTRIC,           // 일렉트릭필드
     GRASSY,             // 그래스필드

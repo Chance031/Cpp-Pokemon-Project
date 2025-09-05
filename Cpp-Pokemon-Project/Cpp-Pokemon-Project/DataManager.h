@@ -3,43 +3,44 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Enums.h"
+#include "Move.h"
+#include "Ability.h"
 
-#include "Pokemon.h" // 포켓몬 데이터 구조를 알아야 함
-#include "Move.h"    // 기술 데이터 구조를 알아야 함
-
-// 포켓몬의 모든 '고정' 데이터를 담을 구조체
+// CSV 데이터의 구조체 정의
 struct PokemonSpeciesData {
     int id;
     std::string name;
     int hp, attack, defense, sp_attack, sp_defense, speed;
     Type type1, type2;
-
+    int ability1_id, ability2_id, hidden_ability_id;
+    ExpGroup exp_group;
 };
 
 class DataManager {
 public:
-    // 싱글톤 인스턴스를 가져오는 함수
     static DataManager* GetInstance();
 
-    // 모든 데이터를 로드하는 함수
+    // 모든 CSV 파일을 읽어 데이터를 메모리에 로드
     void LoadAllData();
 
-    // 데이터를 가져오는 함수
-    const PokemonSpeciesData& GetPokemonSpecies(int id) const;
-    const Move& GetMove(int id) const;
+    // 로드된 데이터를 외부에서 가져갈 수 있게 하는 함수
+    const PokemonSpeciesData& GetPokemonSpeciesData(int id) const;
+    const Move& GetMoveData(int id) const;
+    const Ability& GetAbilityData(int id) const;
 
 private:
-    // 생성자를 private으로 만들어 외부에서 객체를 생성하지 못하게 함
     DataManager() {}
 
-    // CSV 파일 로딩 함수
-    void LoadPokemonData(const std::string& filePath);
-    void LoadMoveData(const std::string& filePath);
+    // 각 CSV 파일을 실제로 읽는 비공개 함수
+    void LoadPokemonSpecies(const std::string& filePath);
+    void LoadMoves(const std::string& filePath);
+    void LoadAbilities(const std::string& filePath);
 
-    // 로드된 데이터를 저장할 변수
+    // 로드된 데이터를 저장할 '데이터베이스' 변수들
     std::map<int, PokemonSpeciesData> pokemonDatabase_;
     std::map<int, Move> moveDatabase_;
+    std::map<int, Ability> abilityDatabase_;
 
-    // 싱글톤 인스턴스
     static DataManager* instance_;
 };
