@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PokemonData.h"
+#include "MoveData.h"
 
 #include <vector>
 
@@ -24,6 +25,9 @@ public:
 	void TakeDamage(int damage);
 	void Heal(int amount);
 	void AddExp(int amount);
+
+	void LearnMove(const MoveData& moveData);
+	const std::vector<Move>& GetMoveset() const;
 	
 private:
 	// --- 비공개 로직 (Internal Logic) ---

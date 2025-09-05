@@ -58,6 +58,22 @@ void Pokemon::AddExp(int amount)
 	// if (individual.currentExp >= requiredExpForNextLevel) { LevelUp(); }
 }
 
+void Pokemon::LearnMove(const MoveData& moveData)
+{
+	// 기술은 최대 4개까지만 배울 수 있습니다.
+	if (moveset_.size() < 4)
+	{
+		// MoveData를 받아 Move 객체를 생성하고 moveset_에 추가합니다.
+		moveset_.emplace_back(moveData);
+		std::cout << species_.name << "은(는) " << moveData.name << "을(를) 배웠다!" << std::endl;
+	}
+}
+
+const std::vector<Move>& Pokemon::GetMoveset() const
+{
+	return moveset_;
+}
+
 void Pokemon::LevelUp()
 {
 	individual_.level++;
