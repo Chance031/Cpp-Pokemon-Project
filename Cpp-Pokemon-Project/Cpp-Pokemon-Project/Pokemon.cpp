@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "Move.h"
+
 // 임시 Nature 보정 함수 (원래는 DataManager나 별도 클래스가 담당)
 std::pair<Stat, Stat> GetNatureStatMods(Nature nature) {
 	if (nature == Nature::MODEST) {
