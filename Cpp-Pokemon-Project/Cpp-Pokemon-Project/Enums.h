@@ -1,8 +1,8 @@
 #pragma once
 
-// ============================================================
-// 1. 포켓몬의 고유 속성 (Pokemon's Intrinsic Properties) 
-// ============================================================
+// =================================================================
+// 포켓몬 핵심 속성 (Core Pokemon Attributes)
+// =================================================================
 
 // 포켓몬 타입
 enum class Type 
@@ -69,20 +69,9 @@ enum class Nature
     SERIOUS     // 성실
 };
 
-// 경험치 그룹 (성장 속도)
-enum class ExpGroup 
-{
-    ERRATIC,            // 600,000      (불규칙)
-    FAST,               // 800,000      (빠름)
-    MEDIUM_FAST,        // 1,000,000    (중간 빠름)
-    MEDIUM_SLOW,        // 1,059,860    (중간 느림)
-    SLOW,               // 1,250,000    (느림)
-    FLUCTUATING         // 1,640,000    (변동)
-};
-
-// ============================================================
-// 2. 기술 관련 속성 (Move-related Properties) 
-// ============================================================
+// =================================================================
+// 기술 관련 (Move-related)
+// =================================================================
 
 // 기술 타입
 enum class MoveCategory 
@@ -95,13 +84,11 @@ enum class MoveCategory
 // 기술의 대상 범위
 enum class MoveTarget 
 {
-    SINGLE_OPPONENT,    // 상대 하나
-    ALL_OPPONENTS,      // 인접한 모든 상대
     SELF,               // 자기 자신
-    ALL_ALLIES,         // 모든 아군
-    ENTIRE_FIELD        // 필드 전체
+    SINGLE_TARGET,      // 상대 1체
+    ALL_OPPONENTS,      // 필드 전체
+    ALL_ALLIES          // 모든 아군
 };
-
 
 // 기술의 특수 행동 방식
 enum class MoveExecutionType 
@@ -112,12 +99,35 @@ enum class MoveExecutionType
     RECHARGE            // 사용 후 1턴 행동불가 (파괴광선)
 };
 
-// ============================================================
-// 3. 상태 관련 속성 (Status-related Properties)
-// ============================================================
+// =================================================================
+// 포켓몬 성장 및 개체 관련 (Growth & Individual-related)
+// =================================================================
 
-// 지속되는 주요 상태 이상
-enum class StatusCondition 
+// 성별
+enum class Gender
+{
+    MALE,           // 수컷
+    FEMALE,         // 암컷
+    GENDERLESS      // 무성
+};
+
+// 경험치 그룹 (성장 속도)
+enum class ExpGroup
+{
+    ERRATIC,            // 600,000      (불규칙)
+    FAST,               // 800,000      (빠름)
+    MEDIUM_FAST,        // 1,000,000    (중간 빠름)
+    MEDIUM_SLOW,        // 1,059,860    (중간 느림)
+    SLOW,               // 1,250,000    (느림)
+    FLUCTUATING         // 1,640,000    (변동)
+};
+
+// =================================================================
+// 배틀 상태 및 환경 관련 (Battle Status & Environment-related)
+// =================================================================
+
+// 주요 상태 이상
+enum class StatusCondition
 {
     NONE,
     POISON,     // 독
@@ -129,7 +139,7 @@ enum class StatusCondition
 };
 
 // 일시적인 전투 상태
-enum class VolatileStatus 
+enum class VolatileStatus
 {
     NONE,
     CONFUSION,    // 혼란
@@ -138,10 +148,6 @@ enum class VolatileStatus
     TRAPPED       // 함정
 };
 
-// ============================================================
-// 4. 환경 관련 속성 (Environment-related Properties)
-// ============================================================
- 
 // 날씨 상태
 enum class Weather 
 {

@@ -4,6 +4,7 @@
 #include "MoveData.h"
 
 #include <vector>
+#include <string>
 
 class Move;
 
@@ -28,6 +29,7 @@ public:
 
 	void LearnMove(const MoveData& moveData);
 	const std::vector<Move>& GetMoveset() const;
+	void UseRareCandy();
 	
 private:
 	// --- 비공개 로직 (Internal Logic) ---

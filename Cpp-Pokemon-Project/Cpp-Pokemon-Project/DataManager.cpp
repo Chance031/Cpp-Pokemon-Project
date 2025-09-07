@@ -49,33 +49,48 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
     // 파일 끝까지 한 줄씩 읽기
     while (std::getline(file, line))
     {
-        try
-        {
-            std::stringstream ss(line);
-            std::string field;
-            PokemonSpecies species;
+        std::stringstream ss(line);
+        std::string field;
+        PokemonSpecies species;
 
-            // CSV의 각 필드를 순서대로 읽어서 species 객체에 채워넣기
-            std::getline(ss, field, ','); species.id = std::stoi(field);
-            std::getline(ss, field, ','); species.name = field;
-            std::getline(ss, field, ','); species.baseStats[Stat::HP] = std::stoi(field);
-            std::getline(ss, field, ','); species.baseStats[Stat::ATTACK] = std::stoi(field);
-            std::getline(ss, field, ','); species.baseStats[Stat::DEFENSE] = std::stoi(field);
-            std::getline(ss, field, ','); species.baseStats[Stat::SPECIAL_ATTACK] = std::stoi(field);
-            std::getline(ss, field, ','); species.baseStats[Stat::SPECIAL_DEFENSE] = std::stoi(field);
-            std::getline(ss, field, ','); species.baseStats[Stat::SPEED] = std::stoi(field);
-            std::getline(ss, field, ','); species.type1 = StringUtils::StringToType(field);
-            std::getline(ss, field, ','); species.type2 = StringUtils::StringToType(field); // type2가 없으면 NONE으로 처리됨
+        // 최종 CSV 순서에 맞춰 모든 데이터를 읽습니다.
+        std::getline(ss, field, ','); species.id = std::stoi(field);
+        std::getline(ss, field, ','); species.name_kr = field;
+        std::getline(ss, field, ','); species.name_en = field;
 
-            // 완성된 species 객체를 데이터베이스(맵)에 삽입
-            speciesDatabase_[species.id] = species;
-        }
-        catch (const std::exception& e)
-        {
-            // 오류 발생 시, 어떤 줄에서 어떤 오류가 났는지 출력
-            std::cerr << "[PARSE ERROR] 이 줄에서 오류가 발생했습니다: " << line << std::endl;
-            std::cerr << "                오류 내용: " << e.what() << std::endl;
-        }
+        std::getline(ss, field, ','); species.baseStats[Stat::HP] = std::stoi(field);
+        std::getline(ss, field, ','); species.baseStats[Stat::ATTACK] = std::stoi(field);
+        std::getline(ss, field, ','); species.baseStats[Stat::DEFENSE] = std::stoi(field);
+        std::getline(ss, field, ','); species.baseStats[Stat::SPECIAL_ATTACK] = std::stoi(field);
+        std::getline(ss, field, ','); species.baseStats[Stat::SPECIAL_DEFENSE] = std::stoi(field);
+        std::getline(ss, field, ','); species.baseStats[Stat::SPEED] = std::stoi(field);
+
+        std::getline(ss, field, ','); species.evolutionLevel = field.empty() ? 0 : std::stoi(field);
+        std::getline(ss, field, ','); species.evolutionTargetId = field.empty() ? 0 : std::stoi(field);
+
+        std::getline(ss, field, ','); species.type1 = StringUtils::StringToType(field);
+        std::getline(ss, field, ','); species.type2 = StringUtils::StringToType(field);
+
+        std::getline(ss, field, ','); species.male_ratio_pct = field.empty() ? -1.0f : std::stof(field);
+        std::getline(ss, field, ','); species.egg_group_1 = field;
+        std::getline(ss, field, ','); species.egg_group_2 = field;
+        std::getline(ss, field, ','); species.hatch_counter = field.empty() ? 0 : std::stoi(field);
+
+        std::getline(ss, field, ','); species.ability1 = field;
+        std::getline(ss, field, ','); species.ability2 = field;
+        std::getline(ss, field, ','); species.hidden_ability = field;
+
+        std::getline(ss, field, ','); species.exp_group = StringUtils::StringToExpGroup(field);
+        std::getline(ss, field, ','); species.catch_rate = std::stoi(field);
+
+        std::getline(ss, field, ','); species.category_kr = field;
+        std::getline(ss, field, ','); species.category_en = field;
+        std::getline(ss, field, ','); species.height_m = std::stof(field);
+        std::getline(ss, field, ','); species.weight_kg = std::stof(field);
+        std::getline(ss, field, ','); species.pokedex_entry_kr = field;
+        std::getline(ss, field, ','); species.pokedex_entry_en = field;
+
+        speciesDatabase_[species.id] = species;
     }
 
     file.close(); // 파일 닫기

@@ -22,7 +22,7 @@ Pokemon::Pokemon(const PokemonSpecies& species, const PokemonIndividual& individ
 	// 현재 HP를 최대 HP와 동일하게 설정
 	currentHp_ = finalStats_.at(Stat::HP);
 
-	std::cout << species_.name << " (Lv. " << individual_.level << ") 생성 완료!" << std::endl;
+	std::cout << species_.name_kr << " (Lv. " << individual_.level << ") 생성 완료!" << std::endl;
 }
 
 int Pokemon::GetStat(Stat stat) const
@@ -54,7 +54,7 @@ void Pokemon::AddExp(int amount)
 	// TODO: 레벨업에 필요한 경험치량을 계산하는 로직 추가
 	// (이 로직은 ExpGroup에 따라 달라지며, 게임 전체 규칙이므로 Pokemon 클래스 외부에 있는 것이 좋음)
 	individual_.currentExp += amount;
-	std::cout << species_.name << "은(는) " << amount << "의 경험치를 얻었다!" << std::endl;
+	std::cout << species_.name_kr << "은(는) " << amount << "의 경험치를 얻었다!" << std::endl;
 	// if (individual.currentExp >= requiredExpForNextLevel) { LevelUp(); }
 }
 
@@ -65,7 +65,7 @@ void Pokemon::LearnMove(const MoveData& moveData)
 	{
 		// MoveData를 받아 Move 객체를 생성하고 moveset_에 추가합니다.
 		moveset_.emplace_back(moveData);
-		std::cout << species_.name << "은(는) " << moveData.name << "을(를) 배웠다!" << std::endl;
+		std::cout << species_.name_kr << "은(는) " << moveData.name << "을(를) 배웠다!" << std::endl;
 	}
 }
 
@@ -74,10 +74,17 @@ const std::vector<Move>& Pokemon::GetMoveset() const
 	return moveset_;
 }
 
+void Pokemon::UseRareCandy()
+{
+	std::cout << "이상한사탕을 사용했다!" << std::endl;
+
+	LevelUp();
+}
+
 void Pokemon::LevelUp()
 {
 	individual_.level++;
-	std::cout << species_.name << "의 레벨이 " << individual_.level << "(으)로 올랐다!" << std::endl;
+	std::cout << species_.name_kr << "의 레벨이 " << individual_.level << "(으)로 올랐다!" << std::endl;
 	RecalculateStats(); // 레벨이 올랐으므로 능력치를 다시 계산
 }
 
