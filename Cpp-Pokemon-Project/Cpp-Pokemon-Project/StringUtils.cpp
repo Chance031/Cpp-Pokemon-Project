@@ -85,3 +85,27 @@ std::pair<Stat, Stat> StringUtils::GetNatureStatMods(Nature nature)
     default:              return { Stat::HP, Stat::HP }; // 오르고 내리는 스탯이 없음
     }
 }
+
+MoveCategory StringUtils::StringToMoveCategory(const std::string& str)
+{
+    static const std::map<std::string, MoveCategory> map = {
+        {"PHYSICAL", MoveCategory::PHYSICAL},
+        {"SPECIAL", MoveCategory::SPECIAL},
+        {"STATUS", MoveCategory::STATUS}
+    };
+    auto it = map.find(str);
+    return (it != map.end()) ? it->second : MoveCategory::STATUS;
+}
+
+MoveTarget StringUtils::StringToMoveTarget(const std::string& str)
+{
+    static const std::map<std::string, MoveTarget> map = {
+        {"SELF", MoveTarget::SELF},
+        {"SELECTED_TARGET", MoveTarget::SELECTED_TARGET},
+        {"ALL_ADJACENT_FOES", MoveTarget::ALL_ADJACENT_FOES},
+        {"ALL_ALLIES", MoveTarget::ALL_ALLIES},
+        {"ALL_ADJACENT", MoveTarget::ALL_ADJACENT}
+    };
+    auto it = map.find(str);
+    return (it != map.end()) ? it->second : MoveTarget::SELECTED_TARGET;
+}

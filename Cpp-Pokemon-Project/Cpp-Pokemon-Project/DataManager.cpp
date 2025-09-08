@@ -140,18 +140,54 @@ void DataManager::LoadMoves(const std::string& filePath)
     std::getline(file, line); // 헤더 건너뛰기
 
     while (std::getline(file, line)) {
+        if (line.empty()) continue;
+
         std::stringstream ss(line);
         std::string field;
         MoveData move;
 
-        // CSV 필드를 순서대로 읽기
-        std::getline(ss, field, ','); move.id = std::stoi(field);
-        std::getline(ss, field, ','); move.name = field;
-        // ... (description, type, category 등 MoveData의 모든 필드를 채우는 로직 추가) ...
-        // 예시: std::getline(ss, field, ','); move.type = StringUtils::StringToType(field);
+        try {
+            // 그룹 순서에 맞춰 데이터 읽기
+            std::getline(ss, field, ','); move.id = std::stoi(field);
+            std::getline(ss, field, ','); move.identifier = field;
+            std::getline(ss, field, ','); move.name_kr = field;
+            std::getline(ss, field, ','); move.name_en = field;
 
-        moveDatabase_[move.id] = move;
+            std::getline(ss, field, ','); move.type = StringUtils::StringToType(field);
+            std::getline(ss, field, ','); move.category = StringUtils::StringToMoveCategory(field);
+            std::getline(ss, field, ','); move.power = std::stoi(field);
+            std::getline(ss, field, ','); move.accuracy = std::stoi(field);
+            std::getline(ss, field, ','); move.pp = std::stoi(field);
+            std::getline(ss, field, ','); move.priority = std::stoi(field);
+            std::getline(ss, field, ','); move.target = StringUtils::StringToMoveTarget(field);
+
+            std::getline(ss, field, ','); move.effect_id = field;
+            std::getline(ss, field, ','); move.effect_chance = std::stoi(field);
+
+            std::getline(ss, field, ','); move.description_kr = field;
+            std::getline(ss, field, ','); move.description_en = field;
+
+            // 모든 플래그 (1 또는 0을 bool로 변환)
+            std::getline(ss, field, ','); move.has_high_crit_rate = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_contact = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_protectable = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_reflectable = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.defrosts_user = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_punch = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_biting = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_slicing = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_sound = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_powder = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_bullet = (std::stoi(field) == 1);
+            std::getline(ss, field, ','); move.is_wind = (std::stoi(field) == 1);
+
+            moveDatabase_[move.id] = move;
+        }
+        catch (const std::exception& e) {
+            std::cerr << "[PARSE ERROR] Move 데이터 변환 중 오류 발생: " << line << std::endl;
+        }
     }
+
     file.close();
     std::cout << "Move data loaded. (" << moveDatabase_.size() << " entries)" << std::endl;
 }

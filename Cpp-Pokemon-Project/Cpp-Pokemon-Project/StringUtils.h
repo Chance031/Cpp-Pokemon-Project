@@ -12,4 +12,7 @@ namespace StringUtils
 	ExpGroup StringToExpGroup(const std::string& str);
 
 	std::pair<Stat, Stat> GetNatureStatMods(Nature nature);
+
+	MoveCategory StringToMoveCategory(const std::string& str);
+	MoveTarget StringToMoveTarget(const std::string& str);
 }

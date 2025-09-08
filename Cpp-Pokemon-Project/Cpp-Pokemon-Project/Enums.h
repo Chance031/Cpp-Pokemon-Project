@@ -84,10 +84,11 @@ enum class MoveCategory
 // 기술의 대상 범위
 enum class MoveTarget 
 {
-    SELF,               // 자기 자신
-    SINGLE_TARGET,      // 상대 1체
-    ALL_OPPONENTS,      // 필드 전체
-    ALL_ALLIES          // 모든 아군
+    SELF,               // 사용자 자신
+    SELECTED_TARGET,    // 인접한 대상 1체 (적 또는 아군)
+    ALL_ADJACENT_FOES,  // 인접한 모든 적
+    ALL_ALLIES,         // 아군 전체 (사용자 포함)
+    ALL_ADJACENT        // 인접한 모든 포켓몬 (사용자 제외, 아군 포함)
 };
 
 // 기술의 특수 행동 방식
