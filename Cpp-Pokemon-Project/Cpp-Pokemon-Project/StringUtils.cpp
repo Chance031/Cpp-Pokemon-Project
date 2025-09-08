@@ -1,37 +1,87 @@
 #include "StringUtils.h"
 
+#include <map>
+
 Type StringUtils::StringToType(const std::string& str)
 {
-    if (str == "NORMAL") return Type::NORMAL;       // 노말
-    if (str == "FIRE") return Type::FIRE;           // 불
-    if (str == "WATER") return Type::WATER;         // 물
-    if (str == "GRASS") return Type::GRASS;         // 풀
-    if (str == "ELECTRIC") return Type::ELECTRIC;   // 전기
-    if (str == "ICE") return Type::ICE;             // 얼음
-    if (str == "FIGHTING") return Type::FIGHTING;   // 격투
-    if (str == "POISON") return Type::POISON;       // 독
-    if (str == "GROUND") return Type::GROUND;       // 땅
-    if (str == "FLYING") return Type::FLYING;       // 비행
-    if (str == "PSYCHIC") return Type::PSYCHIC;     // 에스퍼
-    if (str == "BUG") return Type::BUG;             // 벌레
-    if (str == "ROCK") return Type::ROCK;           // 바위
-    if (str == "GHOST") return Type::GHOST;         // 고스트
-    if (str == "DRAGON") return Type::DRAGON;       // 드래곤
-    if (str == "DARK") return Type::DARK;           // 악
-    if (str == "STEEL") return Type::STEEL;         // 강철
-    if (str == "FAIRY") return Type::FAIRY;         // 요정
+    // static: 이 맵은 프로그램 시작 시 단 한 번만 생성됩니다.
+    static const std::map<std::string, Type> stringToTypeMap = {
+        {"NORMAL", Type::NORMAL},     
+        {"FIRE", Type::FIRE},
+        {"WATER", Type::WATER},       
+        {"GRASS", Type::GRASS},
+        {"ELECTRIC", Type::ELECTRIC}, 
+        {"ICE", Type::ICE},
+        {"FIGHTING", Type::FIGHTING}, 
+        {"POISON", Type::POISON},
+        {"GROUND", Type::GROUND},     
+        {"FLYING", Type::FLYING},
+        {"PSYCHIC", Type::PSYCHIC},   
+        {"BUG", Type::BUG},
+        {"ROCK", Type::ROCK},         
+        {"GHOST", Type::GHOST},
+        {"DRAGON", Type::DRAGON},     
+        {"DARK", Type::DARK},
+        {"STEEL", Type::STEEL},       
+        {"FAIRY", Type::FAIRY},
+        {"NONE", Type::NONE}
+    };
 
-    return Type::NONE;
+    auto it = stringToTypeMap.find(str);
+    if (it != stringToTypeMap.end()) {
+        return it->second; // 맵에서 값을 찾으면 해당 Type 반환
+    }
+    return Type::NONE; // 찾지 못하면 기본값 NONE 반환
 }
 
 ExpGroup StringUtils::StringToExpGroup(const std::string& str)
 {
-    if (str == "ERRATIC") return ExpGroup::ERRATIC;
-    if (str == "FAST") return ExpGroup::FAST;
-    if (str == "MEDIUM_FAST") return ExpGroup::MEDIUM_FAST;
-    if (str == "MEDIUM_SLOW") return ExpGroup::MEDIUM_SLOW;
-    if (str == "SLOW") return ExpGroup::SLOW;
-    if (str == "FLUCTUATING") return ExpGroup::FLUCTUATING;
+    static const std::map<std::string, ExpGroup> stringToExpGroupMap = {
+            {"ERRATIC", ExpGroup::ERRATIC},
+            {"FAST", ExpGroup::FAST},
+            {"MEDIUM_FAST", ExpGroup::MEDIUM_FAST},
+            {"MEDIUM_SLOW", ExpGroup::MEDIUM_SLOW},
+            {"SLOW", ExpGroup::SLOW},
+            {"FLUCTUATING", ExpGroup::FLUCTUATING}
+    };
 
-    return ExpGroup::MEDIUM_FAST;
+    auto it = stringToExpGroupMap.find(str);
+    if (it != stringToExpGroupMap.end()) {
+        return it->second;
+    }
+    return ExpGroup::MEDIUM_FAST; // 기본값
+}
+
+std::pair<Stat, Stat> StringUtils::GetNatureStatMods(Nature nature)
+{
+    switch (nature)
+    {
+    // 공격 상승
+    case Nature::LONELY:  return { Stat::ATTACK, Stat::DEFENSE };
+    case Nature::ADAMANT: return { Stat::ATTACK, Stat::SPECIAL_ATTACK };
+    case Nature::NAUGHTY: return { Stat::ATTACK, Stat::SPECIAL_DEFENSE };
+    case Nature::BRAVE:   return { Stat::ATTACK, Stat::SPEED };
+    // 방어 상승
+    case Nature::BOLD:    return { Stat::DEFENSE, Stat::ATTACK };
+    case Nature::IMPISH:  return { Stat::DEFENSE, Stat::SPECIAL_ATTACK };
+    case Nature::LAX:     return { Stat::DEFENSE, Stat::SPECIAL_DEFENSE };
+    case Nature::RELAXED: return { Stat::DEFENSE, Stat::SPEED };
+    // 특공 상승
+    case Nature::MODEST:  return { Stat::SPECIAL_ATTACK, Stat::ATTACK };
+    case Nature::MILD:    return { Stat::SPECIAL_ATTACK, Stat::DEFENSE };
+    case Nature::RASH:    return { Stat::SPECIAL_ATTACK, Stat::SPECIAL_DEFENSE };
+    case Nature::QUIET:   return { Stat::SPECIAL_ATTACK, Stat::SPEED };
+    // 특방 상승
+    case Nature::CALM:    return { Stat::SPECIAL_DEFENSE, Stat::ATTACK };
+    case Nature::GENTLE:  return { Stat::SPECIAL_DEFENSE, Stat::DEFENSE };
+    case Nature::CAREFUL: return { Stat::SPECIAL_DEFENSE, Stat::SPECIAL_ATTACK };
+    case Nature::SASSY:   return { Stat::SPECIAL_DEFENSE, Stat::SPEED };
+    // 스피드 상승
+    case Nature::TIMID:   return { Stat::SPEED, Stat::ATTACK };
+    case Nature::HASTY:   return { Stat::SPEED, Stat::DEFENSE };
+    case Nature::JOLLY:   return { Stat::SPEED, Stat::SPECIAL_ATTACK };
+    case Nature::NAIVE:   return { Stat::SPEED, Stat::SPECIAL_DEFENSE };
+    // 보정 없음
+    default:              return { Stat::HP, Stat::HP }; // 오르고 내리는 스탯이 없음
+    }
 }
