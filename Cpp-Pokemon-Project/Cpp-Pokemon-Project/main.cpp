@@ -54,8 +54,8 @@ int main()
 
         std::cout << "\n--- 기본 정보 ---" << std::endl;
         std::cout << "ID: " << data.id << std::endl;
-        std::cout << "한글 이름: " << data.name_kr << std::endl;
         std::cout << "영어 이름: " << data.name_en << std::endl;
+        std::cout << "한글 이름: " << data.name_kr << std::endl;
 
         std::cout << "\n--- 능력치 (종족값) ---" << std::endl;
         std::cout << "HP: " << data.baseStats.at(Stat::HP) << std::endl;
@@ -89,12 +89,12 @@ int main()
         std::cout << "포획률: " << data.catch_rate << std::endl;
 
         std::cout << "\n--- 도감 정보 ---" << std::endl;
-        std::cout << "분류(한글): " << data.category_kr << std::endl;
         std::cout << "분류(영어): " << data.category_en << std::endl;
+        std::cout << "분류(한글): " << data.category_kr << std::endl;
         std::cout << "키(m): " << data.height_m << std::endl;
         std::cout << "몸무게(kg): " << data.weight_kg << std::endl;
-        std::cout << "도감 설명(한글): " << data.pokedex_entry_kr << std::endl;
         std::cout << "도감 설명(영어): " << data.pokedex_entry_en << std::endl;
+        std::cout << "도감 설명(한글): " << data.pokedex_entry_kr << std::endl;
     }
     catch (const std::exception& e)
     {

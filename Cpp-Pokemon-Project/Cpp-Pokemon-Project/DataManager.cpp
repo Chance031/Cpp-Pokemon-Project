@@ -63,8 +63,8 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
 
             // 1. 기본 정보
             std::getline(ss, field, ','); species.id = std::stoi(field);
-            std::getline(ss, field, ','); species.name_kr = field;
             std::getline(ss, field, ','); species.name_en = field;
+            std::getline(ss, field, ','); species.name_kr = field;
 
             // 2. 능력치
             std::getline(ss, field, ','); species.baseStats[Stat::HP] = std::stoi(field);
@@ -98,14 +98,14 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
             std::getline(ss, field, ','); species.catch_rate = std::stoi(field);
 
             // 8. 도감 정보
-            std::getline(ss, field, ','); species.category_kr = field;
             std::getline(ss, field, ','); species.category_en = field;
+            std::getline(ss, field, ','); species.category_kr = field;
             std::getline(ss, field, ','); species.height_m = std::stof(field);
             std::getline(ss, field, ','); species.weight_kg = std::stof(field);
-            std::getline(ss, field, ','); species.pokedex_entry_kr = field;
+            std::getline(ss, field, ','); species.pokedex_entry_en = field;
 
             // 마지막 컬럼은 쉼표(,)가 아닌 줄의 끝까지 읽습니다.
-            std::getline(ss, field); species.pokedex_entry_en = field;
+            std::getline(ss, field); species.pokedex_entry_kr = field;
 
             speciesDatabase_[species.id] = species;
         }
