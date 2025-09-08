@@ -17,11 +17,13 @@ public:
 	// ID를 통해 원형 데이터를 가져오는 함수들
 	const PokemonSpecies& GetPokemonSpecies(int id) const;
 	const MoveData& GetMoveData(int id) const;
+	const float GetTypeMatchup(Type attackingType, Type defendingType) const;
 
 private:
 	// 비공개(private) 함수 '선언'
 	void LoadPokemonSpecies(const std::string& filePath);
-	void LoadMoveData(const std::string& filePath);
+	void LoadMoves(const std::string& filePath);
+	void LoadTypeMatchups(const std::string& filePath);
 
 	// 외부에서 생성 방지
 	DataManager() = default;
@@ -29,4 +31,5 @@ private:
 	// 로드된 데이터를 저장할 데이터 베이스
 	std::map<int, PokemonSpecies> speciesDatabase_;
 	std::map<int, MoveData> moveDatabase_;
+	std::map<Type, std::map<Type, float>> typeMatchups_;
 };
