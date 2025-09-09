@@ -1,166 +1,166 @@
 id,identifier,name_en,name_kr,type,category,power,accuracy,pp,priority,target,effect_id,effect_chance,description_en,description_kr,has_high_crit_rate,is_contact,is_sound,is_punch,is_biting,is_snatchable ,is_slicing,is_bullet,is_wind,is_powder,is_callable_by_metronome,is_affected_by_gravity,defrosts_user,is_reflectable,is_protectable,is_copyable
-1,pound,Pound,막치기,NORMAL,PHYSICAL,40,100,35,0,Selected Target,0,0,"The target is physically pounded with a long tail, a foreleg, or the like.",긴 꼬리나 손 등을 사용하여 상대를 때려서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-2,karate-chop,Karate Chop,태권당수,FIGHT,PHYSICAL,50,100,25,0,Selected Target,0,0,The target is attacked with a sharp chop. Critical hits land more easily.,날카로운 당수로 상대를 때려서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-3,double-slap,Double Slap,연속뺨치기,NORMAL,PHYSICAL,15,85,10,0,Selected Target,0,0,"The target is slapped repeatedly, back and forth, two to five times in a row.",연속 뺨치기로 상대를 때려서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-4,comet-punch,Comet Punch,연속펀치,NORMAL,PHYSICAL,18,85,15,0,Selected Target,0,0,The target is hit with a flurry of punches that strike two to five times in a row.,노도 같은 펀치로 상대를 세게 때려서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
-5,mega-punch,Mega Punch,메가톤펀치,NORMAL,PHYSICAL,80,85,20,0,Selected Target,0,0,The target is slugged by a punch thrown with muscle-packed power.,힘을 담은 펀치로 상대를 공격한다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
-6,pay-day,Pay Day,고양이돈받기,NORMAL,PHYSICAL,40,100,20,0,Selected Target,0,100,Coins are hurled at the target to inflict damage. Money is earned after the battle,상대의 몸에 금화를 던져서 공격한다. 전투 후에 돈을 얻는다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-7,fire-punch,Fire Punch,불꽃펀치,FIRE,PHYSICAL,75,100,15,0,Selected Target,0,10,The target is attacked with a fiery punch. This may also leave the target with a burn.,불꽃을 담은 펀치로 상대를 공격한다. 화상 상태가 되는 경우가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,1
-8,ice-punch,Ice Punch,냉동펀치,ICE,PHYSICAL,75,100,15,0,Selected Target,0,10,The target is attacked with an icy punch. This may also leave the target frozen.,냉기를 담은 펀치로 상대를 공격한다. 얼음 상태가 되는 경우가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
-9,thunder-punch,Thunder Punch,번개펀치,ELECTRIC,PHYSICAL,75,100,15,0,Selected Target,0,10,The target is attacked with an electrified punch. This may also leave the target with paralysis.,전격을 담은 펀치로 상대를 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
-10,scratch,Scratch,할퀴기,NORMAL,PHYSICAL,40,100,35,0,Selected Target,0,0,"Hard, pointed, sharp claws rake the target to inflict damage.",단단하고 뾰족한 날카로운 손톱으로 상대를 할퀴어서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-11,vise-grip,Vise Grip,찝기,NORMAL,PHYSICAL,55,100,30,0,Selected Target,0,0,The target is gripped and squeezed from both sides to inflict damage.,상대를 양쪽에서 집어서 데미지를 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-12,guillotine,Guillotine,가위자르기,NORMAL,PHYSICAL,1,30,5,0,Selected Target,0,100,A vicious tearing attack with big pincers. The target faints instantly if this attack hits.,큰 집게로 상대를 베어 갈라 공격한다. 맞으면 일격에 기절한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-13,razor-wind,Razor Wind,칼바람,NORMAL,SPECIAL,80,100,10,0,All Adjacent Foes,0,0,"In this two-turn attack, blades of wind hit opposing Pok?mon on the second turn. Critical hits land more easily.",바람의 칼날을 만들어 2턴째에 공격한다. 급소에 맞을 확률이 높다.,1,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
-14,swords-dance,Swords Dance,칼춤,NORMAL,STATUS,0,101,20,0,SELF,0,0,,싸움의 춤을 격렬하게 춰서 기세를 높인다. 자신의 공격을 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-15,cut,Cut,풀베기,NORMAL,PHYSICAL,50,95,30,0,Selected Target,0,0,,낫이나 손톱 등으로 상대를 베어 공격한다. 가느다란 나무 등도 자를 수 있다.,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1
-16,gust,Gust,바람일으키기,FLYING,SPECIAL,40,100,35,0,Selected Target,0,0,,날개로 일으킨 격한 바람을 상대에게 부딪혀서 공격한다.,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
-17,wing-attack,Wing Attack,날개치기,FLYING,PHYSICAL,60,100,35,0,Selected Target,0,0,,크게 펼친 훌륭한 날개를 상대에게 부딪쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-18,whirlwind,Whirlwind,날려버리기,NORMAL,STATUS,0,101,20,-6,Selected Target,0,0,,상대를 날려버려서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1,0
-19,fly,Fly,공중날기,FLYING,PHYSICAL,90,95,15,0,Selected Target,0,0,,1턴째에 하늘을 날아 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
-20,bind,Bind,조이기,NORMAL,PHYSICAL,15,85,20,0,Selected Target,0,100,,긴 몸이나 덩굴 등을 써서 4-5턴 동안 상대를 조여 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-21,slam,Slam,힘껏치기,,,,,,,,0,,,긴 꼬리나 덩굴 등을 사용해 상대를 힘껏 쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-22,vine-whip,Vine Whip,덩굴채찍,GRASS,PHYSICAL,45,100,25,0,Selected Target,0,0,"The target is struck with slender, whiplike vines to inflict damage.",채찍처럼 휘어지는 가늘고 긴 덩굴로 상대를 힘껏 쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-23,stomp,Stomp,짓밟기,,,,,,,,0,,,큰 발로 상대를 짓밟아서 공격한다. 상대를 풀이 죽게 할 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-24,double-kick,Double Kick,두번차기,,,,,,,,0,,,2개의 다리로 상대를 걷어차서 공격한다. 2회 연속으로 데미지를 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-25,mega-kick,Mega Kick,메가톤킥,,,,,,,,0,,,굉장한 힘을 담은 킥으로 상대를 걷어차서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-26,jump-kick,Jump Kick,점프킥,,,,,,,,0,,,높이 점프해서 킥으로 상대를 공격한다. 빗나가면 자신이 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
-27,rolling-kick,Rolling Kick,돌려차기,,,,,,,,0,,,몸을 재빨리 회전시키며 상대를 걷어차서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-28,sand-attack,Sand Attack,모래뿌리기,,,,,,,,0,,,상대의 얼굴에 모래를 뿌려서 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-29,headbutt,Headbutt,박치기,,,,,,,,0,,The user sticks out its head and attacks by charging straight into the target. This may also make the target flinch.,머리를 내밀고 무작정 돌진하여 공격한다. 가끔 풀죽게 만든다. 나무를 흔들어 포켓몬을 떨어뜨릴 수도 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-30,horn-attack,Horn Attack,뿔찌르기,,,,,,,,0,,,날카롭고 뾰족한 뿔로 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-31,fury-attack,Fury Attack,마구찌르기,,,,,,,,0,,,뿔이나 부리로 상대를 찔러서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-32,horn-drill,Horn Drill,뿔드릴,,,,,,,,0,,,회전하는 뿔을 상대에 꿰찔러서 공격한다. 맞으면 일격에 기절한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-33,tackle,Tackle,몸통박치기,NORMAL,PHYSICAL,40,100,35,0,Selected Target,0,0,A physical attack in which the user charges and slams into the target with its whole body.,상대를 향해서 몸 전체를 부딪쳐가며 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-34,body-slam,Body Slam,누르기,,,,,,,,0,,,몸 전체로 상대를 덮쳐눌러 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-35,wrap,Wrap,김밥말기,,,,,,,,0,,,긴 몸이나 덩굴을 사용해 4-5턴 동안 상대를 휘감아 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-36,take-down,Take Down,돌진,,,,,,,,0,,,굉장한 기세로 상대에게 부딪쳐 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-37,thrash,Thrash,난동부리기,,,,,,,,0,,,2-3턴 동안 마구 난동부려서 공격한다. 난동부린 뒤에는 혼란에 빠진다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-38,double-edge,Double Edge,이판사판태클,,,,,,,,0,,,목숨을 걸고 상대에게 돌진 공격을 한다. 자신도 상당한 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-39,tail-whip,Tail-Whip,꼬리흔들기,,,,,,,,0,,,꼬리를 좌우로 귀엽게 흔들어 방심을 유도한다. 상대의 방어를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-40,poison-sting,Poison Sting,독침,,,,,,,,0,,,독이 있는 침을 상대에게 꿰찔러서 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-41,twineedle,Twineedle,더블니들,,,,,,,,0,,,2개의 침을 상대에게 꿰찔러 공격한다. 2회 연속으로 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-42,pin-missile,Pin Missile,바늘미사일,,,,,,,,0,,,날카로운 침을 상대에게 발사해서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-43,leer,Leer,째려보기,,,,,,,,0,,,날카로운 눈초리로 겁을 주어 상대의 방어를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-44,bite,Bite,물기,,,,,,,,0,,,날카롭고 뾰족한 이빨로 물어서 공격한다. 상대를 풀이 죽게 할 때가 있다.,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,1
-45,growl,Growl,울음소리,NORMAL,STATUS,0,100,40,0,All Adjacent Foes,0,100,"The user growls in an endearing way, making opposing Pokemon less wary. This lowers their Attack stats.",귀여운 울음소리를 들려주고 관심을 끌어 방심한 사이에 상대의 공격을 떨어뜨린다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
-46,roar,Roar,울부짖기,,,,,,,,0,,,상대를 도망가게 해서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0
-47,sing,Sing,노래하기,,,,,,,,0,,,기분 좋은 예쁜 노랫소리를 들려주고 상대를 잠듦 상태로 만든다.,0,0,1,0,0,0,0,0,0,1,1,0,0,1,1,1
-48,supersonic,Supersonic,초음파,,,,,,,,0,,,특수한 음파를 몸에서 발산하여 상대를 혼란 상태로 만든다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
-49,sonic-boom,Sonic Boom,소닉붐,,,,,,,,0,,,충격파를 상대에 부딪쳐서 공격한다. 언제나 20의 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-50,disable,Disable,사슬묶기,,,,,,,,0,,,상대의 움직임을 막아 바로 전에 쓴 기술을 잠시 동안 사용할 수 없게 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-51,acid,Acid,용해액,,,,,,,,0,,,강한 산을 상대에게 끼얹어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-52,ember,Ember,불꽃세례,,,,,,,,0,,,작은 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-53,flamethrower,Flamethrower,화염방사,,,,,,,,0,,,세찬 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
-54,mist,Mist,흰안개,,,,,,,,0,,,하얀 안개로 몸을 덮는다. 5턴 동안 상대에 의해 능력이 떨어지지 않게 된다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-55,water-gun,Water Gun,물대포,,,,,,,,0,,,물을 기세 좋게 상대에게 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-56,hydro-pump,Hydro Pump,하이드로펌프,,,,,,,,0,,,대량의 물을 세찬 기세로 상대에게 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-57,surf,Surf,파도타기,,,,,,,,0,,,큰 파도로 주위에 있는 모든 것을 공격한다. 물 위도 헤엄쳐서 나아간다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-58,ice-beam,Ice Beam,냉동빔,,,,,,,,0,,,냉동빔을 상대에게 발사하여 공격한다. 얼음 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-59,blizzard,Blizzard,눈보라,,,,,,,,0,,,세찬 눈보라를 부딪쳐서 공격한다. 상대를 얼음 상태로 만들기도 한다.,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
-60,psybeam,Psybeam,환상빔,,,,,,,,0,,,이상한 광선을 상대에게 발사하여 공격한다. 상대를 혼란 시킬 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-61,bubble-beam,Bubble Beam,거품광선,,,,,,,,0,,,거품을 기세 좋게 상대에게 발사하여 공격한다. 스피드를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-62,aurora-beam,Aurora Beam,오로라빔,,,,,,,,0,,,무지개색의 빔을 상대에게 발사하여 공격한다. 공격을 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-63,hyper-beam,Hyper Beam,파괴광선,,,,,,,,0,,,강한 광선을 상대에게 발사하여 공격한다. 다음 턴은 움직일 수 없다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-64,peck,Peck,쪼기,,,,,,,,0,,,날카롭고 뾰족한 부리나 뿔로 상대를 쪼아서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-65,drill-peck,Drill Peck,회전부리,,,,,,,,0,,,회전하면서 뾰족한 부리를 상대에게 꿰찔러 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-66,submission,Submission,지옥의바퀴,,,,,,,,0,,,땅에 자신과 함께 상대를 내던져 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-67,low-kick,Low Kick,안다리걸기,,,,,,,,0,,,발을 강하게 걸고 상대를 넘어뜨려 공격한다. 상대가 무거울수록 위력이 올라간다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-68,counter,Counter,카운터,,,,,,,,0,,,상대로부터 받은 물리공격의 데미지를 2배로 만들어 그 상대에게 돌려준다.,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-69,seismic-toss,Seismic Toss,지구던지기,,,,,,,,0,,,인력을 사용해 내던진다. 자신의 레벨과 똑같은 데미지를 상대에게 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-70,strength,Strength,괴력,,,,,,,,0,,,혼신의 힘으로 상대를 세게 때려서 공격한다. 무거운 돌을 밀 수도 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-71,absorb,Absorb,흡수,,,,,,,,0,,,양분을 흡수하여 공격한다. 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-72,mega-drain,Mega Drain,메가드레인,,,,,,,,0,,,양분을 흡수하여 공격한다. 상대에게 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-73,leech-seed,Leech Seed,씨뿌리기,GRASS,STATUS,0,90,10,0,Selected Target,0,100,A seed is planted on the target. It steals some HP from the target every turn.,씨가 뿌려진 상대의 HP를 매 턴 조금씩 흡수하여 자신의 HP를 회복한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-74,growth,Growth,성장,NORMAL,STATUS,0,101,20,0,SELF,0,100,"The user's body grows all at once, boosting the Attack and Sp. Atk stats.",몸을 일시에 크게 성장시켜 자신의 공격과 특수공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-75,razor-leaf,Razor Leaf,잎날가르기,,,,,,,,0,,,잎사귀를 날려 상대를 베어 공격한다. 급소에 맞을 확률이 높다.,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1
-76,solar-beam,Solar Beam,솔라빔,,,,,,,,0,,,1턴째에 빛을 가득 모아 2턴째에 빛의 다발을 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-77,poison-powder,Poison Powder,독가루,,,,,,,,0,,,독이 있는 가루를 많이 흩뿌려서 상대를 독 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
-78,stun-spore,Stun Spore,저리가루,,,,,,,,0,,,저리 가루를 많이 흩뿌려서 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
-79,sleep-powder,Sleep Powder,수면가루,,,,,,,,0,,,잠이 오는 가루를 많이 흩뿌려서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
-80,petal-dance,Petal Dance,꽃잎댄스,,,,,,,,0,,,2-3턴 동안 꽃을 흩뿌려서 공격한다. 흩뿌린 뒤에는 혼란에 빠진다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-81,string-shot,String Shot,실뿜기,,,,,,,,0,,,입에서 뿜어낸 실을 휘감아서 상대의 스피드를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-82,dragon-rage,Dragon Rage,용의분노,,,,,,,,0,,,충격파를 상대에게 부딪쳐서 공격한다. 언제나 40의 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-83,fire-spin,Fire Spin,회오리불꽃,,,,,,,,0,,,세차게 소용돌이치는 불꽃 속에 4-5턴 동안 상대를 가두어 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-84,thundershock,Thundershock,전기쇼크,,,,,,,,0,,,전기 자극을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-85,,thunderbolt,10만볼트,,,,,,,,0,,,강한 전격을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-86,,thunderwave,전기자석파,,,,,,,,0,,,약한 전격을 날려서 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-87,,thunder,번개,,,,,,,,0,,,강한 번개를 상대에게 떨어뜨려 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-88,,rockthrow,돌떨구기,,,,,,,,0,,,작은 바위를 들어올려 상대에게 내던져서 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-89,,earthquake,지진,,,,,,,,0,,,지진의 충격으로 주위에 있는 모든 것을 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-90,,fissure,땅가르기,,,,,,,,0,,,땅이 갈라진 곳에 상대를 떨어뜨려 공격한다. 맞으면 일격에 기절한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-91,,dig,구멍파기,,,,,,,,0,,,1턴째에 땅속으로 파고들어 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-92,,toxic,맹독,,,,,,,,0,,,상대를 맹독의 상태로 만든다. 턴이 진행될수록 독의 데미지가 증가한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-93,,confusion,염동력,,,,,,,,0,,,약한 염동력을 상대에게 보내어 공격한다. 상대를 혼란 시킬 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-94,,psychic,사이코키네시스,,,,,,,,0,,,강한 염동력을 상대에게 보내어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-95,,hypnosis,최면술,,,,,,,,0,,,졸음을 유도하는 암시를 걸어서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-96,,meditate,요가포즈,,,,,,,,0,,,잠자던 힘을 몸속에서 끌어내어 자신의 공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-97,,agility,고속이동,,,,,,,,0,,,힘을 빼고 몸을 가볍게 해서 고속으로 움직인다. 자신의 스피드를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-98,,quickattack,전광석화,,,,,,,,0,,,눈에 보이지 않는 굉장한 속도로 상대에게 돌진한다. 반드시 선제 공격할 수 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-99,,rage,분노,,,,,,,,0,,,기술을 썼을 때 공격을 받으면 분노의 힘으로 주는 데미지가 올라간다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-100,,teleport,순간이동,,,,,,,,0,,,야생 포켓몬과 배틀을 그만둔다. 마지막에 들어갔던 포켓몬 센터가 있는 도시에도 갈 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-101,,nightshade,나이트헤드,,,,,,,,0,,,환상을 보게 해서 자신의 레벨과 똑같은 만큼의 데미지를 상대에게 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-102,,mimic,흉내내기,,,,,,,,0,,,상대가 마지막에 사용한 기술을 배틀을 하는 동안 자신의 기술로 만들 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-103,,screech,싫은소리,,,,,,,,0,,,그만 귀를 막아버리고 싶은 싫은 소리를 내어 상대의 방어를 크게 떨어뜨린다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
-104,,doubleteam,그림자분신,,,,,,,,0,,,재빠른 움직임으로 분신을 만들어 상대를 혼란시켜 회피율을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-105,,recover,HP회복,,,,,,,,0,,,세포를 재생시켜 자신의 최대 HP의 절반만큼 HP를 회복한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-106,,harden,단단해지기,,,,,,,,0,,,전신에 힘을 담아 몸을 단단하게 해서 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-107,,minimize,작아지기,,,,,,,,0,,,몸을 축소하여 작게 보임으로써 회피율을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-108,,smokescreen,연막,,,,,,,,0,,,연기나 먹물을 내뿜어 상대의 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-109,,confuseray,이상한빛,,,,,,,,0,,,이상한 빛을 상대에게 비춰 혼란시킨다. 상대를 혼란 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-110,,withdraw,껍질에숨기,,,,,,,,0,,,껍질에 숨어 몸을 보호하여 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-111,,defensecurl,웅크리기,,,,,,,,0,,,몸을 둥글게 웅크려서 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-112,,barrier,배리어,,,,,,,,0,,,튼튼한 장막을 만들어 자신의 방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-113,,lightscreen,빛의장막,,,,,,,,0,,,5턴 동안 이상한 장막으로 상대로부터 받는 특수공격의 데미지를 약하게 한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1
-114,,haze,흑안개,,,,,,,,0,,,흑안개를 뿜어 배틀에 참가 중인 포켓몬 전원의 능력 변화를 원래대로 돌린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
-115,,reflect,리플렉터,,,,,,,,0,,,5턴 동안 이상한 장막을 쳐서 상대로부터 받는 물리공격의 데미지를 약하게 한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1
-116,,focusenergy,기충전,,,,,,,,0,,,깊게 숨을 들이마셔 기합을 넣는다. 자신의 공격이 급소에 맞을 확률을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-117,,bide,참기,,,,,,,,0,,,2턴 동안 공격을 견뎌 입은 데미지를 2배로 만들어 상대에게 돌려준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-118,,metronome,손가락흔들기,,,,,,,,0,,,손가락을 흔들어 자신의 뇌를 자극해서 모든 기술 중 어느 하나를 날린다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-119,,mirrormove,따라하기,,,,,,,,0,,,상대가 사용한 기술을 흉내 내어 자신도 똑같은 기술을 쓴다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-120,,selfdestruct,자폭,,,,,,,,0,,,폭발을 일으켜서 자신의 주위에 있는 포켓몬을 공격한다. 쓰고 나서 기절하게 된다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-121,,eggbomb,알폭탄,,,,,,,,0,,,큰 알을 온 힘을 다해 상대에게 내던져서 공격한다.,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1
-122,,lick,핥기,,,,,,,,0,,,긴 혀로 상대를 핥아서 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-123,,smog,스모그,,,,,,,,0,,,더러운 가스를 상대에게 내뿜어 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-124,,sludge,오물공격,,,,,,,,0,,,더러운 오물을 상대에게 내던져서 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-125,,boneclub,뼈다귀치기,,,,,,,,0,,,손에 들고 있는 뼈로 상대를 세게 때려서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-126,,fireblast,불대문자,,,,,,,,0,,,큰 대자의 불꽃으로 상대를 불태운다. 화상상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
-127,,waterfall,폭포오르기,,,,,,,,0,,,굉장한 기세로 상대에게 돌진하여 공격한다. 흘러내리는 폭포도 거슬러 올라갈 수 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-128,,clamp,껍질끼우기,,,,,,,,0,,,매우 튼튼하고 두꺼운 껍질에 4-5턴 동안 상대를 끼워서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-129,,swift,스피드스타,,,,,,,,0,,,별 모양의 빛을 발사해서 상대를 공격한다. 공격은 반드시 명중한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-130,,skullbash,로켓박치기,,,,,,,,0,,,1턴째에 머리를 움츠려 방어를 올린다. 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-131,,spikecannon,가시대포,,,,,,,,0,,,날카로운 침을 상대에게 발사해서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-132,,constrict,휘감기,,,,,,,,0,,,촉수나 덩굴 등을 휘감아서 공격한다. 상대의 스피드를 떨어뜨릴 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-133,,amnesia,망각술,,,,,,,,0,,,머리를 비워서 순간적으로 무언가를 잊어버림으로써 자신의 특수방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-134,,kinesis,숟가락휘기,,,,,,,,0,,,숟가락을 휘고 주의를 끌어 상대 포켓몬의 명중률을 낮춘다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-135,,softboiled,알낳기,,,,,,,,0,,,자신의 최대 HP 절반을 회복한다. 동료의 HP를 회복시킬 수도 있다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-136,,highjumpkick,무릎차기,,,,,,,,0,,,점프해서 무릎차기로 상대를 공격한다. 빗나가면 자신이 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
-137,,glare,뱀눈초리,,,,,,,,0,,,배의 무늬로 겁을 주어 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-138,,dreameater,꿈먹기,,,,,,,,0,,,잠자고 있는 상대의 꿈을 먹어 공격한다. 데미지의 절반을 HP로 회복한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-139,,poisongas,독가스,,,,,,,,0,,,독가스를 상대의 얼굴에 내뿜어 독 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
-140,,barrage,구슬던지기,,,,,,,,0,,,둥근 것을 상대에게 내던져서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1
-141,,,흡혈,,,,,,,,0,,,피를 빨아서 공격한다. 준 데미지의 절반을 HP로 회복한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-142,,,악마의키스,,,,,,,,0,,,무서운 얼굴로 키스한다. 키스한 상대를 잠듦 상태로 만들 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-143,,,불새,,,,,,,,0,,,2턴째에 상대를 공격한다. 가끔 풀죽게 만든다. 급소에 맞을 확률이 높다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-144,,,변신,,,,,,,,0,,,상대 포켓몬으로 변신하여 상대와 완전히 똑같은 기술을 사용할 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-145,,,거품광선,,,,,,,,0,,,거품을 기세 좋게 상대에게 발사하여 공격한다. 스피드를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-146,,,잼잼펀치,,,,,,,,0,,,리드미컬한 펀치를 날려 공격한다. 상대를 혼란 시킬 때가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
-147,,,버섯포자,,,,,,,,0,,,최면 효과가 있는 포자를 흩뿌려서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
-148,,,플래시,,,,,,,,0,,,눈이 부신 빛으로 상대의 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
-149,,,사이코웨이브,,,,,,,,0,,,이상한 염력파를 상대에게 발사하여 공격한다. 사용할 때마다 데미지가 바뀐다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-150,,,튀어오르기,,,,,,,,0,,,공격도 하지 않고 팔딱팔딱 튈 뿐 아무 일도 일어나지 않는다...,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1
-151,,,녹기,,,,,,,,0,,,세포의 변화로 액체가 되어 자신의 방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-152,,,집게해머,,,,,,,,0,,,큰 집게를 상대에게 내리쳐서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-153,,,대폭발,,,,,,,,0,,,커다란 폭발로 주위에 있는 모든 것을 공격한다. 사용한 다음 기절한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-154,,,마구할퀴기,,,,,,,,0,,,발톱이나 낫 등으로 상대를 할퀴어서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-155,,,뼈다귀부메랑,,,,,,,,0,,,손에 들고 있는 뼈를 상대에게 날려서 날아갈 때와 돌아올 때 2회 연속 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-156,,,잠자기,,,,,,,,0,,,2턴 동안 계속 잠잔다. HP와 몸의 이상을 모두 회복한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0
-157,,,스톤샤워,,,,,,,,0,,,큰 바위를 세차게 부딪쳐서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-158,,,필살앞니,,,,,,,,0,,,날카로운 앞니로 강하게 물어서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,1
-159,,,각지기,,,,,,,,0,,,몸의 각을 늘려서 더욱 각지게 하여 자신의 공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
-160,,,텍스처,,,,,,,,0,,,자신의 타입을 배운 기술 중 어느 하나와 같은 타입으로 바꾼다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
-161,,,트라이어택,,,,,,,,0,,,"3개의 광선으로 공격한다. 마비, 화상 또는 얼음 상태로 만들 때가 있다.",0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-162,,,분노의앞니,,,,,,,,0,,,날카로운 앞니로 강하게 물어서 공격한다. 상대의 HP는 절반이 된다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
-163,,,베어가르기,,,,,,,,0,,,발톱이나 낫 등으로 상대를 베어 갈라서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1
-164,,,대타출동,,,,,,,,0,,,자신의 HP를 조금 깎아서 분신을 만든다. 분신은 자신의 대타가 된다,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-165,,,발버둥,,,,,,,,0,,,PP가 떨어지면 발버둥쳐 상대를 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+1,pound,Pound,막치기,NORMAL,PHYSICAL,40,100,35,0,SELECTED_TARGET,0,0,"The target is physically pounded with a long tail, a foreleg, or the like.",긴 꼬리나 손 등을 사용하여 상대를 때려서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+2,karate-chop,Karate Chop,태권당수,FIGHT,PHYSICAL,50,100,25,0,SELECTED_TARGET,0,0,The target is attacked with a sharp chop. Critical hits land more easily.,날카로운 당수로 상대를 때려서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+3,double-slap,Double Slap,연속뺨치기,NORMAL,PHYSICAL,15,85,10,0,SELECTED_TARGET,0,0,"The target is slapped repeatedly, back and forth, two to five times in a row.",연속 뺨치기로 상대를 때려서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+4,comet-punch,Comet Punch,연속펀치,NORMAL,PHYSICAL,18,85,15,0,SELECTED_TARGET,0,0,The target is hit with a flurry of punches that strike two to five times in a row.,노도 같은 펀치로 상대를 세게 때려서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
+5,mega-punch,Mega Punch,메가톤펀치,NORMAL,PHYSICAL,80,85,20,0,SELECTED_TARGET,0,0,The target is slugged by a punch thrown with muscle-packed power.,힘을 담은 펀치로 상대를 공격한다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
+6,pay-day,Pay Day,고양이돈받기,NORMAL,PHYSICAL,40,100,20,0,SELECTED_TARGET,0,100,Coins are hurled at the target to inflict damage. Money is earned after the battle,상대의 몸에 금화를 던져서 공격한다. 전투 후에 돈을 얻는다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+7,fire-punch,Fire Punch,불꽃펀치,FIRE,PHYSICAL,75,100,15,0,SELECTED_TARGET,0,10,The target is attacked with a fiery punch. This may also leave the target with a burn.,불꽃을 담은 펀치로 상대를 공격한다. 화상 상태가 되는 경우가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,1
+8,ice-punch,Ice Punch,냉동펀치,ICE,PHYSICAL,75,100,15,0,SELECTED_TARGET,0,10,The target is attacked with an icy punch. This may also leave the target frozen.,냉기를 담은 펀치로 상대를 공격한다. 얼음 상태가 되는 경우가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
+9,thunder-punch,Thunder Punch,번개펀치,ELECTRIC,PHYSICAL,75,100,15,0,SELECTED_TARGET,0,10,The target is attacked with an electrified punch. This may also leave the target with paralysis.,전격을 담은 펀치로 상대를 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
+10,scratch,Scratch,할퀴기,NORMAL,PHYSICAL,40,100,35,0,SELECTED_TARGET,0,0,"Hard, pointed, sharp claws rake the target to inflict damage.",단단하고 뾰족한 날카로운 손톱으로 상대를 할퀴어서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+11,vise-grip,Vise Grip,찝기,NORMAL,PHYSICAL,55,100,30,0,SELECTED_TARGET,0,0,The target is gripped and squeezed from both sides to inflict damage.,상대를 양쪽에서 집어서 데미지를 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+12,guillotine,Guillotine,가위자르기,NORMAL,PHYSICAL,1,30,5,0,SELECTED_TARGET,0,100,A vicious tearing attack with big pincers. The target faints instantly if this attack hits.,큰 집게로 상대를 베어 갈라 공격한다. 맞으면 일격에 기절한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+13,razor-wind,Razor Wind,칼바람,NORMAL,SPECIAL,80,100,10,0,ALL_ADJACENT_FOES,0,0,"In this two-turn attack, blades of wind hit opposing Pokemon on the second turn. Critical hits land more easily.",바람의 칼날을 만들어 2턴째에 공격한다. 급소에 맞을 확률이 높다.,1,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
+14,swords-dance,Swords Dance,칼춤,NORMAL,STATUS,0,101,20,0,SELF,0,0,A frenetic dance to uplift the fighting spirit. This sharply boosts the user's Attack stat.,싸움의 춤을 격렬하게 춰서 기세를 높인다. 자신의 공격을 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+15,cut,Cut,풀베기,NORMAL,PHYSICAL,50,95,30,0,SELECTED_TARGET,0,0,"The target is cut with a scythe, a claw, or the like to inflict damage.",낫이나 손톱 등으로 상대를 베어 공격한다. 가느다란 나무 등도 자를 수 있다.,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1
+16,gust,Gust,바람일으키기,FLYING,SPECIAL,40,100,35,0,SELECTED_TARGET,0,0,A gust of wind is whipped up by wings and launched at the target to inflict damage.,날개로 일으킨 격한 바람을 상대에게 부딪혀서 공격한다.,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
+17,wing-attack,Wing Attack,날개치기,FLYING,PHYSICAL,60,100,35,0,SELECTED_TARGET,0,0,"The target is struck with large, imposing wings spread wide to inflict damage.",크게 펼친 훌륭한 날개를 상대에게 부딪쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+18,whirlwind,Whirlwind,날려버리기,NORMAL,STATUS,0,101,20,-6,SELECTED_TARGET,0,0,"The target is blown away, and a different Pokemon is dragged out. In the wild, this ends a battle against a single Pokemon.",상대를 날려버려서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1,0
+19,fly,Fly,공중날기,FLYING,PHYSICAL,90,95,15,0,SELECTED_TARGET,0,0,"The user flies up into the sky on the first turn, then attacks on the next turn.",1턴째에 하늘을 날아 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
+20,bind,Bind,조이기,NORMAL,PHYSICAL,15,85,20,0,SELECTED_TARGET,0,100,"A long body, tentacles, or the like are used to bind and squeeze the target for four to five turns.",긴 몸이나 덩굴 등을 써서 4-5턴 동안 상대를 조여 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+21,slam,Slam,힘껏치기,NORMAL,PHYSICAL,80,75,20,0,SELECTED_TARGET,0,,"The target is slammed with a long tail, vines, or the like to inflict damage.",긴 꼬리나 덩굴 등을 사용해 상대를 힘껏 쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+22,vine-whip,Vine Whip,덩굴채찍,GRASS,PHYSICAL,45,100,25,0,SELECTED_TARGET,0,0,"The target is struck with slender, whiplike vines to inflict damage.",채찍처럼 휘어지는 가늘고 긴 덩굴로 상대를 힘껏 쳐서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+23,stomp,Stomp,밟기,NORMAL,PHYSICAL,65,100,20,0,SELECTED_TARGET,0,30,The user attacks by stomping on the target with a big foot. This may also make the target flinch.,큰 발로 상대를 짓밟아서 공격한다. 상대를 풀이 죽게 할 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+24,double-kick,Double Kick,두번치기,FIGHTING,PHYSICAL,30,100,30,0,SELECTED_TARGET,0,0,The user attacks by kicking the target twice in a row using two feet.,2개의 다리로 상대를 걷어차서 공격한다. 2회 연속으로 데미지를 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+25,mega-kick,Mega Kick,메가톤킥,NORMAL,PHYSICAL,120,75,5,0,SELECTED_TARGET,0,0,The target is attacked by a kick launched with muscle- packed power.,굉장한 힘을 담은 킥으로 상대를 걷어차서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+26,jump-kick,Jump Kick,점프킥,FIGHTING,PHYSICAL,100,95,10,0,SELECTED_TARGET,0,0,"The user jumps up high, then strikes with a kick. If the kick misses, the user hurts itself.",높이 점프해서 킥으로 상대를 공격한다. 빗나가면 자신이 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
+27,rolling-kick,Rolling Kick,돌려차기,FIGHTING,PHYSICAL,60,85,15,0,SELECTED_TARGET,0,30,"The user lashes out with a quick, spinning kick. This may also make the target flinch.",몸을 재빨리 회전시키며 상대를 걷어차서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+28,sand-attack,Sand Attack,모래뿌리기,GROUND,STATUS,0,100,15,0,SELECTED_TARGET,0,100,"Sand is hurled in the target's face, lowering the target's accuracy.",상대의 얼굴에 모래를 뿌려서 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+29,headbutt,Headbutt,박치기,NORMAL,PHYSICAL,70,100,15,0,SELECTED_TARGET,0,30,The user sticks out its head and attacks by charging straight into the target. This may also make the target flinch.,머리를 내밀고 무작정 돌진하여 공격한다. 가끔 풀죽게 만든다. 나무를 흔들어 포켓몬을 떨어뜨릴 수도 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+30,horn-attack,Horn Attack,뿔찌르기,NORMAL,PHYSICAL,65,100,25,0,SELECTED_TARGET,0,0,The target is jabbed with a sharply pointed horn to inflict damage.,날카롭고 뾰족한 뿔로 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+31,fury-attack,Fury Attack,마구찌르기,NORMAL,PHYSICAL,15,85,20,0,SELECTED_TARGET,0,0,"The user attacks by jabbing the target with a horn, a beak, or the like. This move hits two to five times in a row.",뿔이나 부리로 상대를 찔러서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+32,horn-drill,Horn Drill,뿔드릴,NORMAL,PHYSICAL,0,30,5,0,SELECTED_TARGET,0,100,The user stabs the target with a horn that rotates like a drill. The target faints instantly if this attack hits.,회전하는 뿔을 상대에 꿰찔러서 공격한다. 맞으면 일격에 기절한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+33,tackle,Tackle,몸통박치기,NORMAL,PHYSICAL,40,100,35,0,SELECTED_TARGET,0,0,A physical attack in which the user charges and slams into the target with its whole body.,상대를 향해서 몸 전체를 부딪쳐가며 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+34,body-slam,Body Slam,누르기,NORMAL,PHYSICAL,85,100,15,0,SELECTED_TARGET,0,30,The user attacks by dropping onto the target with its full body weight. This may also leave the target with paralysis.,몸 전체로 상대를 덮쳐눌러 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+35,wrap,Wrap,조이기,NORMAL,PHYSICAL,15,90,20,0,SELECTED_TARGET,0,100,"A long body, vines, or the like are used to wrap and squeeze the target for four to five turns.",긴 몸이나 덩굴을 사용해 4-5턴 동안 상대를 휘감아 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+36,take-down,Take Down,돌진,NORMAL,PHYSICAL,90,85,20,0,SELECTED_TARGET,0,0,A reckless full-body charge attack for slamming into the target. This also damages the user a little.,굉장한 기세로 상대에게 부딪쳐 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+37,thrash,Thrash,난동부리기,NORMAL,PHYSICAL,120,100,10,0,SELECTED_TARGET,0,0,The user rampages and attacks for two to three turns. The user then becomes confused.,2-3턴 동안 마구 난동부려서 공격한다. 난동부린 뒤에는 혼란에 빠진다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+38,double-edge,Double-Edge,이판사판태클,NORMAL,PHYSICAL,120,100,15,0,SELECTED_TARGET,0,0,A reckless life-risking tackle in which the user rushes the target. This also damages the user quite a lot.,목숨을 걸고 상대에게 돌진 공격을 한다. 자신도 상당한 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+39,tail-whip,Tail Whip,꼬리흔들기,NORMAL,STATUS,0,100,30,0,ALL_ADJACENT_FOES,0,100,"The user wags its tail cutely, making opposing Pokemon less wary. This lowers their Defense stats.",꼬리를 좌우로 귀엽게 흔들어 방심을 유도한다. 상대의 방어를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+40,poison-sting,Poison Sting,독침,POISON,PHYSICAL,15,100,35,0,SELECTED_TARGET,0,30,The user stabs the target with a poisonous stinger to inflict damage. This may also poison the target.,독이 있는 침을 상대에게 꿰찔러서 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+41,twineedle,Twineedle,더블니들,BUG,PHYSICAL,25,100,20,0,SELECTED_TARGET,0,20,The user damages the target twice in succession by jabbing it with two spikes. This may also poison the target.,2개의 침을 상대에게 꿰찔러 공격한다. 2회 연속으로 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+42,pin-missile,Pin Missile,바늘미사일,BUG,PHYSICAL,25,95,20,0,SELECTED_TARGET,0,0,The user attacks by shooting sharp spikes at the target. This move hits two to five times in a row.,날카로운 침을 상대에게 발사해서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+43,leer,Leer,째려보기,NORMAL,STATUS,0,100,30,0,ALL_ADJACENT_FOES,0,100,The user gives opposing Pokemon an intimidating leer that lowers their Defense stats.,날카로운 눈초리로 겁을 주어 상대의 방어를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+44,bite,Bite,물기,DARK,PHYSICAL,60,100,25,0,SELECTED_TARGET,0,30,The target is bitten with viciously sharp fangs. This may also make the target flinch.,날카롭고 뾰족한 이빨로 물어서 공격한다. 상대를 풀이 죽게 할 때가 있다.,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,1
+45,growl,Growl,울음소리,NORMAL,STATUS,0,100,40,0,ALL_ADJACENT_FOES,0,100,"The user growls in an endearing way, making opposing Pokemon less wary. This lowers their Attack stats.",귀여운 울음소리를 들려주고 관심을 끌어 방심한 사이에 상대의 공격을 떨어뜨린다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
+46,roar,Roar,짖기,NORMAL,STATUS,0,101,20,-6,SELECTED_TARGET,0,0,"The target is scared off, and a different Pok?mon is dragged out. In the wild, this ends a battle against a single Pokemon.",상대를 도망가게 해서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0
+47,sing,Sing,노래하기,NORMAL,STATUS,0,55,15,0,SELECTED_TARGET,0,100,A soothing lullaby is sung in a beautiful voice that puts the target to sleep.,기분 좋은 예쁜 노랫소리를 들려주고 상대를 잠듦 상태로 만든다.,0,0,1,0,0,0,0,0,0,1,1,0,0,1,1,1
+48,supersonic,Supersonic,초음파,NORMAL,STATUS,0,55,20,0,SELECTED_TARGET,0,100,The user generates odd sound waves from its body that confuse the target.,특수한 음파를 몸에서 발산하여 상대를 혼란 상태로 만든다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
+49,sonic-boom,Sonic Boom,소닉붐,NORMAL,SPECIAL,0,90,20,0,SELECTED_TARGET,0,0,The target is hit with a destructive shock wave that always inflicts 20 HP damage.,충격파를 상대에 부딪쳐서 공격한다. 언제나 20의 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+50,disable,Disable,사슬묶기,NORMAL,STATUS,0,100,20,0,SELECTED_TARGET,0,0,"For four turns, the target will be unable to use whichever move it last used.",상대의 움직임을 막아 바로 전에 쓴 기술을 잠시 동안 사용할 수 없게 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+51,acid,Acid,용해액,POISON,SPECIAL,40,100,30,0,ALL_ADJACENT_FOES,0,10,Opposing Pok?mon are attacked with a spray of harsh acid. This may also lower their Sp. Def stats.,강한 산을 상대에게 끼얹어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+52,ember,Ember,불꽃세례,FIRE,SPECIAL,40,100,25,0,SELECTED_TARGET,0,10,The target is attacked with small flames. This may also leave the target with a burn.,작은 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+53,flamethrower,Flamethrower,화염방사,FIRE,SPECIAL,90,100,15,0,SELECTED_TARGET,0,10,The target is scorched with an intense blast of fire. This may also leave the target with a burn.,세찬 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
+54,mist,Mist,흰안개,ICE,STATUS,0,101,30,0,SELF,0,0,The user cloaks itself and its allies in a white mist that prevents any of their stats from being lowered for five turns.,하얀 안개로 몸을 덮는다. 5턴 동안 상대에 의해 능력이 떨어지지 않게 된다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+55,water-gun,Water Gun,물대포,WATER,SPECIAL,40,100,25,0,SELECTED_TARGET,0,0,The target is blasted with a forceful shot of water.,물을 기세 좋게 상대에게 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+56,hydro-pump,Hydro Pump,하이드로펌프,WATER,SPECIAL,110,80,5,0,SELECTED_TARGET,0,0,The target is blasted by a huge volume of water launched under great pressure.,대량의 물을 세찬 기세로 상대에게 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+57,surf,Surf,파도타기,WATER,SPECIAL,90,100,15,0,ALL_ADJACENT_FOES,0,0,The user attacks everything around it by swamping its surroundings with a giant wave.,큰 파도로 주위에 있는 모든 것을 공격한다. 물 위도 헤엄쳐서 나아간다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+58,ice-beam,Ice Beam,냉동빔,ICE,SPECIAL,90,100,10,0,SELECTED_TARGET,0,10,The target is struck with an icy-cold beam of energy. This may also leave the target frozen.,냉동빔을 상대에게 발사하여 공격한다. 얼음 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+59,blizzard,Blizzard,눈보라,ICE,SPECIAL,110,70,5,0,ALL_ADJACENT_FOES,0,10,A howling blizzard is summoned to strike opposing Pokemon. This may also leave the opposing Pokemon frozen.,세찬 눈보라를 부딪쳐서 공격한다. 상대를 얼음 상태로 만들기도 한다.,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1
+60,psybeam,Psybeam,사이코빔,PSYCHIC,SPECIAL,65,100,20,0,SELECTED_TARGET,0,10,The target is attacked with a peculiar ray. This may also confuse the target.,이상한 광선을 상대에게 발사하여 공격한다. 상대를 혼란 시킬 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+61,bubble-beam,Bubble Beam,거품광선,WATER,SPECIAL,65,100,20,0,SELECTED_TARGET,0,10,A spray of bubbles is forcefully ejected at the target. This may also lower the target's Speed stat.,거품을 기세 좋게 상대에게 발사하여 공격한다. 스피드를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+62,aurora-beam,Aurora Beam,오로라빔,ICE,SPECIAL,65,100,20,0,SELECTED_TARGET,0,10,The target is hit with a rainbow-colored beam. This may also lower the target's Attack stat.,무지개색의 빔을 상대에게 발사하여 공격한다. 공격을 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+63,hyper-beam,Hyper Beam,파괴광선,NORMAL,SPECIAL,150,90,5,0,SELECTED_TARGET,0,0,The target is attacked with a powerful beam. The user can't move on the next turn.,강한 광선을 상대에게 발사하여 공격한다. 다음 턴은 움직일 수 없다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+64,peck,Peck,쪼기,FLYING,PHYSICAL,35,100,35,0,SELECTED_TARGET,0,0,The target is jabbed with a sharply pointed beak or horn to inflict damage.,날카롭고 뾰족한 부리나 뿔로 상대를 쪼아서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+65,drill-peck,Drill Peck,드릴부리,FLYING,PHYSICAL,80,100,20,0,SELECTED_TARGET,0,0,A corkscrewing attack that strikes the target with a sharp beak acting as a drill.,회전하면서 뾰족한 부리를 상대에게 꿰찔러 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+66,submission,Submission,지옥의바퀴,FIGHTING,PHYSICAL,80,80,20,0,SELECTED_TARGET,0,0,The user grabs the target and recklessly dives for the ground. This also damages the user a little.,땅에 자신과 함께 상대를 내던져 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+67,low-kick,Low Kick,로킥,FIGHTING,PHYSICAL,0,100,20,0,SELECTED_TARGET,0,0,"A powerful low kick that makes the target fall over. The heavier the target, the greater the move's power.",발을 강하게 걸고 상대를 넘어뜨려 공격한다. 상대가 무거울수록 위력이 올라간다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+68,counter,Counter,카운터,FIGHTING,PHYSICAL,0,100,20,-5,SELECTED_TARGET,0,0,"A retaliatory attack that counters any physical move, inflicting double the damage taken.",상대로부터 받은 물리공격의 데미지를 2배로 만들어 그 상대에게 돌려준다.,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+69,seismic-toss,Seismic Toss,지구던지기,FIGHTING,PHYSICAL,0,100,20,0,SELECTED_TARGET,0,0,The target is thrown using the power of gravity. It inflicts damage equal to the user's level.,인력을 사용해 내던진다. 자신의 레벨과 똑같은 데미지를 상대에게 준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+70,strength,Strength,괴력,NORMAL,PHYSICAL,80,100,15,0,SELECTED_TARGET,0,0,The target is slugged with a punch thrown at maximum power.,혼신의 힘으로 상대를 세게 때려서 공격한다. 무거운 돌을 밀 수도 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+71,absorb,Absorb,흡수,GRASS,SPECIAL,20,100,25,0,SELECTED_TARGET,0,0,A nutrient-draining attack. The user's HP is restored by up to half the damage taken by the target.,양분을 흡수하여 공격한다. 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+72,mega-drain,Mega Drain,메가드레인,GRASS,SPECIAL,40,100,15,0,SELECTED_TARGET,0,0,A nutrient-draining attack. The user's HP is restored by up to half the damage taken by the target.,양분을 흡수하여 공격한다. 상대에게 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+73,leech-seed,Leech Seed,씨뿌리기,GRASS,STATUS,0,90,10,0,SELECTED_TARGET,0,100,A seed is planted on the target. It steals some HP from the target every turn.,씨가 뿌려진 상대의 HP를 매 턴 조금씩 흡수하여 자신의 HP를 회복한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+74,growth,Growth,성장,NORMAL,STATUS,0,101,20,0,SELF,0,0,"The user's body grows all at once, boosting the Attack and Sp. Atk stats.",몸을 일시에 크게 성장시켜 자신의 공격과 특수공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+75,razor-leaf,Razor Leaf,잎날가르기,GRASS,PHYSICAL,55,95,25,0,ALL_ADJACENT_FOES,0,0,Sharp-edged leaves are launched to slash at opposing Pok?mon. This move has a heightened chance of landing a critical hit.,잎사귀를 날려 상대를 베어 공격한다. 급소에 맞을 확률이 높다.,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1
+76,solar-beam,Solar Beam,솔라빔,GRASS,SPECIAL,120,100,10,0,SELECTED_TARGET,0,0,"The user gathers light on the first turn, then blasts a bundled beam on the next turn.",1턴째에 빛을 가득 모아 2턴째에 빛의 다발을 발사하여 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+77,poison-powder,Poison Powder,독가루,POISON,STATUS,0,75,35,0,SELECTED_TARGET,0,100,The user scatters a cloud of poisonous dust that poisons the target.,독이 있는 가루를 많이 흩뿌려서 상대를 독 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
+78,stun-spore,Stun Spore,마비가루,GRASS,STATUS,0,75,30,0,SELECTED_TARGET,0,100,The user scatters a cloud of numbing powder that paralyzes the target.,저리 가루를 많이 흩뿌려서 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
+79,sleep-powder,Sleep Powder,수면가루,GRASS,STATUS,0,75,15,0,SELECTED_TARGET,0,100,The user scatters a cloud of soporific dust that puts the target to sleep.,잠이 오는 가루를 많이 흩뿌려서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
+80,petal-dance,Petal Dance,꽃잎댄스,GRASS,SPECIAL,120,100,10,0,SELECTED_TARGET,0,0,The user attacks the target by scattering petals for two to three turns. The user then becomes confused.,2-3턴 동안 꽃을 흩뿌려서 공격한다. 흩뿌린 뒤에는 혼란에 빠진다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+81,string-shot,String Shot,실뿜기,BUG,STATUS,0,95,40,0,ALL_ADJACENT_FOES,0,100,The user blows silk from its mouth that binds opposing Pokemon and harshly lowers their Speed stats.,입에서 뿜어낸 실을 휘감아서 상대의 스피드를 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+82,dragon-rage,Dragon Rage,용의분노,DRAGON,SPECIAL,0,100,10,0,SELECTED_TARGET,0,0,This attack hits the target with a shock wave of pure rage. This attack always inflicts 40 HP damage.,충격파를 상대에게 부딪쳐서 공격한다. 언제나 40의 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+83,fire-spin,Fire Spin,회오리불꽃,FIRE,SPECIAL,35,85,15,0,SELECTED_TARGET,0,100,The user traps the target inside a fierce vortex of fire that inflicts damage for four to five turns.,세차게 소용돌이치는 불꽃 속에 4-5턴 동안 상대를 가두어 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+84,thunder-shock,Thunder Shock,전기쇼크,ELECTRIC,SPECIAL,40,100,30,0,SELECTED_TARGET,0,10,The user attacks the target with a jolt of electricity. This may also leave the target with paralysis.,전기 자극을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+85,thunderbolt,Thunderbolt,10만볼트,ELECTRIC,SPECIAL,90,100,15,0,SELECTED_TARGET,0,10,The user attacks the target with a strong electric blast. This may also leave the target with paralysis.,강한 전격을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+86,thunder-wave,Thunder Wave,전기자석파,ELECTRIC,STATUS,0,90,20,0,SELECTED_TARGET,0,100,The user launches a weak jolt of electricity that paralyzes the target.,약한 전격을 날려서 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+87,thunder,Thunder,번개,ELECTRIC,SPECIAL,110,70,10,0,SELECTED_TARGET,0,10,A wicked thunderbolt is dropped on the target to inflict damage. This may also leave the target with paralysis.,강한 번개를 상대에게 떨어뜨려 공격한다. 마비 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+88,rock-throw,Rock Throw,돌떨구기,ROCK,PHYSICAL,50,90,15,0,SELECTED_TARGET,0,0,The user picks up and throws a small rock at the target to inflict damage.,작은 바위를 들어올려 상대에게 내던져서 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+89,earthquake,Earthquake,지진,GROUND,PHYSICAL,100,100,10,0,ALL_ADJACENT,0,0,The user sets off an earthquake that strikes every Pok?mon around it.,지진의 충격으로 주위에 있는 모든 것을 공격한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+90,fissure,Fissure,땅가르기,GROUND,PHYSICAL,0,30,5,0,SELECTED_TARGET,0,100,The user opens up a fissure in the ground and drops the target in. The target faints instantly if this attack hits.,땅이 갈라진 곳에 상대를 떨어뜨려 공격한다. 맞으면 일격에 기절한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+91,dig,Dig,구멍파기,GROUND,PHYSICAL,80,100,10,0,SELECTED_TARGET,0,0,"The user burrows into the ground on the first turn, then attacks on the next turn.",1턴째에 땅속으로 파고들어 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+92,toxic,Toxic,맹독,POISON,STATUS,0,90,10,0,SELECTED_TARGET,0,100,A move that leaves the target badly poisoned. Its poison damage worsens every turn.,상대를 맹독의 상태로 만든다. 턴이 진행될수록 독의 데미지가 증가한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+93,confusion,Confusion,염동력,PSYCHIC,SPECIAL,50,100,25,0,SELECTED_TARGET,0,10,The target is hit with a weak telekinetic force to inflict damage. This may also confuse the target.,약한 염동력을 상대에게 보내어 공격한다. 상대를 혼란 시킬 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+94,psychic,Psychic,사이코키네시스,PSYCHIC,SPECIAL,90,100,10,0,SELECTED_TARGET,0,10,The target is hit with a strong telekinetic force to inflict damage. This may also lower the target's Sp. Def stat.,강한 염동력을 상대에게 보내어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+95,hypnosis,Hypnosis,최면술,PSYCHIC,STATUS,0,60,20,0,SELECTED_TARGET,0,100,The user employs hypnotic suggestion to make the target fall asleep.,졸음을 유도하는 암시를 걸어서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+96,meditate,Meditate,요가포즈,PSYCHIC,STATUS,0,101,40,0,SELF,0,0,The user meditates to awaken the power deep within its body and raise its Attack stat.,잠자던 힘을 몸속에서 끌어내어 자신의 공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+97,agility,Agility,고속이동,PSYCHIC,STATUS,0,101,30,0,SELF,0,0,The user relaxes and lightens its body to move faster. This sharply boosts its Speed stat.,힘을 빼고 몸을 가볍게 해서 고속으로 움직인다. 자신의 스피드를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+98,quick-attack,Quick Attack,전광석화,NORMAL,PHYSICAL,40,100,30,1,SELECTED_TARGET,0,0,"The user lunges at the target to inflict damage, moving at blinding speed. This move always goes first.",눈에 보이지 않는 굉장한 속도로 상대에게 돌진한다. 반드시 선제 공격할 수 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+99,rage,Rage,분노,NORMAL,PHYSICAL,20,100,20,0,SELECTED_TARGET,0,0,"As long as this move is in use, the power of rage raises the Attack stat each time the user is hit in battle.",기술을 썼을 때 공격을 받으면 분노의 힘으로 주는 데미지가 올라간다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+100,teleport,Teleport,순간이동,PSYCHIC,STATUS,0,101,20,-6,SELF,0,0,"The user switches places with a party Pok?mon in waiting, if any. If a wild Pok?mon uses this move, it flees.",야생 포켓몬과 배틀을 그만둔다. 마지막에 들어갔던 포켓몬 센터가 있는 도시에도 갈 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+101,night-shade,Night Shade,나이트헤드,GHOST,SPECIAL,0,100,15,0,SELECTED_TARGET,0,0,The user makes the target see a frightening mirage. It inflicts damage equal to the user's level.,환상을 보게 해서 자신의 레벨과 똑같은 만큼의 데미지를 상대에게 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+102,mimic,Mimic,흉내내기,NORMAL,STATUS,0,101,10,0,SELECTED_TARGET,0,0,The user copies the move last used by the target. The copied move can be used until the user of Mimic leaves the battle.,상대가 마지막에 사용한 기술을 배틀을 하는 동안 자신의 기술로 만들 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+103,screech,Screech,싫은소리,NORMAL,STATUS,0,85,40,0,SELECTED_TARGET,0,100,An earsplitting screech harshly lowers the target's Defense stat.,그만 귀를 막아버리고 싶은 싫은 소리를 내어 상대의 방어를 크게 떨어뜨린다.,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1
+104,double-team,Double Team,그림자분신,NORMAL,STATUS,0,101,15,0,SELF,0,0,"By moving rapidly, the user makes illusory copies of itself to boost its evasiveness.",재빠른 움직임으로 분신을 만들어 상대를 혼란시켜 회피율을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+105,recover,Recover,HP회복,NORMAL,STATUS,0,101,10,0,SELF,0,0,"The user regenerates its cells, restoring its own HP by up to half its max HP.",세포를 재생시켜 자신의 최대 HP의 절반만큼 HP를 회복한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+106,harden,Harden,단단해지기,NORMAL,STATUS,0,101,30,0,SELF,0,0,The user stiffens all the muscles in its body to boost its Defense stat.,전신에 힘을 담아 몸을 단단하게 해서 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+107,minimize,Minimize,작아지기,NORMAL,STATUS,0,101,10,0,SELF,0,0,"The user compresses its body to make itself look smaller, which sharply boosts its evasiveness.",몸을 축소하여 작게 보임으로써 회피율을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+108,smokescreen,Smokescreen,연막,NORMAL,STATUS,0,100,20,0,SELECTED_TARGET,0,100,The user releases an obscuring cloud of smoke or ink. This lowers the target's accuracy.,연기나 먹물을 내뿜어 상대의 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+109,confuse-ray,Confuse Ray,이상한빛,GHOST,STATUS,0,100,10,0,SELECTED_TARGET,0,100,The target is exposed to a sinister ray that causes confusion.,이상한 빛을 상대에게 비춰 혼란시킨다. 상대를 혼란 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+110,withdraw,Withdraw,껍질에숨기,WATER,STATUS,0,101,40,0,SELF,0,0,"The user withdraws its body into its hard shell, boosting its Defense stat.",껍질에 숨어 몸을 보호하여 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+111,defense-curl,Defense Curl,말아올리기,NORMAL,STATUS,0,101,40,0,SELF,0,0,The user curls up and boosts its Defense stat.,몸을 둥글게 웅크려서 자신의 방어를 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+112,barrier,Barrier,배리어,PSYCHIC,STATUS,0,101,20,0,SELF,0,0,The user throws up a sturdy wall that sharply raises its Defense stat.,튼튼한 장막을 만들어 자신의 방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+113,light-screen,Light Screen,빛의장막,PSYCHIC,STATUS,0,101,30,0,SELF,0,0,A wondrous wall of light is put up to reduce damage from special moves for five turns.,5턴 동안 이상한 장막으로 상대로부터 받는 특수공격의 데미지를 약하게 한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1
+114,haze,Haze,흑안개,ICE,STATUS,0,101,30,0,ALL_ADJACENT,0,0,The user creates a haze that eliminates every stat change among all the Pokemon engaged in battle.,흑안개를 뿜어 배틀에 참가 중인 포켓몬 전원의 능력 변화를 원래대로 돌린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+115,reflect,Reflect,리플렉터,PSYCHIC,STATUS,0,101,20,0,SELF,0,0,A wondrous wall of light is put up to reduce damage from physical moves for five turns.,5턴 동안 이상한 장막을 쳐서 상대로부터 받는 물리공격의 데미지를 약하게 한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1
+116,focus-energy,Focus Energy,기충전,NORMAL,STATUS,0,101,30,0,SELF,0,0,The user takes a deep breath and focuses so that its future attacks have a heightened chance of landing critical hits.,깊게 숨을 들이마셔 기합을 넣는다. 자신의 공격이 급소에 맞을 확률을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+117,bide,Bide,참기,NORMAL,PHYSICAL,0,101,10,1,SELF,0,0,"The user endures attacks for two turns, then strikes back to cause double the damage taken.",2턴 동안 공격을 견뎌 입은 데미지를 2배로 만들어 상대에게 돌려준다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+118,metronome,Metronome,손가락흔들기,NORMAL,STATUS,0,101,10,0,SELF,0,0,The user waggles a finger and stimulates its brain into randomly using nearly any move.,손가락을 흔들어 자신의 뇌를 자극해서 모든 기술 중 어느 하나를 날린다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+119,mirror-move,Mirror Move,미러무브,FLYING,STATUS,0,101,20,0,SELECTED_TARGET,0,0,The user counters the target by mimicking the target's last move.,상대가 사용한 기술을 흉내 내어 자신도 똑같은 기술을 쓴다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+120,self-destruct,Self-Destruct,자폭,NORMAL,PHYSICAL,200,100,5,0,ALL_ADJACENT,0,0,The user attacks everything around it by causing an explosion. The user faints upon using this move.,폭발을 일으켜서 자신의 주위에 있는 포켓몬을 공격한다. 쓰고 나서 기절하게 된다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+121,egg-bomb,Egg Bomb,알폭탄,NORMAL,PHYSICAL,100,75,10,0,SELECTED_TARGET,0,0,A large egg is hurled at the target with maximum force to inflict damage.,큰 알을 온 힘을 다해 상대에게 내던져서 공격한다.,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1
+122,lick,Lick,핥기,GHOST,PHYSICAL,30,100,30,0,SELECTED_TARGET,0,30,The user licks the target with a long tongue to inflict damage. This may also leave the target with paralysis.,긴 혀로 상대를 핥아서 공격한다. 마비 상태로 만들 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+123,smog,Smog,스모그,POISON,SPECIAL,30,70,20,0,SELECTED_TARGET,0,40,The target is attacked with a discharge of filthy gases. This may also poison the target.,더러운 가스를 상대에게 내뿜어 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+124,sludge,Sludge,오물공격,POISON,SPECIAL,65,100,20,0,SELECTED_TARGET,0,30,The user hurls unsanitary sludge at the target to inflict damage. This may also poison the target.,더러운 오물을 상대에게 내던져서 공격한다. 독 상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+125,bone-club,Bone Club,뼈다귀치기,GROUND,PHYSICAL,65,85,20,0,SELECTED_TARGET,0,10,The user clubs the target with a bone. This may also make the target flinch.,손에 들고 있는 뼈로 상대를 세게 때려서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+126,fire-blast,Fire Blast,불대문자,FIRE,SPECIAL,110,85,5,0,SELECTED_TARGET,0,10,The target is attacked with an intense blast of all- consuming fire. This may also leave the target with a burn.,큰 대자의 불꽃으로 상대를 불태운다. 화상상태로 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
+127,waterfall,Waterfall,폭포오르기,WATER,PHYSICAL,80,100,15,0,SELECTED_TARGET,0,20,The user charges at the target and may make it flinch.,굉장한 기세로 상대에게 돌진하여 공격한다. 흘러내리는 폭포도 거슬러 올라갈 수 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+128,clamp,Clamp,조이기,WATER,PHYSICAL,35,85,15,0,SELECTED_TARGET,0,100,The target is clamped and squeezed by the user's very thick and sturdy shell for four to five turns.,매우 튼튼하고 두꺼운 껍질에 4-5턴 동안 상대를 끼워서 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+129,swift,Swift,스피드스타,NORMAL,SPECIAL,60,101,20,0,ALL_ADJACENT_FOES,0,0,Star-shaped rays are shot at opposing Pokemon. This attack never misses.,별 모양의 빛을 발사해서 상대를 공격한다. 공격은 반드시 명중한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+130,skull-bash,Skull Bash,스컬바주카,NORMAL,PHYSICAL,130,100,10,0,SELECTED_TARGET,0,0,"The user tucks in its head to raise its Defense stat on the first turn, then rams the target on the next turn.",1턴째에 머리를 움츠려 방어를 올린다. 2턴째에 상대를 공격한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+131,spike-cannon,Spike Cannon,바늘팔,NORMAL,PHYSICAL,20,100,15,0,SELECTED_TARGET,0,0,Sharp spikes are shot at the target in rapid succession. They hit two to five times in a row.,날카로운 침을 상대에게 발사해서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+132,constrict,Constrict,덩굴묶기,NORMAL,PHYSICAL,10,100,35,0,SELECTED_TARGET,0,10,"The target is attacked with long, creeping tentacles, vines, or the like. This may also lower the target's Speed stat.",촉수나 덩굴 등을 휘감아서 공격한다. 상대의 스피드를 떨어뜨릴 때가 있다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+133,amnesia,Amnesia,망각술,PSYCHIC,STATUS,0,101,20,0,SELF,0,0,The user temporarily empties its mind to forget its concerns. This sharply boosts the user's Sp. Def stat.,머리를 비워서 순간적으로 무언가를 잊어버림으로써 자신의 특수방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+134,kinesis,Kinesis,숟가락휘기,PSYCHIC,STATUS,0,80,15,0,SELECTED_TARGET,0,100,The user distracts the target by bending a spoon. This lowers the target's accuracy.,숟가락을 휘고 주의를 끌어 상대 포켓몬의 명중률을 낮춘다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+135,soft-boiled,Soft-Boiled,알낳기,NORMAL,STATUS,0,101,10,0,SELF,0,0,The user restores its own HP by up to half its max HP.,자신의 최대 HP 절반을 회복한다. 동료의 HP를 회복시킬 수도 있다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+136,high-jump-kick,High Jump Kick,무릎차기,FIGHTING,PHYSICAL,130,90,10,0,SELECTED_TARGET,0,0,"The target is attacked with a knee kick from a jump. If this move misses, the user takes damage instead.",점프해서 무릎차기로 상대를 공격한다. 빗나가면 자신이 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,1,1,0,0,1,1
+137,glare,Glare,뱀눈초리,NORMAL,STATUS,0,100,30,0,SELECTED_TARGET,0,100,The user intimidates the target with the pattern on its belly to cause paralysis.,배의 무늬로 겁을 주어 상대를 마비 상태로 만든다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+138,dream-eater,Dream Eater,꿈먹기,PSYCHIC,SPECIAL,100,100,15,0,SELECTED_TARGET,0,0,The user eats the dreams of a sleeping target. The user's HP is restored by up to half the damage taken by the target.,잠자고 있는 상대의 꿈을 먹어 공격한다. 데미지의 절반을 HP로 회복한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+139,poison-gas,Poison Gas,독가스,POISON,STATUS,0,90,40,0,ALL_ADJACENT_FOES,0,100,"A cloud of poison gas is sprayed in the faces of opposing Pokemon, poisoning those it hits.",독가스를 상대의 얼굴에 내뿜어 독 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
+140,barrage,Barrage,알뿜기,NORMAL,PHYSICAL,15,85,20,0,SELECTED_TARGET,0,0,Round objects are hurled at the target to strike two to five times in a row.,둥근 것을 상대에게 내던져서 공격한다. 2-5회 동안 연속으로 쓴다.,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1
+141,leech-life,Leech Life,흡혈,BUG,PHYSICAL,80,100,10,0,SELECTED_TARGET,0,0,The user drains the target's blood. The user's HP is restored by up to half the damage taken by the target.,피를 빨아서 공격한다. 준 데미지의 절반을 HP로 회복한다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+142,lovely-kiss,Lovely Kiss,악마의키스,NORMAL,STATUS,0,75,10,0,SELECTED_TARGET,0,100,"With a scary face, the user tries to kiss the target. If it succeeds, the target falls asleep.",무서운 얼굴로 키스한다. 키스한 상대를 잠듦 상태로 만들 수 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+143,sky-attack,Sky Attack,회전부리,FLYING,PHYSICAL,140,90,5,0,SELECTED_TARGET,0,0,The user attacks the turn after using this move. This move has a heightened chance of landing a critical hit and may also make the target flinch.,2턴째에 상대를 공격한다. 가끔 풀죽게 만든다. 급소에 맞을 확률이 높다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+144,transform,Transform,변신,NORMAL,STATUS,0,101,10,0,SELECTED_TARGET,0,0,"The user transforms into a copy of the target, right down to having the same move set.",상대 포켓몬으로 변신하여 상대와 완전히 똑같은 기술을 사용할 수 있다.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+145,bubble,Bubble,거품,WATER,SPECIAL,40,100,30,0,ALL_ADJACENT_FOES,0,10,A spray of countless bubbles is jetted at the opposing Pokemon. This may also lower their Speed stat.,거품을 기세 좋게 상대에게 발사하여 공격한다. 스피드를 떨어뜨릴 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+146,dizzy-punch,Dizzy Punch,혼란펀치,NORMAL,PHYSICAL,70,100,10,0,SELECTED_TARGET,0,20,The target is hit with rhythmically launched punches. This may also leave the target confused.,리드미컬한 펀치를 날려 공격한다. 상대를 혼란 시킬 때가 있다.,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1
+147,spore,Spore,버섯포자,GRASS,STATUS,0,100,15,0,SELECTED_TARGET,0,100,The user scatters bursts of spores that induce sleep.,최면 효과가 있는 포자를 흩뿌려서 상대를 잠듦 상태로 만든다.,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1
+148,flash,Flash,플래시,NORMAL,STATUS,0,100,20,0,SELECTED_TARGET,0,100,The user flashes a bright light that cuts the target's accuracy.,눈이 부신 빛으로 상대의 명중률을 떨어뜨린다.,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1
+149,psywave,Psywave,사이코웨이브,PSYCHIC,SPECIAL,0,100,15,0,SELECTED_TARGET,0,0,The target is attacked with an odd psychic wave. The attack varies in intensity.,이상한 염력파를 상대에게 발사하여 공격한다. 사용할 때마다 데미지가 바뀐다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+150,splash,Splash,튀어오르기,NORMAL,STATUS,0,101,40,0,SELF,0,0,The user just flops and splashes around to no effect at all…,공격도 하지 않고 팔딱팔딱 튈 뿐 아무 일도 일어나지 않는다...,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1
+151,acid-armor,Acid Armor,녹기,POISON,STATUS,0,101,20,0,SELF,0,0,"The user alters its cellular structure to liquefy itself, sharply boosting its Defense stat.",세포의 변화로 액체가 되어 자신의 방어를 크게 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+152,crabhammer,Crabhammer,크랩해머,WATER,PHYSICAL,100,90,10,0,SELECTED_TARGET,0,0,The target is hammered with a large pincer. This move has a heightened chance of landing a critical hit.,큰 집게를 상대에게 내리쳐서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+153,explosion,Explosion,대폭발,NORMAL,PHYSICAL,250,100,5,0,ALL_ADJACENT,0,0,The user attacks everything around it by causing a tremendous explosion. The user faints upon using this move.,커다란 폭발로 주위에 있는 모든 것을 공격한다. 사용한 다음 기절한다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+154,fury-swipes,Fury Swipes,마구할퀴기,NORMAL,PHYSICAL,18,80,15,0,SELECTED_TARGET,0,0,"The user attacks by raking the target with claws, scythes, or the like. This move hits two to five times in a row.",발톱이나 낫 등으로 상대를 할퀴어서 공격한다. 2-5회 동안 연속으로 쓴다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+155,bonemerang,Bonemerang,뼈다귀부메랑,GROUND,PHYSICAL,50,90,10,0,SELECTED_TARGET,0,0,The user throws the bone it holds. The bone loops around to damage the target twice-coming and going.,손에 들고 있는 뼈를 상대에게 날려서 날아갈 때와 돌아올 때 2회 연속 데미지를 준다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+156,rest,Rest,잠자기,PSYCHIC,STATUS,0,101,10,0,SELF,0,0,The user goes to sleep for two turns. This fully restores the user's HP and cures any status conditions.,2턴 동안 계속 잠잔다. HP와 몸의 이상을 모두 회복한다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0
+157,rock-slide,Rock Slide,스톤샤워,ROCK,PHYSICAL,75,90,10,0,ALL_ADJACENT_FOES,0,30,Large boulders are hurled at opposing Pokemon to inflict damage. This may also make the opposing Pokemon flinch.,큰 바위를 세차게 부딪쳐서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+158,hyper-fang,Hyper Fang,필살앞니,NORMAL,PHYSICAL,80,90,15,0,SELECTED_TARGET,0,10,The user bites hard on the target with its sharp front fangs. This may also make the target flinch.,날카로운 앞니로 강하게 물어서 공격한다. 상대를 풀죽게 만들 때가 있다.,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,1
+159,sharpen,Sharpen,각지기,NORMAL,STATUS,0,101,30,0,SELF,0,0,"The user makes its edges more jagged, which raises its Attack stat.",몸의 각을 늘려서 더욱 각지게 하여 자신의 공격을 올린다.,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+160,conversion,Conversion,텍스처,NORMAL,STATUS,0,101,30,0,SELECTED_TARGET,0,0,The user changes its type to become the same type as the move at the top of the list of moves it knows.,자신의 타입을 배운 기술 중 어느 하나와 같은 타입으로 바꾼다.,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+161,tri-attack,Tri Attack,트라이어택,NORMAL,SPECIAL,80,100,10,0,SELECTED_TARGET,0,20,"The user strikes with a simultaneous three-beam attack. This may also burn, freeze, or paralyze the target.","3개의 광선으로 공격한다. 마비, 화상 또는 얼음 상태로 만들 때가 있다.",0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+162,super-fang,Super Fang,슈퍼팽,NORMAL,PHYSICAL,0,90,10,0,SELECTED_TARGET,0,0,The user chomps hard on the target with its sharp front fangs. This cuts the target's HP in half.,날카로운 앞니로 강하게 물어서 공격한다. 상대의 HP는 절반이 된다.,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,1
+163,slash,Slash,베어가르기,NORMAL,PHYSICAL,70,100,20,0,SELECTED_TARGET,0,0,"The target is attacked with a slash of claws, scythes, or the like. This move has a heightened chance of landing a critical hit.",발톱이나 낫 등으로 상대를 베어 갈라서 공격한다. 급소에 맞을 확률이 높다.,1,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1
+164,substitute,Substitute,대타출동,NORMAL,STATUS,0,101,10,0,SELF,0,0,The user creates a substitute for itself using some of its own HP. The substitute serves as the user's decoy.,자신의 HP를 조금 깎아서 분신을 만든다. 분신은 자신의 대타가 된다,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+165,struggle,Struggle,발버둥,NORMAL,PHYSICAL,50,101,1,0,SELECTED_TARGET,0,0,This attack is used in desperation only if the user has no remaining PP. It also damages the user a little.,PP가 떨어지면 발버둥쳐 상대를 공격한다. 자신도 조금 데미지를 입는다.,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
