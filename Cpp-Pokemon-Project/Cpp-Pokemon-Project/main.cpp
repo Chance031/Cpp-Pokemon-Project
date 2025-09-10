@@ -1,47 +1,71 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
-#include "DataManager.h"
-#include "MoveData.h" // MoveData 구조체를 사용하기 위해
+#include <vector>
+
+// CSV 한 줄을 받아 따옴표를 고려하여 필드 벡터로 분리하는 최종 파서 함수
+std::vector<std::string> parseCsvLine(const std::string& line) {
+    std::vector<std::string> result;
+    std::string field;
+    bool in_quotes = false;
+
+    for (char c : line) {
+        if (c == '"') {
+            in_quotes = !in_quotes;
+        }
+        else if (c == ',' && !in_quotes) {
+            result.push_back(field);
+            field.clear();
+        }
+        else {
+            field += c;
+        }
+    }
+    result.push_back(field); // 마지막 필드 추가
+    return result;
+}
 
 int main()
 {
-    std::cout << "--- 기술 데이터 로드 및 테스트 ---" << std::endl;
+    std::cout << "--- moves.csv 파일 데이터 검증 시작 ---" << std::endl;
+    std::string filePath = "./data/moves.csv";
+    std::ifstream file(filePath);
 
-    // 1. 모든 CSV 데이터 로드
-    DataManager::GetInstance().LoadAllData();
-    std::cout << std::endl;
-
-    try
-    {
-        // 2. ID 33번 '몸통박치기' 데이터 가져오기
-        const MoveData& tackleData = DataManager::GetInstance().GetMoveData(33);
-
-        // 3. 가져온 데이터의 주요 항목들 출력하여 검증
-        std::cout << "### ID 33번 기술 데이터 검증 ###" << std::endl;
-        std::cout << "한글 이름: " << tackleData.name_kr << " (예상: 몸통박치기)" << std::endl;
-        std::cout << "영어 식별자: " << tackleData.identifier << " (예상: tackle)" << std::endl;
-        std::cout << "위력: " << tackleData.power << " (예상: 40)" << std::endl;
-        std::cout << "PP: " << tackleData.pp << " (예상: 35)" << std::endl;
-        std::cout << "부가 효과 ID: " << tackleData.effect_id << " (예상: NONE)" << std::endl;
-        std::cout << "접촉 기술 여부: " << (tackleData.is_contact ? "예" : "아니오") << " (예상: 예)" << std::endl;
-
-        std::cout << "\n-------------------------------------\n" << std::endl;
-
-        // 4. ID 45번 '울음소리' 데이터 가져오기
-        const MoveData& growlData = DataManager::GetInstance().GetMoveData(45);
-
-        std::cout << "### ID 45번 기술 데이터 검증 ###" << std::endl;
-        std::cout << "한글 이름: " << growlData.name_kr << " (예상: 울음소리)" << std::endl;
-        std::cout << "분류: " << (growlData.category == MoveCategory::STATUS ? "변화" : "??") << " (예상: 변화)" << std::endl;
-        std::cout << "부가 효과 ID: " << growlData.effect_id << " (예상: STAT_LOWER_ATTACK_1)" << std::endl;
-        std::cout << "소리 기술 여부: " << (growlData.is_sound ? "예" : "아니오") << " (예상: 예)" << std::endl;
-
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "[실패] 기술 데이터를 가져오는 중 오류 발생: " << e.what() << std::endl;
+    if (!file.is_open()) {
+        std::cerr << "파일을 열 수 없습니다: " << filePath << std::endl;
+        return 1;
     }
 
-    std::cout << "\n--- 테스트 종료 ---" << std::endl;
+    std::string line;
+    int lineNumber = 0;
+    int expectedColumnCount = 31;
+
+    std::getline(file, line); // 헤더 줄은 검사에서 제외
+    lineNumber++;
+
+    while (std::getline(file, line)) {
+        lineNumber++;
+        if (line.empty() || line[0] == '\r') continue;
+
+        // 새로운 파서 함수로 라인을 필드 벡터로 변환
+        std::vector<std::string> fields = parseCsvLine(line);
+
+        if (fields.size() != expectedColumnCount) {
+            std::cout << "[오류] " << lineNumber << "번 줄: 컬럼 개수가 " << expectedColumnCount << "개여야 하는데, " << fields.size() << "개입니다." << std::endl;
+
+            // 분할된 모든 필드를 상세히 출력
+            std::cout << "    --- 분할된 필드 목록 ---" << std::endl;
+            for (size_t i = 0; i < fields.size(); ++i) {
+                std::cout << "    필드 " << i + 1 << ": [" << fields[i] << "]" << std::endl;
+            }
+            std::cout << "    --------------------------" << std::endl;
+        }
+    }
+
+    file.close();
+    std::cout << "\n--- 검증 완료 ---" << std::endl;
+    std::cout << "위에 [오류] 메시지가 없다면, 모든 라인이 정상적으로 분리되었습니다." << std::endl;
+
     return 0;
 }

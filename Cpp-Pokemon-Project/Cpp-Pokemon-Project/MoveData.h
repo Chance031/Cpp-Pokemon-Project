@@ -22,21 +22,19 @@ struct MoveData
 	MoveTarget target = MoveTarget::SELECTED_TARGET;
 
 	// 3. 부가 효과
-	std::string effect_id = "NONE";
+	int effect_id = 0; // move_effects.csv의 ID 참조
 	int effect_chance = 0;
 
 	// 4. 상세 설명
 	std::string description_kr = "";
 	std::string description_en = "";
 
-	// 5. 전투 상호작용 플래그
+	// 5. 모든 전투 플래그
 	bool has_high_crit_rate = false;
 	bool is_contact = false;
 	bool is_protectable = false;
 	bool is_reflectable = false;
 	bool defrosts_user = false;
-
-	// 6. 기술 특성 플래그
 	bool is_punch = false;
 	bool is_biting = false;
 	bool is_slicing = false;
@@ -44,4 +42,8 @@ struct MoveData
 	bool is_powder = false;
 	bool is_bullet = false;
 	bool is_wind = false;
+	bool is_snatchable = false;
+	bool is_affected_by_gravity = false;
+	bool is_copyable = false;
+	bool is_callable_by_metronome = false;
 };
