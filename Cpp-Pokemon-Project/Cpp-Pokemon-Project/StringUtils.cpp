@@ -131,14 +131,14 @@ namespace StringUtils
             {"DAMAGE", EffectCategory::DAMAGE},
 
             {"MULTI_HIT", EffectCategory::MULTI_HIT},
-        {"CHARGE_TURN", EffectCategory::CHARGE_TURN},
-        {"TWO_TURN_ATTACK", EffectCategory::TWO_TURN_ATTACK},
-        {"RECHARGE_TURN", EffectCategory::RECHARGE_TURN},
-        {"RECOIL", EffectCategory::RECOIL},
-        {"DRAIN", EffectCategory::DRAIN},
-        {"INSTANT_EFFECT", EffectCategory::INSTANT_EFFECT},
-        {"FIXED_DAMAGE", EffectCategory::FIXED_DAMAGE},
-        {"POST_BATTLE", EffectCategory::POST_BATTLE}
+            {"CHARGE_TURN", EffectCategory::CHARGE_TURN},
+            {"TWO_TURN_ATTACK", EffectCategory::TWO_TURN_ATTACK},
+            {"RECHARGE_TURN", EffectCategory::RECHARGE_TURN},
+            {"RECOIL", EffectCategory::RECOIL},
+            {"DRAIN", EffectCategory::DRAIN},
+            {"INSTANT_EFFECT", EffectCategory::INSTANT_EFFECT},
+            {"FIXED_DAMAGE", EffectCategory::FIXED_DAMAGE},
+            {"POST_BATTLE", EffectCategory::POST_BATTLE}
         };
         auto it = map.find(str);
         if (it == map.end()) {
