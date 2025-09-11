@@ -20,13 +20,13 @@ public:
 	const float GetTypeMatchup(Type attackingType, Type defendingType) const;
 
 private:
+	// 외부에서 생성 방지
+	DataManager() = default;
+
 	// 비공개(private) 함수 '선언'
 	void LoadPokemonSpecies(const std::string& filePath);
 	void LoadMoves(const std::string& filePath);
 	void LoadTypeMatchups(const std::string& filePath);
-
-	// 외부에서 생성 방지
-	DataManager() = default;
 
 	// 로드된 데이터를 저장할 데이터 베이스
 	std::map<int, PokemonSpecies> speciesDatabase_;

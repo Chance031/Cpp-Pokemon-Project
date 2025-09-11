@@ -1,71 +1,55 @@
 ﻿#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <string>
-#include <vector>
-
-// CSV 한 줄을 받아 따옴표를 고려하여 필드 벡터로 분리하는 최종 파서 함수
-std::vector<std::string> parseCsvLine(const std::string& line) {
-    std::vector<std::string> result;
-    std::string field;
-    bool in_quotes = false;
-
-    for (char c : line) {
-        if (c == '"') {
-            in_quotes = !in_quotes;
-        }
-        else if (c == ',' && !in_quotes) {
-            result.push_back(field);
-            field.clear();
-        }
-        else {
-            field += c;
-        }
-    }
-    result.push_back(field); // 마지막 필드 추가
-    return result;
-}
+#include "DataManager.h"
+#include "PokemonData.h"
+#include "Enums.h"
 
 int main()
 {
-    std::cout << "--- moves.csv 파일 데이터 검증 시작 ---" << std::endl;
-    std::string filePath = "./data/moves.csv";
-    std::ifstream file(filePath);
+    std::cout << "--- 최종 데이터 로딩 검증 ---" << std::endl;
 
-    if (!file.is_open()) {
-        std::cerr << "파일을 열 수 없습니다: " << filePath << std::endl;
-        return 1;
+    // 1. 모든 데이터 로드
+    DataManager::GetInstance().LoadAllData();
+    std::cout << "\n--- 검증 시작 ---\n" << std::endl;
+
+    bool all_tests_ok = true;
+
+    try
+    {
+        // 테스트 1: 포켓몬 데이터 검증
+        const PokemonSpecies& bulbasaur = DataManager::GetInstance().GetPokemonSpecies(1);
+        std::cout << "[포켓몬] ID 1번 이름: " << bulbasaur.name_kr << std::endl;
+        if (bulbasaur.name_kr != "이상해씨") all_tests_ok = false;
+
+        // [추가] 테스트 2: 기술 데이터 검증 (ID 1 - 막치기)
+        const MoveData& pound = DataManager::GetInstance().GetMoveData(1);
+        std::cout << "[기술] ID 1번 이름: " << pound.name_kr << " | 위력: " << pound.power << std::endl;
+        if (pound.name_kr != "막치기" || pound.power != 40) all_tests_ok = false;
+
+        // 테스트 3: 기술 데이터 검증 (ID 33 - 몸통박치기)
+        const MoveData& tackle = DataManager::GetInstance().GetMoveData(33);
+        std::cout << "[기술] ID 33번 이름: " << tackle.name_kr << " | 위력: " << tackle.power << std::endl;
+        if (tackle.name_kr != "몸통박치기" || tackle.power != 40) all_tests_ok = false;
+
+        // 테스트 4: 타입 상성 데이터 검증
+        float fireToGrass = DataManager::GetInstance().GetTypeMatchup(Type::FIRE, Type::GRASS);
+        std::cout << "[상성] 불꽃 -> 풀 배율: " << fireToGrass << " (예상: 2)" << std::endl;
+        if (fireToGrass != 2.0f) all_tests_ok = false;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "[실패] 데이터 조회 중 오류 발생: " << e.what() << std::endl;
+        all_tests_ok = false;
     }
 
-    std::string line;
-    int lineNumber = 0;
-    int expectedColumnCount = 31;
+    std::cout << "\n--- 검증 종료 ---\n" << std::endl;
 
-    std::getline(file, line); // 헤더 줄은 검사에서 제외
-    lineNumber++;
-
-    while (std::getline(file, line)) {
-        lineNumber++;
-        if (line.empty() || line[0] == '\r') continue;
-
-        // 새로운 파서 함수로 라인을 필드 벡터로 변환
-        std::vector<std::string> fields = parseCsvLine(line);
-
-        if (fields.size() != expectedColumnCount) {
-            std::cout << "[오류] " << lineNumber << "번 줄: 컬럼 개수가 " << expectedColumnCount << "개여야 하는데, " << fields.size() << "개입니다." << std::endl;
-
-            // 분할된 모든 필드를 상세히 출력
-            std::cout << "    --- 분할된 필드 목록 ---" << std::endl;
-            for (size_t i = 0; i < fields.size(); ++i) {
-                std::cout << "    필드 " << i + 1 << ": [" << fields[i] << "]" << std::endl;
-            }
-            std::cout << "    --------------------------" << std::endl;
-        }
+    if (all_tests_ok) {
+        std::cout << ">> 최종 결과: 모든 데이터가 성공적으로 로드 및 검증되었습니다! <<" << std::endl;
     }
-
-    file.close();
-    std::cout << "\n--- 검증 완료 ---" << std::endl;
-    std::cout << "위에 [오류] 메시지가 없다면, 모든 라인이 정상적으로 분리되었습니다." << std::endl;
+    else {
+        std::cout << ">> 최종 결과: 일부 데이터에 문제가 있습니다. <<" << std::endl;
+    }
 
     return 0;
 }
