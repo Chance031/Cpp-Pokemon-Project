@@ -19,6 +19,7 @@ void DataManager::LoadAllData()
     // 각 데이터 로딩 함수를 순서대로 호출
     LoadPokemonSpecies(basePath + "Pokemon_species.csv");
     LoadMoves(basePath + "moves.csv");
+    LoadMoveEffects(basePath + "move_effects.csv");
     LoadTypeMatchups(basePath + "type_matchups.csv");
 
     std::cout << "--- 모든 게임 데이터 로드 완료 ---" << std::endl;
@@ -32,6 +33,17 @@ const PokemonSpecies& DataManager::GetPokemonSpecies(int id) const
 const MoveData& DataManager::GetMoveData(int id) const
 {
     return moveDatabase_.at(id);
+}
+
+const MoveEffectData& DataManager::GetMoveEffectData(int id) const
+{
+    // effect_id가 0 (효과 없음) 이거나 맵에 없는 ID일 경우,
+    // 비어있는 기본 MoveEffectData 객체를 반환합니다.
+    if (id == 0 || moveEffectDatabase_.find(id) == moveEffectDatabase_.end()) {
+        static const MoveEffectData noneEffect; // static으로 선언하여 매번 생성되지 않도록 함
+        return noneEffect;
+    }
+    return moveEffectDatabase_.at(id);
 }
 
 const float DataManager::GetTypeMatchup(Type attackingType, Type defendingType) const
@@ -181,6 +193,50 @@ void DataManager::LoadMoves(const std::string& filePath)
     }
     file.close();
     std::cout << "Move data loaded. (" << moveDatabase_.size() << " entries)" << std::endl;
+}
+
+// [핵심] move_effects.csv를 읽고 파싱하는 함수
+void DataManager::LoadMoveEffects(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+    if (!file.is_open()) { /* ... 에러 처리 ... */ return; }
+
+    std::string line;
+    std::getline(file, line); // 헤더 라인은 건너뛰기
+
+    while (std::getline(file, line))
+    {
+        auto fields = StringUtils::parseCsvLine(line);
+        if (fields.size() < 8) continue;
+
+        MoveEffectData data;
+        data.id = std::stoi(fields[0]);
+        data.identifier = fields[1];
+        data.category = StringUtils::StringToEffectCategory(fields[4]);
+        data.target = StringUtils::StringToMoveTarget(fields[7]);
+
+        // 카테고리에 따라 다른 파싱 로직 수행
+        switch (data.category)
+        {
+        case EffectCategory::PRIMARY_STATUS:
+            data.primaryStatus = StringUtils::StringToStatusCondition(fields[5]);
+            break;
+        case EffectCategory::VOLATILE_STATUS:
+            data.volatileStatus = StringUtils::StringToVolatileStatus(fields[5]);
+            break;
+        case EffectCategory::STAT_CHANGE:
+        {
+            StatChange change;
+            change.stat = StringUtils::StringToStat(fields[5]);
+            if (!fields[6].empty()) change.stages = std::stoi(fields[6]);
+            data.statChanges.push_back(change);
+            break;
+        }
+        // (나중에 다른 카테고리들도 여기에 추가...)
+        }
+        moveEffectDatabase_[data.id] = data;
+    }
+    std::cout << "[데이터] 기술 효과 " << moveEffectDatabase_.size() << "개 로드 완료" << std::endl;
 }
 
 void DataManager::LoadTypeMatchups(const std::string& filePath)

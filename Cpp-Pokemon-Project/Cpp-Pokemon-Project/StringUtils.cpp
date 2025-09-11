@@ -1,6 +1,7 @@
 #include "StringUtils.h"
 
 #include <map>
+#include <iostream>
 #include <sstream>
 
 namespace StringUtils
@@ -115,6 +116,94 @@ namespace StringUtils
         };
         auto it = map.find(str);
         return (it != map.end()) ? it->second : MoveTarget::SELECTED_TARGET;
+    }
+
+    EffectCategory StringToEffectCategory(const std::string& str)
+    {
+        static const std::map<std::string, EffectCategory> map = {
+            {"NONE", EffectCategory::NONE},
+            {"PRIMARY_STATUS", EffectCategory::PRIMARY_STATUS},
+            {"MULTI_STATUS", EffectCategory::MULTI_STATUS},
+            {"VOLATILE_STATUS", EffectCategory::VOLATILE_STATUS},
+            {"STAT_CHANGE", EffectCategory::STAT_CHANGE},
+            {"MULTI_STAT_CHANGE", EffectCategory::MULTI_STAT_CHANGE},
+            {"HEAL", EffectCategory::HEAL},
+            {"DAMAGE", EffectCategory::DAMAGE},
+
+            {"MULTI_HIT", EffectCategory::MULTI_HIT},
+        {"CHARGE_TURN", EffectCategory::CHARGE_TURN},
+        {"TWO_TURN_ATTACK", EffectCategory::TWO_TURN_ATTACK},
+        {"RECHARGE_TURN", EffectCategory::RECHARGE_TURN},
+        {"RECOIL", EffectCategory::RECOIL},
+        {"DRAIN", EffectCategory::DRAIN},
+        {"INSTANT_EFFECT", EffectCategory::INSTANT_EFFECT},
+        {"FIXED_DAMAGE", EffectCategory::FIXED_DAMAGE},
+        {"POST_BATTLE", EffectCategory::POST_BATTLE}
+        };
+        auto it = map.find(str);
+        if (it == map.end()) {
+            std::cout << "[StringUtils 경고] 알 수 없는 EffectCategory: '" << str << "'\n";
+            return EffectCategory::NONE;
+        }
+        return it->second;
+    }
+
+    Stat StringToStat(const std::string& str)
+    {
+        static const std::map<std::string, Stat> map = {
+            {"HP", Stat::HP},
+            {"ATTACK", Stat::ATTACK},
+            {"DEFENSE", Stat::DEFENSE},
+            {"SPECIAL_ATTACK", Stat::SPECIAL_ATTACK},
+            {"SPECIAL_DEFENSE", Stat::SPECIAL_DEFENSE},
+            {"SPEED", Stat::SPEED},
+            {"ACCURACY", Stat::ACCURACY},
+            {"EVASION", Stat::EVASION}
+        };
+        auto it = map.find(str);
+        if (it == map.end()) {
+            std::cout << "[StringUtils 경고] 알 수 없는 Stat: '" << str << "'\n";
+            // 기본값으로 ATTACK을 반환하거나, 에러 처리를 할 수 있습니다.
+            return Stat::ATTACK;
+        }
+        return it->second;
+    }
+
+    StatusCondition StringToStatusCondition(const std::string& str)
+    {
+        static const std::map<std::string, StatusCondition> map = {
+            {"NONE", StatusCondition::NONE},
+            {"POISON", StatusCondition::POISON},
+            {"TOXIC", StatusCondition::TOXIC},
+            {"BURN", StatusCondition::BURN},
+            {"PARALYSIS", StatusCondition::PARALYSIS},
+            {"SLEEP", StatusCondition::SLEEP},
+            {"FREEZE", StatusCondition::FREEZE}
+        };
+        auto it = map.find(str);
+        if (it == map.end()) {
+            std::cout << "[StringUtils 경고] 알 수 없는 StatusCondition: '" << str << "'\n";
+            return StatusCondition::NONE;
+        }
+        return it->second;
+    }
+
+    // [핵심] "param_1" 컬럼 번역기 (휘발성 상태이상용)
+    VolatileStatus StringToVolatileStatus(const std::string& str)
+    {
+        static const std::map<std::string, VolatileStatus> map = {
+            {"NONE", VolatileStatus::NONE},
+            {"CONFUSION", VolatileStatus::CONFUSION},
+            {"FLINCH", VolatileStatus::FLINCH},
+            {"LEECH_SEED", VolatileStatus::LEECH_SEED},
+            {"TRAPPED", VolatileStatus::TRAPPED}
+        };
+        auto it = map.find(str);
+        if (it == map.end()) {
+            std::cout << "[StringUtils 경고] 알 수 없는 VolatileStatus: '" << str << "'\n";
+            return VolatileStatus::NONE;
+        }
+        return it->second;
     }
 
     std::pair<Stat, Stat> StringUtils::GetNatureStatMods(Nature nature)

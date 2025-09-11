@@ -6,6 +6,7 @@
 
 #include "PokemonData.h"
 #include "MoveData.h"
+#include "Enums.h"
 
 class DataManager
 {
@@ -19,6 +20,7 @@ public:
 	// ID를 통해 원형 데이터를 가져오는 함수들
 	const PokemonSpecies& GetPokemonSpecies(int id) const;
 	const MoveData& GetMoveData(int id) const;
+	const MoveEffectData& GetMoveEffectData(int id) const;
 	const float GetTypeMatchup(Type attackingType, Type defendingType) const;
 
 private:
@@ -28,10 +30,12 @@ private:
 	// 비공개(private) 함수 '선언'
 	void LoadPokemonSpecies(const std::string& filePath);
 	void LoadMoves(const std::string& filePath);
+	void LoadMoveEffects(const std::string& filePath); // << 새로 추가!
 	void LoadTypeMatchups(const std::string& filePath);
 
 	// 로드된 데이터를 저장할 데이터 베이스
 	std::map<int, PokemonSpecies> speciesDatabase_;
 	std::map<int, MoveData> moveDatabase_;
+	std::map<int, MoveEffectData> moveEffectDatabase_;
 	std::map<Type, std::map<Type, float>> typeMatchups_;
 };

@@ -177,6 +177,10 @@ enum class Terrain
     PSYCHIC             // 사이코필드
 };
 
+// =================================================================
+// 기술 효과 관련 (Move Effect-related)
+// =================================================================
+
 // 기술 효과의 카테고리
 enum class EffectCategory
 {
@@ -187,12 +191,18 @@ enum class EffectCategory
     STAT_CHANGE,        // 단일 스탯 랭크 변화
     MULTI_STAT_CHANGE,  // 복수 스탯 랭크 변화
     HEAL,               // 회복
-    DAMAGE              // 데미지 (고정 데미지, HP 비례 등)
-};
+    DAMAGE,             // 데미지 (고정 데미지, HP 비례 등)
 
-// =================================================================
-// 기술 효과 관련 (Move Effect-related)
-// =================================================================
+    MULTI_HIT,          // 연속 공격
+    CHARGE_TURN,        // 1턴 모으기
+    TWO_TURN_ATTACK,    // 2턴 공격 (공중날기 등)
+    RECHARGE_TURN,      // 사용 후 1턴 휴식 (파괴광선)
+    RECOIL,             // 반동 데미지
+    DRAIN,              // HP 흡수
+    INSTANT_EFFECT,     // 일격필살 등 즉시 발동 효과
+    FIXED_DAMAGE,       // 고정 데미지
+    POST_BATTLE         // 배틀 종료 후 효과 (고양이돈받기)
+};
 
 // 스탯 랭크 변화 정보를 담는 구조체
 struct StatChange
