@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 // =================================================================
 // 포켓몬 핵심 속성 (Core Pokemon Attributes)
 // =================================================================
@@ -36,7 +39,9 @@ enum class Stat
     DEFENSE,            // B
     SPECIAL_ATTACK,     // C
     SPECIAL_DEFENSE,    // D
-    SPEED               // S
+    SPEED,              // S
+    ACCURACY,           // 명중률
+    EVASION             // 회피율
 };
 
 // 포켓몬의 성격
@@ -84,11 +89,14 @@ enum class MoveCategory
 // 기술의 대상 범위
 enum class MoveTarget 
 {
-    SELF,               // 사용자 자신
-    SELECTED_TARGET,    // 인접한 대상 1체 (적 또는 아군)
-    ALL_ADJACENT_FOES,  // 인접한 모든 적
-    ALL_ALLIES,         // 아군 전체 (사용자 포함)
-    ALL_ADJACENT        // 인접한 모든 포켓몬 (사용자 제외, 아군 포함)
+    SELECTED_TARGET,        // 선택한 1체 (적 또는 아군)
+    SELF,                   // 자기 자신
+    ALLY,                   // 아군 1체
+    RANDOM_TARGET,          // 랜덤한 상대 1체
+    ALL_ADJACENT_FOES,      // 인접한 모든 적
+    ALL_ADJACENT_POKEMON,   // 인접한 모든 포켓몬
+    FIELD,                  // 필드 전체
+    SPECIAL                 // 특수 케이스
 };
 
 // 기술의 특수 행동 방식
@@ -167,4 +175,43 @@ enum class Terrain
     GRASSY,             // 그래스필드
     MISTY,              // 미스트필드
     PSYCHIC             // 사이코필드
+};
+
+// 기술 효과의 카테고리
+enum class EffectCategory
+{
+    NONE,
+    PRIMARY_STATUS,     // 화상, 마비 등 주요 상태이상
+    MULTI_STATUS,       // 여러 상태이상 중 하나를 검 (트라이어택)
+    VOLATILE_STATUS,    // 혼란, 풀죽음 등 휘발성 상태
+    STAT_CHANGE,        // 단일 스탯 랭크 변화
+    MULTI_STAT_CHANGE,  // 복수 스탯 랭크 변화
+    HEAL,               // 회복
+    DAMAGE              // 데미지 (고정 데미지, HP 비례 등)
+};
+
+// =================================================================
+// 기술 효과 관련 (Move Effect-related)
+// =================================================================
+
+// 스탯 랭크 변화 정보를 담는 구조체
+struct StatChange
+{
+    Stat stat;      // 대상 스탯 (예: ATTACK)
+    int stages;     // 변화량 (예: +1, -2)
+};
+
+// move_effects.csv의 한 줄을 파싱하여 저장할 최종 구조체
+struct MoveEffectData
+{
+    int id = 0;
+    std::string identifier = "";
+    EffectCategory category = EffectCategory::NONE;
+    MoveTarget target = MoveTarget::SELECTED_TARGET;
+
+    // 카테고리에 따라 파싱될 데이터
+    StatusCondition primaryStatus = StatusCondition::NONE;
+    VolatileStatus volatileStatus = VolatileStatus::NONE;
+    std::vector<StatusCondition> multiStatusOptions{};
+    std::vector<StatChange> statChanges{};
 };

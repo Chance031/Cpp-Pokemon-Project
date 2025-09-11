@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <vector>
+#include <string>
 
 #include "PokemonData.h"
 #include "MoveData.h"

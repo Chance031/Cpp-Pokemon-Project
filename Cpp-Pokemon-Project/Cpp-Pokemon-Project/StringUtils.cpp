@@ -102,12 +102,16 @@ namespace StringUtils
 
     MoveTarget StringUtils::StringToMoveTarget(const std::string& str)
     {
-        static const std::map<std::string, MoveTarget> map = {
-            {"SELF", MoveTarget::SELF},
-            {"SELECTED_TARGET", MoveTarget::SELECTED_TARGET},
-            {"ALL_ADJACENT_FOES", MoveTarget::ALL_ADJACENT_FOES},
-            {"ALL_ALLIES", MoveTarget::ALL_ALLIES},
-            {"ALL_ADJACENT", MoveTarget::ALL_ADJACENT}
+        static const std::map<std::string, MoveTarget> map =
+        {
+            {"SELECTED_TARGET",        MoveTarget::SELECTED_TARGET},
+            {"SELF",                   MoveTarget::SELF},
+            {"ALLY",                   MoveTarget::ALLY},
+            {"RANDOM_TARGET",          MoveTarget::RANDOM_TARGET},
+            {"ALL_ADJACENT_FOES",      MoveTarget::ALL_ADJACENT_FOES},
+            {"ALL_ADJACENT_POKEMON",   MoveTarget::ALL_ADJACENT_POKEMON},
+            {"FIELD",                  MoveTarget::FIELD},
+            {"SPECIAL",                MoveTarget::SPECIAL}
         };
         auto it = map.find(str);
         return (it != map.end()) ? it->second : MoveTarget::SELECTED_TARGET;
