@@ -20,6 +20,13 @@ struct LevelUpResult
 	std::vector<int> newMoveIds;	// 해당 레벨업으로 배우게 된 기술 ID 목록
 };
 
+// --- 노력치(EV) 데이터를 담을 구조체 ---
+struct EVYield
+{
+	Stat stat = Stat::HP;
+	int amount = 0;
+};
+
 // =================================================================
 // 포켓몬 '종족'의 불변 데이터 (CSV에서 로드)
 // =================================================================
@@ -52,9 +59,12 @@ struct PokemonSpecies
 	std::string ability2 = "NONE";							// 특성2
 	std::string hidden_ability = "NONE";					// 숨겨진 특성
 
-	// --- 기타 정보 ---
+	// --- 성장 관련 데이터 ---
 	ExpGroup exp_group = ExpGroup::MEDIUM_FAST;				// 경험치 그룹
 	int catch_rate = 0;										// 포획률
+	int base_exp_yield = 0;									// 기초 경험치
+	std::vector<EVYield> ev_yields{};						// 쓰려뜨렸을 때 주는 노력치 목록
+	int base_friendship = 0;								// 기초 친밀도
 
 	// --- 도감 정보 ---
 	std::string category_en = "";							// 분류(en)

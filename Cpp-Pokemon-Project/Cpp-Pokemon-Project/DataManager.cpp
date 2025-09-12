@@ -107,12 +107,34 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
             species.exp_group = StringUtils::StringToExpGroup(fields[20]);
             species.catch_rate = std::stoi(fields[21]);
 
-            species.category_en = fields[22];
-            species.category_kr = fields[23];
-            species.height_m = std::stof(fields[24]);
-            species.weight_kg = std::stof(fields[25]);
-            species.pokedex_entry_en = fields[26];
-            species.pokedex_entry_kr = fields[27];
+            species.base_exp_yield = fields[22].empty() ? 0 : std::stoi(fields[22]);
+            for (int i = 0; i < 3; ++i)
+            {
+                // ev_yield_stat_1 은 23번, stat_2는 25번, stat_3는 27번 필드에 해당합니다.
+                int stat_index = 23 + (i * 2);
+                // ev_yield_amount_1 은 24번, amount_2는 26번, amount_3는 28번 필드에 해당합니다.
+                int amount_index = 24 + (i * 2);
+
+                // stat 이름이 "NONE"이 아니고 비어있지 않다면, 유효한 노력치 데이터로 간주합니다.
+                if (!fields[stat_index].empty() && fields[stat_index] != "NONE")
+                {
+                    EVYield yield;
+                    yield.stat = StringUtils::StringToStat(fields[stat_index]); // 문자열을 Stat enum으로 변환
+                    yield.amount = std::stoi(fields[amount_index]);             // 문자열을 정수로 변환
+
+                    // 완성된 EVYield 구조체를 species의 ev_yields 벡터에 추가합니다.
+                    species.ev_yields.push_back(yield);
+                }
+            }
+
+            species.base_friendship = fields[29].empty() ? 0 : std::stoi(fields[29]);
+
+            species.category_en = fields[30];
+            species.category_kr = fields[31];
+            species.height_m = std::stof(fields[32]);
+            species.weight_kg = std::stof(fields[33]);
+            species.pokedex_entry_en = fields[34];
+            species.pokedex_entry_kr = fields[35];
 
             speciesDatabase_[species.id] = species;
         }
