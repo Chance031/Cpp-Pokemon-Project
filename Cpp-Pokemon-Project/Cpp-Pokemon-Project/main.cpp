@@ -1,128 +1,128 @@
-﻿#include <iostream> // 콘솔 입출력을 위해
-#include <string>   // std::string 사용을 위해
-#include <vector>   // std::vector 사용을 위해
+﻿#include <iostream>
+#include <string>
+#include <vector>
+#include <numeric> // std::accumulate를 위해 추가
 
-// 우리가 만든 헤더 파일들
 #include "DataManager.h"
 #include "PokemonData.h"
-#include "MoveData.h"
 #include "Enums.h"
+#include "StringUtils.h"
+
+// Stat enum을 문자열로 바꿔주는 헬퍼 함수 (출력용)
+std::string StatToString(Stat stat) {
+    static const std::map<Stat, std::string> statMap = {
+        {Stat::HP, "HP"}, {Stat::ATTACK, "ATTACK"}, {Stat::DEFENSE, "DEFENSE"},
+        {Stat::SPECIAL_ATTACK, "SPECIAL_ATTACK"}, {Stat::SPECIAL_DEFENSE, "SPECIAL_DEFENSE"},
+        {Stat::SPEED, "SPEED"}
+    };
+    auto it = statMap.find(stat);
+    return (it != statMap.end()) ? it->second : "NONE";
+}
+
+/**
+ * @brief 단일 포켓몬 종족 데이터의 유효성을 검사하는 함수
+ * @param species 검사할 포켓몬 종족 데이터
+ * @return 유효하면 true, 아니면 false
+ */
+bool ValidatePokemonSpecies(const PokemonSpecies& species)
+{
+    std::vector<std::string> errors;
+
+    // 1. 기본 정보 검사
+    if (species.name_kr.empty()) errors.push_back("한글 이름이 비어있습니다.");
+    if (species.id <= 0 || species.id > 151) errors.push_back("ID가 유효 범위를 벗어났습니다.");
+
+    // 2. 능력치 검사 (모든 스탯이 0보다 커야 함)
+    if (species.baseStats.size() != 6) errors.push_back("기초 능력치 개수가 6개가 아닙니다.");
+    for (const auto& pair : species.baseStats) {
+        if (pair.second <= 0) {
+            errors.push_back(StatToString(pair.first) + " 능력치가 0 이하입니다.");
+        }
+    }
+
+    // 3. 타입 검사
+    if (species.type1 == Type::NONE) errors.push_back("타입1이 NONE으로 설정되어 있습니다.");
+
+    // 4. 진화 정보 검사
+    if (species.evolutionLevel > 0 && species.evolutionTargetId <= 0) {
+        errors.push_back("진화 레벨은 있으나, 진화 대상 ID가 없습니다.");
+    }
+    // 이브이(133)는 예외 케이스로 진화 ID가 0이어야 함
+    if (species.id == 133 && species.evolutionTargetId != 0) {
+        errors.push_back("이브이의 evolutionTargetId는 0이어야 합니다 (특수 진화).");
+    }
+
+    // 5. 성장 데이터 검사
+    if (species.catch_rate <= 0) errors.push_back("포획률이 0 이하입니다.");
+    if (species.base_exp_yield <= 0) errors.push_back("기초 경험치가 0 이하입니다.");
+    if (species.ev_yields.empty()) {
+        errors.push_back("노력치(EV) 정보가 비어있습니다.");
+    }
+    else {
+        int total_evs = 0;
+        for (const auto& ev : species.ev_yields) {
+            total_evs += ev.amount;
+        }
+        if (total_evs <= 0) errors.push_back("노력치(EV) 총량이 0 이하입니다.");
+    }
+
+    // 오류가 발견된 경우, 상세 내용을 출력
+    if (!errors.empty()) {
+        std::cout << "----------------------------------------\n";
+        std::cout << "[오류] ID " << species.id << " - " << species.name_kr << " 데이터 검증 실패:\n";
+        for (const auto& error : errors) {
+            std::cout << "  - " << error << "\n";
+        }
+        return false;
+    }
+
+    return true;
+}
 
 int main()
 {
-    // C++의 입출력 속도를 높여주는 설정 (선택 사항)
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
-
-    std::cout << "--- 포켓몬 파이어레드 모작: 데이터 로딩 검증 시스템 ---" << std::endl;
-
-    // 1. 모든 게임 데이터를 로드합니다.
-    // 이 한 줄만으로 모든 CSV 파일이 파싱되어 메모리에 올라갑니다.
-    try
-    {
+    // 1. 모든 데이터 로드
+    try {
         DataManager::GetInstance().LoadAllData();
     }
-    catch (const std::exception& e)
-    {
+    catch (const std::exception& e) {
         std::cerr << "[치명적 오류] 데이터 로딩 중 예외 발생: " << e.what() << std::endl;
-        return 1; // 오류가 발생했으므로 프로그램 비정상 종료
+        return 1;
     }
 
-    std::cout << "\n--- 모든 데이터 검증 시작 ---\n" << std::endl;
+    std::cout << "\n--- pokemon_species.csv 전체(1-151) 데이터 자동 검증 시작 ---\n" << std::endl;
 
-    // 모든 테스트가 성공했는지 추적하는 깃발
-    bool all_tests_passed = true;
+    int passed_count = 0;
+    const int total_pokemon = 151;
 
-    // 2. try-catch 블록으로 안전하게 데이터를 검증합니다.
-    // 만약 데이터베이스에 없는 ID를 요청하면 프로그램이 죽지 않고 에러를 잡아냅니다.
-    try
+    // 2. 1번부터 151번까지 모든 포켓몬을 순회하며 검증
+    for (int i = 1; i <= total_pokemon; ++i)
     {
-        // =================================================================
-        // 테스트 1: 포켓몬 종족 데이터 (pokemon_species.csv)
-        // =================================================================
-        std::cout << "--- 1. 포켓몬 종족 데이터 검증 ---" << std::endl;
-        const PokemonSpecies& bulbasaur = DataManager::GetInstance().GetPokemonSpecies(1);
-        std::cout << "[검증] ID 1번 포켓몬: " << bulbasaur.name_kr;
-        if (bulbasaur.name_kr == "이상해씨") {
-            std::cout << " (OK)" << std::endl;
+        try {
+            const PokemonSpecies& species = DataManager::GetInstance().GetPokemonSpecies(i);
+            if (ValidatePokemonSpecies(species)) {
+                passed_count++;
+            }
         }
-        else {
-            std::cout << " (FAIL)" << std::endl;
-            all_tests_passed = false;
-        }
-
-        // =================================================================
-        // 테스트 2: 기술 데이터 (moves.csv)
-        // =================================================================
-        std::cout << "\n--- 2. 기술 데이터 검증 ---" << std::endl;
-        const MoveData& tackle = DataManager::GetInstance().GetMoveData(33);
-        std::cout << "[검증] ID 33번 기술: " << tackle.name_kr << " | 위력: " << tackle.power;
-        if (tackle.name_kr == "몸통박치기" && tackle.power == 40) {
-            std::cout << " (OK)" << std::endl;
-        }
-        else {
-            std::cout << " (FAIL)" << std::endl;
-            all_tests_passed = false;
-        }
-
-        // =================================================================
-        // 테스트 3: 타입 상성 데이터 (type_matchups.csv)
-        // =================================================================
-        std::cout << "\n--- 3. 타입 상성 데이터 검증 ---" << std::endl;
-        float fire_vs_grass = DataManager::GetInstance().GetTypeMatchup(Type::FIRE, Type::GRASS);
-        std::cout << "[검증] 불꽃 -> 풀 타입 상성 배율: " << fire_vs_grass;
-        if (fire_vs_grass == 2.0f) {
-            std::cout << " (OK)" << std::endl;
-        }
-        else {
-            std::cout << " (FAIL)" << std::endl;
-            all_tests_passed = false;
-        }
-
-        // =================================================================
-        // 테스트 4: 기술 효과 데이터 (move_effects.csv) - ★핵심 검증★
-        // =================================================================
-        std::cout << "\n--- 4. 기술 효과 데이터 검증 ---" << std::endl;
-
-        // 검증 4-1: 화상 효과 (ID: 1, Category: PRIMARY_STATUS)
-        const MoveEffectData& burnEffect = DataManager::GetInstance().GetMoveEffectData(1);
-        std::cout << "[검증] ID 1번 효과 (" << burnEffect.identifier << "): ";
-        if (burnEffect.category == EffectCategory::PRIMARY_STATUS && burnEffect.primaryStatus == StatusCondition::BURN) {
-            std::cout << "정상적으로 '화상' 효과가 로드되었습니다. (OK)" << std::endl;
-        }
-        else {
-            std::cout << "데이터 파싱 실패! (FAIL)" << std::endl;
-            all_tests_passed = false;
-        }
-
-        // 검증 4-2: 공격 1랭크 하락 (ID: 101, Category: STAT_CHANGE)
-        const MoveEffectData& lowerAtkEffect = DataManager::GetInstance().GetMoveEffectData(101);
-        std::cout << "[검증] ID 101번 효과 (" << lowerAtkEffect.identifier << "): ";
-        if (lowerAtkEffect.category == EffectCategory::STAT_CHANGE &&
-            !lowerAtkEffect.statChanges.empty() &&
-            lowerAtkEffect.statChanges[0].stat == Stat::ATTACK &&
-            lowerAtkEffect.statChanges[0].stages == -1) {
-            std::cout << "정상적으로 '공격 -1' 효과가 로드되었습니다. (OK)" << std::endl;
-        }
-        else {
-            std::cout << "데이터 파싱 실패! (FAIL)" << std::endl;
-            all_tests_passed = false;
+        catch (const std::out_of_range& e) {
+            std::cout << "----------------------------------------\n";
+            std::cout << "[치명적 오류] ID " << i << "번 포켓몬 데이터를 찾을 수 없습니다.\n";
         }
     }
-    catch (const std::exception& e)
-    {
-        std::cerr << "\n[검증 오류] 테스트 중 데이터를 찾을 수 없습니다: " << e.what() << std::endl;
-        all_tests_passed = false;
-    }
 
-    // 3. 최종 결과를 출력합니다.
-    std::cout << "\n\n--- 최종 검증 결과 ---" << std::endl;
-    if (all_tests_passed) {
-        std::cout << "🎉 모든 데이터가 성공적으로 로드되고 검증되었습니다! 축하합니다!" << std::endl;
+    // 3. 최종 결과 요약
+    std::cout << "\n========================================\n";
+    std::cout << "          최종 검증 결과 요약\n";
+    std::cout << "========================================\n";
+    std::cout << "총 " << total_pokemon << "개의 포켓몬 중 " << passed_count << "개가 검증을 통과했습니다.\n";
+
+    if (passed_count == total_pokemon) {
+        std::cout << "🎉 축하합니다! 모든 포켓몬 데이터가 완벽합니다!" << std::endl;
     }
     else {
-        std::cout << "❌ 일부 데이터 검증에 실패했습니다. 위의 (FAIL) 로그를 확인해주세요." << std::endl;
+        std::cout << "❌ " << (total_pokemon - passed_count) << "개의 포켓몬에서 오류가 발견되었습니다. 위의 로그를 확인해주세요." << std::endl;
     }
+    std::cout << "========================================\n";
 
-    return 0; // 프로그램 정상 종료
+    return 0;
 }
