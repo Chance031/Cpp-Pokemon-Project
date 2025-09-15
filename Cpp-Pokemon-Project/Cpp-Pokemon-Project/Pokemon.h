@@ -26,6 +26,7 @@ public:
 	int GetMaxHP() const { return maxHp_; }
 	int GetStat(Stat stat) const;
 	const std::vector<Move>& GetMoveset() const;
+	std::vector<Move>& GetMovesetForModify() { return moveset_; }
 	const AbilityData* GetActiveAbility() const { return activeAbility_; }
 	Gender GetGender() const { return individual_.gender; }
 	StatusCondition GetPrimaryStatus() const { return individual_.primaryStatus; }

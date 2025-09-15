@@ -5,9 +5,10 @@
 #include <string>
 
 #include "AbilityData.h"
-#include "PokemonData.h"
-#include "MoveData.h"
 #include "Enums.h"
+#include "MoveData.h"
+#include "MoveEffectData.h"
+#include "PokemonData.h"
 
 class DataManager
 {

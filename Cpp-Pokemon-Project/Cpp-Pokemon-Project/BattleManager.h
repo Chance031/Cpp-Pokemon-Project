@@ -4,6 +4,8 @@
 
 #include "Pokemon.h"
 
+class Move;
+
 class BattleManager
 {
 public:
@@ -15,6 +17,7 @@ public:
 private:
 	void PlayIntroSequence();
 	void ShowMainMenu();
+	Move* SelectMove();
 
 	std::vector<Pokemon>& playerParty_;
 	std::vector<Pokemon>& opponentParty_;

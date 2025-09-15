@@ -2,7 +2,7 @@
 #include <vector>
 #include "DataManager.h"
 #include "Pokemon.h"
-#include "BattleManager.h" // <<< BattleManager.h 포함
+#include "BattleManager.h" // BattleManager.h 포함
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
     const PokemonSpecies& bulbasaurSpecies = DataManager::GetInstance().GetPokemonSpecies(1);
     PokemonIndividual bulbasaurIndividual;
     bulbasaurIndividual.level = 5;
-    // ... (IV/EV 초기화 코드) ...
+    // IV/EV 초기화
     bulbasaurIndividual.ivs[Stat::HP] = 31; bulbasaurIndividual.evs[Stat::HP] = 0;
     bulbasaurIndividual.ivs[Stat::ATTACK] = 31; bulbasaurIndividual.evs[Stat::ATTACK] = 0;
     bulbasaurIndividual.ivs[Stat::DEFENSE] = 31; bulbasaurIndividual.evs[Stat::DEFENSE] = 0;
@@ -23,13 +23,17 @@ int main()
     bulbasaurIndividual.ivs[Stat::SPEED] = 31; bulbasaurIndividual.evs[Stat::SPEED] = 0;
 
     Pokemon bulbasaur(bulbasaurSpecies, bulbasaurIndividual);
+    // TODO: 이상해씨에게 기술을 가르쳐야 합니다. (아래 LearnMove 참고)
+    bulbasaur.LearnMove(DataManager::GetInstance().GetMoveData(33)); // 몸통박치기
+    bulbasaur.LearnMove(DataManager::GetInstance().GetMoveData(45)); // 울음소리
     std::vector<Pokemon> playerParty = { bulbasaur };
+
 
     // 3. 야생 포켓몬 파티 생성 (파이리)
     const PokemonSpecies& charmanderSpecies = DataManager::GetInstance().GetPokemonSpecies(4);
     PokemonIndividual charmanderIndividual;
     charmanderIndividual.level = 5;
-    // ... (IV/EV 초기화 코드) ...
+    // IV/EV 초기화
     charmanderIndividual.ivs[Stat::HP] = 31; charmanderIndividual.evs[Stat::HP] = 0;
     charmanderIndividual.ivs[Stat::ATTACK] = 31; charmanderIndividual.evs[Stat::ATTACK] = 0;
     charmanderIndividual.ivs[Stat::DEFENSE] = 31; charmanderIndividual.evs[Stat::DEFENSE] = 0;

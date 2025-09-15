@@ -134,9 +134,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbilityData.h" />
+    <ClInclude Include="BattleAction.h" />
     <ClInclude Include="BattleManager.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="MoveData.h" />
+    <ClInclude Include="MoveEffectData.h" />
     <ClInclude Include="Pokemon.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="PokemonData.h" />
