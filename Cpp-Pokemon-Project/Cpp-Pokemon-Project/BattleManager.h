@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "BattleAction.h"
 #include "Pokemon.h"
 
 class Move;
@@ -17,7 +18,14 @@ public:
 private:
 	void PlayIntroSequence();
 	void ShowMainMenu();
-	Move* SelectMove();
+
+	BattleAction SelectPlayerAction();
+	BattleAction SelectOpponentAction();
+	const Move* SelectMove();
+
+	void ProcessTurn(const BattleAction& playerAction, const BattleAction& opponentAction);
+	void ExecuteMove(Pokemon* attacker, Pokemon* target, const Move* move);
+	bool IsBattleOver();
 
 	std::vector<Pokemon>& playerParty_;
 	std::vector<Pokemon>& opponentParty_;

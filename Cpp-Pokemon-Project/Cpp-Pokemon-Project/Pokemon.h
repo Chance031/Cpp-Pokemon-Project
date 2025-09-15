@@ -30,6 +30,8 @@ public:
 	const AbilityData* GetActiveAbility() const { return activeAbility_; }
 	Gender GetGender() const { return individual_.gender; }
 	StatusCondition GetPrimaryStatus() const { return individual_.primaryStatus; }
+	Type GetType1() const { return species_->type1; }
+	Type GetType2() const { return species_->type2; }
 
 	// --- 상태 확인 (Checkers) ---
 	bool IsFainted() const { return currentHp_ <= 0; }

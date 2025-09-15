@@ -2,11 +2,11 @@
 #include <vector>
 #include "DataManager.h"
 #include "Pokemon.h"
-#include "BattleManager.h" // BattleManager.h 포함
+#include "BattleManager.h"
 
 int main()
 {
-    // 1. 데이터 로드
+    // 1. 모든 게임 데이터를 로드합니다.
     DataManager::GetInstance().LoadAllData();
     std::cout << std::endl;
 
@@ -23,7 +23,6 @@ int main()
     bulbasaurIndividual.ivs[Stat::SPEED] = 31; bulbasaurIndividual.evs[Stat::SPEED] = 0;
 
     Pokemon bulbasaur(bulbasaurSpecies, bulbasaurIndividual);
-    // TODO: 이상해씨에게 기술을 가르쳐야 합니다. (아래 LearnMove 참고)
     bulbasaur.LearnMove(DataManager::GetInstance().GetMoveData(33)); // 몸통박치기
     bulbasaur.LearnMove(DataManager::GetInstance().GetMoveData(45)); // 울음소리
     std::vector<Pokemon> playerParty = { bulbasaur };
@@ -34,14 +33,12 @@ int main()
     PokemonIndividual charmanderIndividual;
     charmanderIndividual.level = 5;
     // IV/EV 초기화
-    charmanderIndividual.ivs[Stat::HP] = 31; charmanderIndividual.evs[Stat::HP] = 0;
-    charmanderIndividual.ivs[Stat::ATTACK] = 31; charmanderIndividual.evs[Stat::ATTACK] = 0;
-    charmanderIndividual.ivs[Stat::DEFENSE] = 31; charmanderIndividual.evs[Stat::DEFENSE] = 0;
-    charmanderIndividual.ivs[Stat::SPECIAL_ATTACK] = 31; charmanderIndividual.evs[Stat::SPECIAL_ATTACK] = 0;
-    charmanderIndividual.ivs[Stat::SPECIAL_DEFENSE] = 31; charmanderIndividual.evs[Stat::SPECIAL_DEFENSE] = 0;
-    charmanderIndividual.ivs[Stat::SPEED] = 31; charmanderIndividual.evs[Stat::SPEED] = 0;
+    charmanderIndividual.ivs = bulbasaurIndividual.ivs;
+    charmanderIndividual.evs = bulbasaurIndividual.evs;
 
     Pokemon charmander(charmanderSpecies, charmanderIndividual);
+    charmander.LearnMove(DataManager::GetInstance().GetMoveData(10)); // 할퀴기
+    charmander.LearnMove(DataManager::GetInstance().GetMoveData(45)); // 울음소리
     std::vector<Pokemon> wildParty = { charmander };
 
     // 4. 전투 관리자 생성 및 전투 시작!
