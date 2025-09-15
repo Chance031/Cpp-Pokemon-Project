@@ -6,11 +6,9 @@ class Move
 {
 public:
 	// 생성자
-	// explicit 키워드는 불필요한 암시적 형변환을 막아줍니다.
 	explicit Move(const MoveData& data);
 
 	// Getter 함수
-	// MoveData에 있는 불변 정보들을 그대로 외부에 전달하는 역할만 합니다.
 	int GetId() const { return data_.id; }
 	const std::string& GetName() const { return data_.name_kr; }
 	Type GetType() const { return data_.type; }
@@ -22,7 +20,6 @@ public:
 	bool IsContactMove() const { return data_.is_contact; }
 
     // --- 인스턴스 상태 관련 함수 ---
-    // 이 Move 객체만이 가지는 고유한 상태(currentPp)를 다룹니다.
     int GetCurrentPp() const { return currentPp_; }
     bool IsUsable() const { return currentPp_ > 0; }
 

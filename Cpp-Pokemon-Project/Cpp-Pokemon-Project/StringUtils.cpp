@@ -34,7 +34,7 @@ namespace StringUtils
 
     Type StringUtils::StringToType(const std::string& str)
     {
-        // static: 이 맵은 프로그램 시작 시 단 한 번만 생성됩니다.
+        // static: 이 맵은 프로그램 시작 시 단 한 번만 생성
         static const std::map<std::string, Type> stringToTypeMap = 
         {
             {"NORMAL", Type::NORMAL},
@@ -163,7 +163,7 @@ namespace StringUtils
         auto it = map.find(str);
         if (it == map.end()) {
             std::cout << "[StringUtils 경고] 알 수 없는 Stat: '" << str << "'\n";
-            // 기본값으로 ATTACK을 반환하거나, 에러 처리를 할 수 있습니다.
+            // 기본값으로 ATTACK을 반환하거나, 에러 처리를 할 수 있음
             return Stat::ATTACK;
         }
         return it->second;
@@ -204,6 +204,111 @@ namespace StringUtils
             return VolatileStatus::NONE;
         }
         return it->second;
+    }
+
+    AbilityTrigger StringToAbilityTrigger(const std::string& str)
+    {
+        static const std::map<std::string, AbilityTrigger> map = {
+            // --- 지속 효과 ---
+            {"PASSIVE", AbilityTrigger::PASSIVE},
+            // --- 등장 / 퇴장 시 ---
+            {"ON_SWITCH_IN", AbilityTrigger::ON_SWITCH_IN},
+            {"ON_SWITCH_OUT", AbilityTrigger::ON_SWITCH_OUT},
+            // --- 턴 기반 ---
+            {"ON_END_TURN", AbilityTrigger::ON_END_TURN},
+            // --- 피격 / 공격 시 ---
+            {"ON_CONTACT", AbilityTrigger::ON_CONTACT},
+            {"ON_HIT_BY_MOVE", AbilityTrigger::ON_HIT_BY_MOVE},
+            {"ON_HIT_BY_TYPE", AbilityTrigger::ON_HIT_BY_TYPE},
+            {"ON_HIT_PHYSICAL", AbilityTrigger::ON_HIT_PHYSICAL},
+            {"ON_CRITICAL_HIT", AbilityTrigger::ON_CRITICAL_HIT},
+            {"ON_MOVE_TARGET", AbilityTrigger::ON_MOVE_TARGET},
+            // --- 행동 시 ---
+            {"ON_MOVE_USE", AbilityTrigger::ON_MOVE_USE},
+            {"ON_MOVE_LAST", AbilityTrigger::ON_MOVE_LAST},
+            // --- 상태 변화 시 ---
+            {"ON_STATUS", AbilityTrigger::ON_STATUS},
+            {"ON_STAT_LOWERED", AbilityTrigger::ON_STAT_LOWERED},
+            {"ON_FOE_STAT_UP", AbilityTrigger::ON_FOE_STAT_UP},
+            {"ON_FLINCH", AbilityTrigger::ON_FLINCH},
+            {"ON_INTIMIDATED", AbilityTrigger::ON_INTIMIDATED},
+            // --- HP 변화 시 ---
+            {"ON_LOW_HP", AbilityTrigger::ON_LOW_HP},
+            // --- 기절(Faint) 관련 ---
+            {"ON_KO", AbilityTrigger::ON_KO},
+            {"ON_FAINT", AbilityTrigger::ON_FAINT},
+            {"ON_FAINT_CONTACT", AbilityTrigger::ON_FAINT_CONTACT},
+            {"ON_ANY_FAINT", AbilityTrigger::ON_ANY_FAINT},
+            {"ON_ALLY_FAINT", AbilityTrigger::ON_ALLY_FAINT},
+            // --- 필드 / 날씨 / 아이템 관련 ---
+            {"ON_WEATHER", AbilityTrigger::ON_WEATHER},
+            {"ON_TERRAIN", AbilityTrigger::ON_TERRAIN},
+            {"ON_TERRAIN_CHANGE", AbilityTrigger::ON_TERRAIN_CHANGE},
+            {"ON_BERRY_EAT", AbilityTrigger::ON_BERRY_EAT},
+            {"ON_ALLY_ITEM_USE", AbilityTrigger::ON_ALLY_ITEM_USE},
+            {"ON_OTHER_MOVE_USE", AbilityTrigger::ON_OTHER_MOVE_USE},
+            {"ON_END_BATTLE", AbilityTrigger::ON_END_BATTLE},
+            // --- 특수 조건 ---
+            {"SPECIAL_LOGIC", AbilityTrigger::SPECIAL_LOGIC}
+        };
+        auto it = map.find(str);
+        return (it != map.end()) ? it->second : AbilityTrigger::SPECIAL_LOGIC;
+    }
+
+    AbilityCategory StringToAbilityCategory(const std::string& str)
+    {
+        static const std::map<std::string, AbilityCategory> map = {
+            // --- 능력치(Stat) 관련 ---
+            {"STAT_CHANGE", AbilityCategory::STAT_CHANGE},
+            {"STAT_MODIFIER", AbilityCategory::STAT_MODIFIER},
+            {"STAT_MODIFIER_STATUS", AbilityCategory::STAT_MODIFIER_STATUS},
+            {"STAT_MODIFIER_IMMUNITY", AbilityCategory::STAT_MODIFIER_IMMUNITY},
+            {"REVERSE_STAT_CHANGES", AbilityCategory::REVERSE_STAT_CHANGES},
+            // --- 데미지 계산 관련 ---
+            {"DAMAGE_MODIFIER", AbilityCategory::DAMAGE_MODIFIER},
+            {"DAMAGE_MODIFIER_TYPE", AbilityCategory::DAMAGE_MODIFIER_TYPE},
+            {"DAMAGE_IMMUNITY", AbilityCategory::DAMAGE_IMMUNITY},
+            {"DAMAGE", AbilityCategory::DAMAGE},
+            // --- 상태이상(Status) 관련 ---
+            {"PRIMARY_STATUS", AbilityCategory::PRIMARY_STATUS},
+            {"MULTI_STATUS", AbilityCategory::MULTI_STATUS},
+            {"VOLATILE_STATUS", AbilityCategory::VOLATILE_STATUS},
+            {"STATUS_IMMUNITY", AbilityCategory::STATUS_IMMUNITY},
+            {"STATUS_HEAL", AbilityCategory::STATUS_HEAL},
+            {"STATUS_TRANSFER", AbilityCategory::STATUS_TRANSFER},
+            // --- 기술(Move) 관련 ---
+            {"MOVE_IMMUNITY", AbilityCategory::MOVE_IMMUNITY},
+            {"MOVE_MODIFIER", AbilityCategory::MOVE_MODIFIER},
+            {"EFFECT_CHANCE_MOD", AbilityCategory::EFFECT_CHANCE_MOD},
+            {"PP_USAGE_MODIFIER", AbilityCategory::PP_USAGE_MODIFIER},
+            {"ACCURACY_MODIFIER", AbilityCategory::ACCURACY_MODIFIER},
+            {"PRIORITY_MODIFIER", AbilityCategory::PRIORITY_MODIFIER},
+            {"CRITICAL_HIT_MODIFIER", AbilityCategory::CRITICAL_HIT_MODIFIER},
+            // --- 타입(Type) 관련 ---
+            {"TYPE_CHANGE", AbilityCategory::TYPE_CHANGE},
+            {"TYPE_IMMUNITY", AbilityCategory::TYPE_IMMUNITY},
+            {"TYPE_EFFECTIVENESS", AbilityCategory::TYPE_EFFECTIVENESS},
+            // --- 필드(Field) 관련 ---
+            {"WEATHER_CHANGE", AbilityCategory::WEATHER_CHANGE},
+            {"TERRAIN_CHANGE", AbilityCategory::TERRAIN_CHANGE},
+            {"FIELD_EFFECT_NEGATE", AbilityCategory::FIELD_EFFECT_NEGATE},
+            // --- 흡수/회복 관련 ---
+            {"HEAL", AbilityCategory::HEAL},
+            {"ABSORB_BOOST", AbilityCategory::ABSORB_BOOST},
+            {"REDIRECT_BOOST", AbilityCategory::REDIRECT_BOOST},
+            // --- 기타 효과 ---
+            {"EFFECT_IMMUNITY", AbilityCategory::EFFECT_IMMUNITY},
+            {"SURVIVE_LETHAL", AbilityCategory::SURVIVE_LETHAL},
+            {"TRAP", AbilityCategory::TRAP},
+            {"ITEM_ACTION", AbilityCategory::ITEM_ACTION},
+            {"BATTLE_ACTION", AbilityCategory::BATTLE_ACTION},
+            {"TRANSFORM", AbilityCategory::TRANSFORM},
+            {"WEIGHT_MODIFIER", AbilityCategory::WEIGHT_MODIFIER},
+            // --- 특수 조건 ---
+            {"SPECIAL_LOGIC", AbilityCategory::SPECIAL_LOGIC}
+        };
+        auto it = map.find(str);
+        return (it != map.end()) ? it->second : AbilityCategory::SPECIAL_LOGIC;
     }
 
     std::pair<Stat, Stat> StringUtils::GetNatureStatMods(Nature nature)

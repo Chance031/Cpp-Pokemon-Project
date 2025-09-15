@@ -1,8 +1,8 @@
 #include "DataManager.h"
 
 #include <fstream>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 #include "StringUtils.h"
 
@@ -21,6 +21,7 @@ void DataManager::LoadAllData()
     LoadMoves(basePath + "moves.csv");
     LoadMoveEffects(basePath + "move_effects.csv");
     LoadTypeMatchups(basePath + "type_matchups.csv");
+    LoadAbilities(basePath + "abilities.csv");
 
     std::cout << "--- 모든 게임 데이터 로드 완료 ---" << std::endl;
 }
@@ -37,8 +38,7 @@ const MoveData& DataManager::GetMoveData(int id) const
 
 const MoveEffectData& DataManager::GetMoveEffectData(int id) const
 {
-    // effect_id가 0 (효과 없음) 이거나 맵에 없는 ID일 경우,
-    // 비어있는 기본 MoveEffectData 객체를 반환합니다.
+    // effect_id가 0 (효과 없음) 이거나 맵에 없는 ID일 경우, 비어있는 기본 MoveEffectData 객체를 반환
     if (id == 0 || moveEffectDatabase_.find(id) == moveEffectDatabase_.end()) {
         static const MoveEffectData noneEffect; // static으로 선언하여 매번 생성되지 않도록 함
         return noneEffect;
@@ -51,7 +51,20 @@ const float DataManager::GetTypeMatchup(Type attackingType, Type defendingType) 
     return typeMatchups_.at(attackingType).at(defendingType);
 }
 
-// --- 비공개(private) 로딩 함수 구현 ---
+const AbilityData& DataManager::GetAbilityData(int id) const
+{
+    if (abilityDatabase_.find(id) == abilityDatabase_.end()) {
+        // ID를 찾지 못한 경우, 비어있는 static 객체를 반환하여 안전하게 처리
+        static const AbilityData noneAbility;
+        return noneAbility;
+    }
+    return abilityDatabase_.at(id);
+}
+
+// =================================================================
+// 비공개(private) 로딩 함수 구현
+// =================================================================
+
 void DataManager::LoadPokemonSpecies(const std::string& filePath)
 {
     std::ifstream file(filePath);
@@ -100,9 +113,9 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
             species.egg_group_2 = fields[15];
             species.hatch_counter = fields[16].empty() ? 0 : std::stoi(fields[16]);
 
-            species.ability1 = fields[17];
-            species.ability2 = fields[18];
-            species.hidden_ability = fields[19];
+            species.ability1 = fields[17].empty() ? 0 : std::stoi(fields[17]);
+            species.ability2 = fields[18].empty() ? 0 : std::stoi(fields[18]);
+            species.hidden_ability = fields[19].empty() ? 0 : std::stoi(fields[19]);
 
             species.exp_group = StringUtils::StringToExpGroup(fields[20]);
             species.catch_rate = std::stoi(fields[21]);
@@ -110,19 +123,19 @@ void DataManager::LoadPokemonSpecies(const std::string& filePath)
             species.base_exp_yield = fields[22].empty() ? 0 : std::stoi(fields[22]);
             for (int i = 0; i < 3; ++i)
             {
-                // ev_yield_stat_1 은 23번, stat_2는 25번, stat_3는 27번 필드에 해당합니다.
+                // ev_yield_stat_1 은 23번, stat_2는 25번, stat_3는 27번 필드에 해당
                 int stat_index = 23 + (i * 2);
-                // ev_yield_amount_1 은 24번, amount_2는 26번, amount_3는 28번 필드에 해당합니다.
+                // ev_yield_amount_1 은 24번, amount_2는 26번, amount_3는 28번 필드에 해당
                 int amount_index = 24 + (i * 2);
 
-                // stat 이름이 "NONE"이 아니고 비어있지 않다면, 유효한 노력치 데이터로 간주합니다.
+                // stat 이름이 "NONE"이 아니고 비어있지 않다면, 유효한 노력치 데이터로 간주
                 if (!fields[stat_index].empty() && fields[stat_index] != "NONE")
                 {
                     EVYield yield;
                     yield.stat = StringUtils::StringToStat(fields[stat_index]); // 문자열을 Stat enum으로 변환
                     yield.amount = std::stoi(fields[amount_index]);             // 문자열을 정수로 변환
 
-                    // 완성된 EVYield 구조체를 species의 ev_yields 벡터에 추가합니다.
+                    // 완성된 EVYield 구조체를 species의 ev_yields 벡터에 추가
                     species.ev_yields.push_back(yield);
                 }
             }
@@ -204,7 +217,6 @@ void DataManager::LoadMoves(const std::string& filePath)
             move.is_powder = (std::stoi(fields[24]) == 1);
             move.is_bullet = (std::stoi(fields[25]) == 1);
             move.is_wind = (std::stoi(fields[26]) == 1);
-            // CSV 파일에 정의된 나머지 플래그들도 같은 방식으로 추가합니다.
 
             moveDatabase_[move.id] = move;
         }
@@ -217,55 +229,68 @@ void DataManager::LoadMoves(const std::string& filePath)
     std::cout << "Move data loaded. (" << moveDatabase_.size() << " entries)" << std::endl;
 }
 
-// [핵심] move_effects.csv를 읽고 파싱하는 함수
 void DataManager::LoadMoveEffects(const std::string& filePath)
 {
     std::ifstream file(filePath);
-    if (!file.is_open()) { /* ... 에러 처리 ... */ return; }
+    if (!file.is_open())
+    {
+        std::cerr << "CRITICAL ERROR: " << filePath << " 파일을 열 수 없습니다!" << std::endl;
+        return;
+    }
 
     std::string line;
     std::getline(file, line); // 헤더 라인은 건너뛰기
 
     while (std::getline(file, line))
     {
+        if (line.empty() || line.front() == '\r') continue;
+
         auto fields = StringUtils::parseCsvLine(line);
         if (fields.size() < 8) continue;
 
-        MoveEffectData data;
-        data.id = std::stoi(fields[0]);
-        data.identifier = fields[1];
-        data.category = StringUtils::StringToEffectCategory(fields[4]);
-        data.target = StringUtils::StringToMoveTarget(fields[7]);
+        try // <<< 1. try-catch 블록 추가
+        {
+            MoveEffectData data;
+            data.id = std::stoi(fields[0]);
+            data.identifier = fields[1];
+            data.category = StringUtils::StringToEffectCategory(fields[4]);
+            data.target = StringUtils::StringToMoveTarget(fields[7]);
 
-        // 카테고리에 따라 다른 파싱 로직 수행
-        switch (data.category)
-        {
-        case EffectCategory::PRIMARY_STATUS:
-            data.primaryStatus = StringUtils::StringToStatusCondition(fields[5]);
-            break;
-        case EffectCategory::VOLATILE_STATUS:
-            data.volatileStatus = StringUtils::StringToVolatileStatus(fields[5]);
-            break;
-        case EffectCategory::STAT_CHANGE:
-        {
-            StatChange change;
-            change.stat = StringUtils::StringToStat(fields[5]);
-            if (!fields[6].empty()) change.stages = std::stoi(fields[6]);
-            data.statChanges.push_back(change);
-            break;
+            // 카테고리에 따라 다른 파싱 로직 수행
+            switch (data.category)
+            {
+            case EffectCategory::PRIMARY_STATUS:
+                data.primaryStatus = StringUtils::StringToStatusCondition(fields[5]);
+                break;
+            case EffectCategory::VOLATILE_STATUS:
+                data.volatileStatus = StringUtils::StringToVolatileStatus(fields[5]);
+                break;
+            case EffectCategory::STAT_CHANGE:
+            {
+                StatChange change;
+                change.stat = StringUtils::StringToStat(fields[5]);
+                if (!fields[6].empty()) change.stages = std::stoi(fields[6]);
+                data.statChanges.push_back(change);
+                break;
+            }
+            // (나중에 다른 카테고리들도 여기에 추가...)
+            }
+            moveEffectDatabase_[data.id] = data;
         }
-        // (나중에 다른 카테고리들도 여기에 추가...)
+        catch (const std::exception& e) // <<< 2. 오류 처리 부분
+        {
+            std::cerr << "[PARSE ERROR] MoveEffect 데이터 변환 중 오류: " << line << " | " << e.what() << std::endl;
         }
-        moveEffectDatabase_[data.id] = data;
     }
-    std::cout << "[데이터] 기술 효과 " << moveEffectDatabase_.size() << "개 로드 완료" << std::endl;
+
+    file.close(); // <<< 3. 파일 닫기 추가
+    std::cout << "Move effect data load. (" << moveEffectDatabase_.size() << " entries)" << std::endl;
 }
 
 void DataManager::LoadTypeMatchups(const std::string& filePath)
 {
     std::ifstream file(filePath);
-    if (!file.is_open()) 
-    {
+    if (!file.is_open()) {
         std::cerr << "CRITICAL ERROR: " << filePath << " 파일을 열 수 없습니다!" << std::endl;
         return;
     }
@@ -274,15 +299,19 @@ void DataManager::LoadTypeMatchups(const std::string& filePath)
     std::getline(file, headerLine);
     if (headerLine.empty()) return;
 
-    std::stringstream ssHeader(headerLine);
-    std::string typeName;
     std::vector<Type> defendingTypes;
-
-    std::getline(ssHeader, typeName, ',');
-    while (std::getline(ssHeader, typeName, ',')) 
-    {
-        if (!typeName.empty() && typeName.back() == '\r') typeName.pop_back();
-        defendingTypes.push_back(StringUtils::StringToType(typeName));
+    try { // 헤더 파싱 중 오류가 발생할 수 있으므로 try-catch 추가
+        std::stringstream ssHeader(headerLine);
+        std::string typeName;
+        std::getline(ssHeader, typeName, ','); // 첫 번째 빈 컬럼 무시
+        while (std::getline(ssHeader, typeName, ',')) {
+            if (!typeName.empty() && typeName.back() == '\r') typeName.pop_back();
+            defendingTypes.push_back(StringUtils::StringToType(typeName));
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "[PARSE ERROR] Type Matchup 헤더 처리 중 오류: " << e.what() << std::endl;
+        return; // 헤더에 문제가 있으면 더 이상 진행할 수 없으므로 함수 종료
     }
 
     std::string line;
@@ -290,21 +319,69 @@ void DataManager::LoadTypeMatchups(const std::string& filePath)
     {
         if (line.empty() || line.front() == '\r') continue;
 
-        std::stringstream ss(line);
-        std::string attackingTypeName;
+        try { // <<< 데이터 한 줄마다 try-catch로 감싸기
+            std::stringstream ss(line);
+            std::string attackingTypeName;
+            std::getline(ss, attackingTypeName, ',');
+            Type attackingType = StringUtils::StringToType(attackingTypeName);
 
-        std::getline(ss, attackingTypeName, ',');
-        Type attackingType = StringUtils::StringToType(attackingTypeName);
-
-        std::string multiplierStr;
-        for (Type defendingType : defendingTypes) 
-        {
-            if (!std::getline(ss, multiplierStr, ',')) break;
-            float multiplier = std::stof(multiplierStr);
-            typeMatchups_[attackingType][defendingType] = multiplier;
+            std::string multiplierStr;
+            for (Type defendingType : defendingTypes) {
+                if (!std::getline(ss, multiplierStr, ',')) break;
+                float multiplier = std::stof(multiplierStr);
+                typeMatchups_[attackingType][defendingType] = multiplier;
+            }
+        }
+        catch (const std::exception& e) {
+            std::cerr << "[PARSE ERROR] Type Matchup 데이터 변환 중 오류: " << line << " | " << e.what() << std::endl;
         }
     }
 
     file.close();
-    std::cout << "Type matchup data loaded." << std::endl;
+    std::cout << "Type matchup data loaded. (" << typeMatchups_.size() << " entries)" << std::endl;
+}
+
+void DataManager::LoadAbilities(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        std::cerr << "CRITICAL ERROR: " << filePath << " 파일을 열 수 없습니다!" << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::getline(file, line); // 헤더 건너뛰기
+
+    while (std::getline(file, line)) {
+        if (line.empty() || line.front() == '\r') continue;
+
+        std::vector<std::string> fields = StringUtils::parseCsvLine(line);
+        if (fields.size() < 12) {
+            std::cerr << "[PARSE WARNING] Ability 컬럼 개수가 부족한 라인 발견: " << line << std::endl;
+            continue;
+        }
+
+        AbilityData ability;
+        try {
+            ability.id = std::stoi(fields[0]);
+            ability.name_en = fields[1];
+            ability.name_kr = fields[2];
+            ability.trigger = StringUtils::StringToAbilityTrigger(fields[3]);
+            ability.category = StringUtils::StringToAbilityCategory(fields[4]);
+            ability.param_type = fields[5];
+            ability.param_value = fields[6];
+            ability.secondary_param_type = fields[7];
+            ability.secondary_param_value = fields[8];
+            ability.target = StringUtils::StringToMoveTarget(fields[9]);
+            ability.description_en = fields[10];
+            ability.description_kr = fields[11];
+
+            abilityDatabase_[ability.id] = ability;
+        }
+        catch (const std::exception& e) {
+            std::cerr << "[PARSE ERROR] Ability 데이터 변환 중 오류: " << line << " | " << e.what() << std::endl;
+        }
+    }
+    file.close();
+    std::cout << "Ability data loaded. (" << abilityDatabase_.size() << " entries)" << std::endl;
 }

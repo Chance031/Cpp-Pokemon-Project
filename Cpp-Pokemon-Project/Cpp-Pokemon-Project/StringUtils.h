@@ -31,6 +31,11 @@ namespace StringUtils
     // [VolatileStatus] CSV의 "param_1" (휘발성 상태이상)을 변환
     VolatileStatus StringToVolatileStatus(const std::string& str);
 
+    // [Ability-related] 특성 CSV 변환 함수
+    AbilityTrigger StringToAbilityTrigger(const std::string& str);
+    AbilityCategory StringToAbilityCategory(const std::string& str);
+    
     // [Nature] 성격 관련 함수
     std::pair<Stat, Stat> GetNatureStatMods(Nature nature);
+
 }

@@ -1,12 +1,12 @@
 #include "Pokemon.h"
 
-#include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 #include "DataManager.h"
-#include "StringUtils.h"
 #include "Move.h"
+#include "StringUtils.h"
 
 // =================================================================
 // 생성자
@@ -232,6 +232,15 @@ int Pokemon::CalculateStatInternal(Stat stat, double natureMod) const
 void Pokemon::DetermineActiveAbility()
 {
 	// TODO: 숨겨진 특성, 일반 특성 2 등을 고려한 랜덤 로직 추가
-	// 현재는 테스트를 위해 첫 번째 특성으로 고정
-	activeAbility_ = species_->ability1;
+
+	// 1. 종족 데이터에서 특성 'ID'를 직접 가져옵니다.
+	int abilityId = species_->ability1;
+	if (abilityId == 0) // 특성이 없는 경우 (ID가 0일 경우)
+	{
+		activeAbility_ = &DataManager::GetInstance().GetAbilityData(0);
+		return;
+	}
+
+	// 2. DataManager를 통해 ID로 AbilityData를 찾아 포인터를 저장합니다.
+	activeAbility_ = &DataManager::GetInstance().GetAbilityData(abilityId);
 }

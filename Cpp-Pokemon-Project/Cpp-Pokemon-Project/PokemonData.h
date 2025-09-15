@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "Enums.h"
@@ -55,9 +55,9 @@ struct PokemonSpecies
 	int hatch_counter = 0;									// 부화 카운트
 
 	// --- 특성 ---
-	std::string ability1 = "NONE";							// 특성1
-	std::string ability2 = "NONE";							// 특성2
-	std::string hidden_ability = "NONE";					// 숨겨진 특성
+	int ability1 = 0;			// 특성1
+	int ability2 = 0;			// 특성2
+	int hidden_ability = 0;		// 숨겨진 특성
 
 	// --- 성장 관련 데이터 ---
 	ExpGroup exp_group = ExpGroup::MEDIUM_FAST;				// 경험치 그룹

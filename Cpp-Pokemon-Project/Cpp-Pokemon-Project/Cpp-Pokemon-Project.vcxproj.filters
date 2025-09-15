@@ -30,9 +30,6 @@
     <ClCompile Include="DataManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Ability.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="StringUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -47,9 +44,6 @@
     <ClInclude Include="DataManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Ability.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -57,6 +51,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MoveData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AbilityData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

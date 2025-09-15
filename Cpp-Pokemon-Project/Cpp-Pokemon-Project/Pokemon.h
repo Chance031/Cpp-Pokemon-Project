@@ -1,10 +1,11 @@
 #pragma once
 
-#include "PokemonData.h"
-#include "MoveData.h"
-
 #include <vector>
 #include <string>
+
+#include "AbilityData.h"
+#include "MoveData.h"
+#include "PokemonData.h"
 
 class Move;
 
@@ -25,7 +26,7 @@ public:
 	int GetMaxHP() const { return maxHp_; }
 	int GetStat(Stat stat) const;
 	const std::vector<Move>& GetMoveset() const;
-	const std::string& GetActiveAbility() const { return activeAbility_; }
+	const AbilityData* GetActiveAbility() const { return activeAbility_; }
 	Gender GetGender() const { return individual_.gender; }
 	StatusCondition GetPrimaryStatus() const { return individual_.primaryStatus; }
 
@@ -65,10 +66,10 @@ private:
 	PokemonIndividual individual_;
 
 	// 계산된 현재 상태 (Derived State)
-	int currentHp_ = 0;						// 현재 HP
-	int maxHp_ = 0;							// 최대 HP
-	std::map<Stat, int> finalStats_{};		// 실수치
-	std::vector<Move> moveset_{};			// 기술
-	std::string activeAbility_ = "NONE";	// 특성
+	int currentHp_ = 0;								// 현재 HP
+	int maxHp_ = 0;									// 최대 HP
+	std::map<Stat, int> finalStats_{};				// 실수치
+	std::vector<Move> moveset_{};					// 기술
+	const AbilityData* activeAbility_ = nullptr;	// 특성
 	// StatusCondition primaryStatus_;
 };
