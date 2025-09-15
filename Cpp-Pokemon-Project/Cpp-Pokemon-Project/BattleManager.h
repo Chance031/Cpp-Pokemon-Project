@@ -14,6 +14,7 @@ public:
 
 private:
 	void PlayIntroSequence();
+	void ShowMainMenu();
 
 	std::vector<Pokemon>& playerParty_;
 	std::vector<Pokemon>& opponentParty_;
