@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Enums.h" />
     <ClCompile Include="main.cpp" />
@@ -133,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbilityData.h" />
+    <ClInclude Include="BattleManager.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="Pokemon.h" />
