@@ -34,8 +34,8 @@ private:
 	std::pair<TurnAction, TurnAction> DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction);
 
 	// ¸â¹ö º¯¼ö
-	std::vector<Pokemon>& playerParty_;
-	std::vector<Pokemon>& opponentParty_;
+	std::vector<Pokemon> playerParty_;
+	std::vector<Pokemon> opponentParty_;
 	Pokemon* playerActivePokemon_ = nullptr;
 	Pokemon* opponentActivePokemon_ = nullptr;
 

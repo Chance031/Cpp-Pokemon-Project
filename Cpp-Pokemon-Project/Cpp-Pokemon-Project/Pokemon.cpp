@@ -15,9 +15,20 @@
 Pokemon::Pokemon(const PokemonSpecies& species, const PokemonIndividual& individual)
 	: species_(&species), individual_(individual)
 {
+	EnsureMapsAreInitialized();
+
 	DetermineActiveAbility();	// 포켓몬의 특성을 결정
 	RecalculateStats();			// 능력치 계산
 	currentHp_ = maxHp_;		// 현재 HP를 최대 HP와 동일하게 설정
+
+	// 모든 스탯 랭크를 0으로 초기화
+	statStages_[Stat::ATTACK] = 0;
+	statStages_[Stat::DEFENSE] = 0;
+	statStages_[Stat::SPECIAL_ATTACK] = 0;
+	statStages_[Stat::SPECIAL_DEFENSE] = 0;
+	statStages_[Stat::SPEED] = 0;
+	statStages_[Stat::ACCURACY] = 0;
+	statStages_[Stat::EVASION] = 0;
 }
 
 // =================================================================
@@ -141,6 +152,32 @@ void Pokemon::UseRareCandy()
 	}
 }
 
+void Pokemon::ApplyStatStageChange(Stat stat, int stages)
+{
+	// statStages_ 맵에 해당 스탯이 없으면 0으로 초기화
+	if (statStages_.find(stat) == statStages_.end())
+	{
+		statStages_[stat] = 0;
+	}
+
+	statStages_[stat] += stages;
+
+	// 능력치 랭크는 -6 ~ +6 사이를 벗어날 수 없음
+	if (statStages_[stat] > 6) statStages_[stat] = 6;
+	if (statStages_[stat] < -6) statStages_[stat] = -6;
+
+	// TODO: 여기에 "OO의 XX가 떨어졌다/올라갔다!" 메시지 출력 로직 추가 가능
+}
+
+int Pokemon::GetStatStage(Stat stat) const
+{
+	if (statStages_.find(stat) != statStages_.end())
+	{
+		return statStages_.at(stat);
+	}
+	return 0; // 변화가 없으면 0
+}
+
 // =================================================================
 // 성장 (Growth)
 // =================================================================
@@ -243,4 +280,19 @@ void Pokemon::DetermineActiveAbility()
 
 	// 2. DataManager를 통해 ID로 AbilityData를 찾아 포인터를 저장합니다.
 	activeAbility_ = &DataManager::GetInstance().GetAbilityData(abilityId);
+}
+
+void Pokemon::EnsureMapsAreInitialized()
+{
+	const std::vector<Stat> coreStats = {
+		Stat::HP, Stat::ATTACK, Stat::DEFENSE,
+		Stat::SPECIAL_ATTACK, Stat::SPECIAL_DEFENSE, Stat::SPEED
+	};
+
+	for (const auto& stat : coreStats)
+	{
+		// .try_emplace()는 해당 키가 없을 때만 값을 추가하는 편리한 C++17 기능입니다.
+		individual_.ivs.try_emplace(stat, 0);
+		individual_.evs.try_emplace(stat, 0);
+	}
 }

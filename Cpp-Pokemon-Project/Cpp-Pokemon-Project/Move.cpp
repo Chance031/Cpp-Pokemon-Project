@@ -4,7 +4,7 @@
 // 생성자
 Move::Move(const MoveData& data)
 // 멤버 변수 초기화
-	: data_(data),
+	: data_(&data),
 	currentPp_(data.pp),    // 현재 PP를 최대 PP로 초기화
 	maxPp_(data.pp),        // 현재 '최대 PP'도 기본 PP로 초기화
 	ppUpStages_(0)          // PP 강화 횟수는 0으로 시작

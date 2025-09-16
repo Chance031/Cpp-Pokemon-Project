@@ -4,6 +4,7 @@
 
 #include "DataManager.h"
 #include "Move.h"
+#include "StringUtils.h"
 
 // 생성자
 BattleManager::BattleManager(std::vector<Pokemon>& playerParty, std::vector<Pokemon>& opponentParty)
@@ -170,16 +171,15 @@ BattleAction BattleManager::SelectOpponentAction()
     action.type = PlayerActionType::FIGHT; // AI는 무조건 공격
 
     auto& moveset = opponentActivePokemon_->GetMovesetForModify();
-    if (moveset.empty()) 
+    if (moveset.empty())
     {
         action.move = nullptr;
         return action;
     }
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // 로컬 난수 엔진 대신 멤버 변수인 randomNumberEngine_을 사용합니다.
     std::uniform_int_distribution<> distrib(0, moveset.size() - 1);
-    int randomIndex = distrib(gen);
+    int randomIndex = distrib(randomNumberEngine_);
 
     action.move = &moveset[randomIndex];
     return action;
@@ -272,34 +272,97 @@ bool BattleManager::HandleMoveAccuracy(Pokemon* attacker, const Move* move)
 
 void BattleManager::ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move)
 {
-    // 앞으로 '울음소리' 등의 효과가 여기에 구현
-    if (move->GetCategory() == MoveCategory::STATUS) 
+    int effectId = move->GetEffectId();
+    if (effectId == 0)
     {
-        std::cout << "하지만 아무 일도 일어나지 않았다..." << std::endl;
+        // 부가 효과가 없는 STATUS 기술일 경우 메시지 출력
+        if (move->GetCategory() == MoveCategory::STATUS)
+        {
+            std::cout << "하지만 아무 일도 일어나지 않았다..." << std::endl;
+        }
+        return;
+    }
+
+    const MoveEffectData& effect = DataManager::GetInstance().GetMoveEffectData(effectId);
+
+    // TODO: effect_chance에 따른 확률 처리 로직 추가
+
+    switch (effect.category)
+    {
+    case EffectCategory::STAT_CHANGE:
+    {
+        for (const auto& change : effect.statChanges)
+        {
+            target->ApplyStatStageChange(change.stat, change.stages);
+
+            std::string statName = StringUtils::StatToKorean(change.stat);
+            if (change.stages < 0) {
+                std::cout << target->GetName() << "의 " << statName << "이(가) 떨어졌다!" << std::endl;
+            }
+            else {
+                std::cout << target->GetName() << "의 " << statName << "이(가) 올라갔다!" << std::endl;
+            }
+        }
+        break;
+    }
+
+    case EffectCategory::PRIMARY_STATUS:
+        // 나중에 '독가루' 같은 상태이상 기술을 여기에 구현합니다.
+        break;
+
+    default:
+        // STAT_CHANGE 외 다른 효과가 없는 STATUS 기술일 경우
+        if (move->GetCategory() == MoveCategory::STATUS)
+        {
+            std::cout << "하지만 아무 일도 일어나지 않았다..." << std::endl;
+        }
+        break;
     }
 }
 
 DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move)
 {
-    DamageResult result; // 반환할 결과 객체
+    DamageResult result;
 
     int attackerLevel = attacker->GetLevel();
     int movePower = move->GetPower();
-    int attackStat = (move->GetCategory() == MoveCategory::PHYSICAL) ? attacker->GetStat(Stat::ATTACK) : attacker->GetStat(Stat::SPECIAL_ATTACK);
-    int defenseStat = (move->GetCategory() == MoveCategory::PHYSICAL) ? target->GetStat(Stat::DEFENSE) : target->GetStat(Stat::SPECIAL_DEFENSE);
+    int attackStat, defenseStat;
+
+    auto getStageMultiplier = [](int stage) -> double {
+        if (stage > 0) return (2.0 + stage) / 2.0;
+        if (stage < 0) return 2.0 / (2.0 - stage);
+        return 1.0;
+        };
+
+    if (move->GetCategory() == MoveCategory::PHYSICAL) {
+        attackStat = attacker->GetStat(Stat::ATTACK);
+        defenseStat = target->GetStat(Stat::DEFENSE);
+
+        // 물리 기술일 때는 공격/방어 랭크만 적용
+        attackStat = static_cast<int>(attackStat * getStageMultiplier(attacker->GetStatStage(Stat::ATTACK)));
+        defenseStat = static_cast<int>(defenseStat * getStageMultiplier(target->GetStatStage(Stat::DEFENSE)));
+    }
+    else { // SPECIAL
+        attackStat = attacker->GetStat(Stat::SPECIAL_ATTACK);
+        defenseStat = target->GetStat(Stat::SPECIAL_DEFENSE);
+
+        // 특수 기술일 때는 특수공격/특수방어 랭크만 적용
+        attackStat = static_cast<int>(attackStat * getStageMultiplier(attacker->GetStatStage(Stat::SPECIAL_ATTACK)));
+        defenseStat = static_cast<int>(defenseStat * getStageMultiplier(target->GetStatStage(Stat::SPECIAL_DEFENSE)));
+    }
+
+    if (defenseStat == 0) defenseStat = 1;
 
     int damage = ((((attackerLevel * 2 / 5) + 2) * movePower * attackStat / defenseStat) / 50) + 2;
 
     double modifier = 1.0;
 
-    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2()) 
-    {
+    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2()) {
         modifier *= 1.5;
     }
 
     double typeMatchup = DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType1());
-    if (target->GetType2() != Type::NONE) 
-    {
+    if (target->GetType2() != Type::NONE) {
         typeMatchup *= DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType2());
     }
     result.typeEffectiveness = typeMatchup;
@@ -311,7 +374,7 @@ DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* 
     result.damageDealt = finalDamage;
     target->TakeDamage(result.damageDealt);
 
-    return result; // 결과 반환!
+    return result;
 }
 
 std::pair<TurnAction, TurnAction> BattleManager::DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction)

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "AbilityData.h"
 #include "MoveData.h"
@@ -46,6 +47,8 @@ public:
 	void AddVolatileStatus(VolatileStatus newStatus);
 	void ClearVolatileStatuses();
 	void UseRareCandy();
+	void ApplyStatStageChange(Stat stat, int stages);
+	int GetStatStage(Stat stat) const;
 
 	// --- 성장 (Growth) ---
 	void AddExp(int amount);
@@ -59,6 +62,7 @@ private:
 	void RecalculateStats();
 	int CalculateStatInternal(Stat stat, double natureMod) const;
 	void DetermineActiveAbility();
+	void EnsureMapsAreInitialized();
 
 	// --- 멤버 변수 ---
 
@@ -74,5 +78,6 @@ private:
 	std::map<Stat, int> finalStats_{};				// 실수치
 	std::vector<Move> moveset_{};					// 기술
 	const AbilityData* activeAbility_ = nullptr;	// 특성
+	std::map<Stat, int> statStages_{};				// 능력치 랭크 변화를 저장할 map
 	// StatusCondition primaryStatus_;
 };

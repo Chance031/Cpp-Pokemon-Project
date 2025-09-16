@@ -38,4 +38,6 @@ namespace StringUtils
     // [Nature] 성격 관련 함수
     std::pair<Stat, Stat> GetNatureStatMods(Nature nature);
 
+    // Stat을 한글 이름으로 변환하는 함수
+    std::string StatToKorean(Stat stat);
 }

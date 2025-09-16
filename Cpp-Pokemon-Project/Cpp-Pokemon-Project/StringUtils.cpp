@@ -344,4 +344,17 @@ namespace StringUtils
         default:              return { Stat::HP, Stat::HP }; // 오르고 내리는 스탯이 없음
         }
     }
+
+    std::string StatToKorean(Stat stat) {
+        switch (stat) {
+        case Stat::ATTACK: return "공격";
+        case Stat::DEFENSE: return "방어";
+        case Stat::SPECIAL_ATTACK: return "특수공격";
+        case Stat::SPECIAL_DEFENSE: return "특수방어";
+        case Stat::SPEED: return "스피드";
+        case Stat::ACCURACY: return "명중률";
+        case Stat::EVASION: return "회피율";
+        default: return "능력치";
+        }
+    }
 }
