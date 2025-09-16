@@ -27,17 +27,32 @@ void BattleManager::Start()
 
     PlayIntroSequence();
 
+    // while 루프를 아래 내용으로 교체하거나 수정해주세요.
     while (!IsBattleOver())
     {
         std::cout << "\n--- 새로운 턴 시작! ---" << std::endl;
-
         BattleAction playerAction = SelectPlayerAction();
-        if (playerAction.type == PlayerActionType::CANCEL) continue;
 
-        BattleAction opponentAction = SelectOpponentAction();
+        // 행동 타입에 따라 먼저 처리할 것들을 분기합니다.
+        if (playerAction.type == PlayerActionType::CANCEL)
+        {
+            continue; // 행동을 다시 선택합니다.
+        }
 
-        // 선택 결과 출력 대신 ProcessTurn 함수를 호출
-        ProcessTurn(playerAction, opponentAction);
+        if (playerAction.type == PlayerActionType::RUN)
+        {
+            // TODO: 나중에 여기에 스피드를 비교하여 도망 성공/실패 판정 로직 추가
+            break; // 전투 루프를 완전히 빠져나갑니다.
+        }
+
+        // '싸운다'를 선택했을 때만 상대 행동을 정하고 턴을 진행합니다.
+        if (playerAction.type == PlayerActionType::FIGHT)
+        {
+            BattleAction opponentAction = SelectOpponentAction();
+            ProcessTurn(playerAction, opponentAction);
+        }
+
+        // TODO: 나중에 '가방'이나 '포켓몬 교체' 같은 다른 행동들도 여기에 추가될 수 있습니다.
     }
 
     std::cout << "\n--- 전투 종료! ---" << std::endl;
