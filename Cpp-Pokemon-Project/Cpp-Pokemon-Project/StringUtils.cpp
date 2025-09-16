@@ -357,4 +357,17 @@ namespace StringUtils
         default: return "능력치";
         }
     }
+    std::string StatusConditionToKorean(StatusCondition status)
+    {
+        switch (status)
+        {
+        case StatusCondition::POISON: return "독";
+        case StatusCondition::TOXIC: return "맹독";
+        case StatusCondition::BURN: return "화상";
+        case StatusCondition::PARALYSIS: return "마비";
+        case StatusCondition::SLEEP: return "잠듦";
+        case StatusCondition::FREEZE: return "얼음";
+        default: return "";
+        }
+    }
 }

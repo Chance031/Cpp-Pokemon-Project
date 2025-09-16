@@ -17,6 +17,7 @@ public:
 	int GetAccuracy() const { return data_->accuracy; }
 	int GetMaxPp() const { return data_->pp; }
 	int GetEffectId() const { return data_->effect_id; }
+	int GetEffectChance() const { return data_->effect_chance; }
 	int GetPriority() const { return data_->priority; }
 	bool IsContactMove() const { return data_->is_contact; }
 

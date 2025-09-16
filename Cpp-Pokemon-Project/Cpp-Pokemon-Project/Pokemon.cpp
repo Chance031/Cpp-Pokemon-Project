@@ -62,6 +62,15 @@ const std::vector<Move>& Pokemon::GetMoveset() const
 	return moveset_;
 }
 
+int Pokemon::GetStatStage(Stat stat) const
+{
+	if (statStages_.find(stat) != statStages_.end())
+	{
+		return statStages_.at(stat);
+	}
+	return 0; // 변화가 없으면 0
+}
+
 // =================================================================
 // 상태 확인 (Checkers)
 // =================================================================
@@ -169,13 +178,16 @@ void Pokemon::ApplyStatStageChange(Stat stat, int stages)
 	// TODO: 여기에 "OO의 XX가 떨어졌다/올라갔다!" 메시지 출력 로직 추가 가능
 }
 
-int Pokemon::GetStatStage(Stat stat) const
+void Pokemon::ResetStatStages()
 {
-	if (statStages_.find(stat) != statStages_.end())
-	{
-		return statStages_.at(stat);
-	}
-	return 0; // 변화가 없으면 0
+	// 모든 스탯 랭크를 0으로 초기화
+	statStages_[Stat::ATTACK] = 0;
+	statStages_[Stat::DEFENSE] = 0;
+	statStages_[Stat::SPECIAL_ATTACK] = 0;
+	statStages_[Stat::SPECIAL_DEFENSE] = 0;
+	statStages_[Stat::SPEED] = 0;
+	statStages_[Stat::ACCURACY] = 0;
+	statStages_[Stat::EVASION] = 0;
 }
 
 // =================================================================

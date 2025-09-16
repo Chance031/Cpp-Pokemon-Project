@@ -27,12 +27,14 @@ public:
 	int GetMaxHP() const { return maxHp_; }
 	int GetStat(Stat stat) const;
 	const std::vector<Move>& GetMoveset() const;
+	const AbilityData* GetAbility() const { return activeAbility_; }
 	std::vector<Move>& GetMovesetForModify() { return moveset_; }
 	const AbilityData* GetActiveAbility() const { return activeAbility_; }
 	Gender GetGender() const { return individual_.gender; }
 	StatusCondition GetPrimaryStatus() const { return individual_.primaryStatus; }
 	Type GetType1() const { return species_->type1; }
 	Type GetType2() const { return species_->type2; }
+	int GetStatStage(Stat stat) const;
 
 	// --- 상태 확인 (Checkers) ---
 	bool IsFainted() const { return currentHp_ <= 0; }
@@ -48,7 +50,8 @@ public:
 	void ClearVolatileStatuses();
 	void UseRareCandy();
 	void ApplyStatStageChange(Stat stat, int stages);
-	int GetStatStage(Stat stat) const;
+	void ResetStatStages();
+
 
 	// --- 성장 (Growth) ---
 	void AddExp(int amount);

@@ -32,6 +32,10 @@ private:
 	void ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move);
 	DamageResult CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move);
 	std::pair<TurnAction, TurnAction> DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction);
+	void ProcessEndOfTurnEffects(Pokemon* pokemon);
+	void TriggerSwitchInAbilities(Pokemon* switchedInPokemon);
+	int SelectPokemonToSwitch(); // 교체할 포켓몬 선택 메뉴 (파티 인덱스 반환)
+	void ExecuteSwitch(Pokemon*& activePokemon, std::vector<Pokemon>& party, int newPokemonIndex);
 
 	// 멤버 변수
 	std::vector<Pokemon> playerParty_;

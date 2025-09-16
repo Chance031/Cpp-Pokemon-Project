@@ -19,7 +19,8 @@ enum class PlayerActionType
 struct BattleAction
 {
 	PlayerActionType type = PlayerActionType::CANCEL;
-	Move* move = nullptr; // const 제거!
+	Move* move = nullptr;
+	int switchPokemonIndex = -1; // 교체할 포켓몬의 파티 인덱스 (0부터 시작)
 };
 
 // 확정된 '턴 행동' 정보를 담는 구조체

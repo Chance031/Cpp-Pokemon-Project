@@ -40,4 +40,5 @@ namespace StringUtils
 
     // Stat을 한글 이름으로 변환하는 함수
     std::string StatToKorean(Stat stat);
+    std::string StatusConditionToKorean(StatusCondition status);
 }
