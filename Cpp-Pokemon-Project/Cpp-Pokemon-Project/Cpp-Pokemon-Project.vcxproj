@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbilityData.h" />
-    <ClInclude Include="BattleAction.h" />
+    <ClInclude Include="BattleTypes.h" />
     <ClInclude Include="BattleManager.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="MoveData.h" />

@@ -1,16 +1,17 @@
 #include "BattleManager.h"
 
 #include <iostream>
-#include <vector>
-#include <random>
 
 #include "DataManager.h"
 #include "Move.h"
 
+// 생성자
 BattleManager::BattleManager(std::vector<Pokemon>& playerParty, std::vector<Pokemon>& opponentParty)
 	: playerParty_(playerParty), opponentParty_(opponentParty)
 {
-
+    // 예측 불가능한 시드로 난수 엔진을 초기화
+    std::random_device rd;
+    randomNumberEngine_.seed(rd());
 }
 
 void BattleManager::Start()
@@ -35,7 +36,7 @@ void BattleManager::Start()
 
         BattleAction opponentAction = SelectOpponentAction();
 
-        // 선택 결과 출력 대신 ProcessTurn 함수를 호출합니다.
+        // 선택 결과 출력 대신 ProcessTurn 함수를 호출
         ProcessTurn(playerAction, opponentAction);
     }
 
@@ -57,11 +58,52 @@ void BattleManager::PlayIntroSequence()
     std::cout << "가라! " << playerActivePokemon_->GetName() << "!" << std::endl;
 }
 
-void BattleManager::ShowMainMenu()
+void BattleManager::ProcessTurn(const BattleAction& playerAction, const BattleAction& opponentAction)
 {
-    std::cout << "\n" << playerActivePokemon_->GetName() << "는(은)" << "\n무엇을 할까?" << std::endl;
-    std::cout << "1: 싸운다   2: 가방" << std::endl;
-    std::cout << "3: 포켓몬   4: 도망친다" << std::endl;
+    auto turnOrder = DetermineActionOrder(playerAction, opponentAction);
+    TurnAction& first = turnOrder.first;
+    TurnAction& second = turnOrder.second;
+
+    ExecuteAction(first.attacker, first.target, first.move);
+    if (first.target->IsFainted()) 
+    {
+        std::cout << first.target->GetName() << "은(는) 쓰러졌다!" << std::endl;
+        return;
+    }
+
+    ExecuteAction(second.attacker, second.target, second.move);
+    if (second.target->IsFainted()) 
+    {
+        std::cout << second.target->GetName() << "은(는) 쓰러졌다!" << std::endl;
+    }
+}
+
+bool BattleManager::IsBattleOver()
+{
+    // 플레이어 파티가 전멸했는지 확인
+    bool playerAllFainted = true;
+    for (const auto& pokemon : playerParty_)
+    {
+        if (!pokemon.IsFainted()) // 아직 쓰러지지 않은 포켓몬이 있다면
+        {
+            playerAllFainted = false; // 전멸이 아님
+            break;
+        }
+    }
+
+    // 상대 파티가 전멸했는지 확인
+    bool opponentAllFainted = true;
+    for (const auto& pokemon : opponentParty_)
+    {
+        if (!pokemon.IsFainted()) // 아직 쓰러지지 않은 포켓몬이 있다면
+        {
+            opponentAllFainted = false; // 전멸이 아님
+            break;
+        }
+    }
+
+    // 둘 중 한쪽이라도 전멸했다면 true를 반환하여 전투 종료
+    return playerAllFainted || opponentAllFainted;
 }
 
 BattleAction BattleManager::SelectPlayerAction()
@@ -79,7 +121,8 @@ BattleAction BattleManager::SelectPlayerAction()
         {
         case 1: // 싸운다
             action.move = SelectMove();
-            if (action.move != nullptr) { // 기술을 선택했다면
+            if (action.move != nullptr) 
+            { // 기술을 선택했다면
                 action.type = PlayerActionType::FIGHT;
                 return action;
             }
@@ -111,8 +154,9 @@ BattleAction BattleManager::SelectOpponentAction()
     BattleAction action;
     action.type = PlayerActionType::FIGHT; // AI는 무조건 공격
 
-    const auto& moveset = opponentActivePokemon_->GetMoveset();
-    if (moveset.empty()) {
+    auto& moveset = opponentActivePokemon_->GetMovesetForModify();
+    if (moveset.empty()) 
+    {
         action.move = nullptr;
         return action;
     }
@@ -126,227 +170,152 @@ BattleAction BattleManager::SelectOpponentAction()
     return action;
 }
 
-const Move* BattleManager::SelectMove()
+Move* BattleManager::SelectMove()
 {
-    const auto& moveset = playerActivePokemon_->GetMoveset();
-
+    auto& moveset = playerActivePokemon_->GetMovesetForModify();
     if (moveset.empty())
     {
         std::cout << "\n사용할 수 있는 기술이 없습니다!" << std::endl;
         return nullptr;
     }
-
     while (true)
     {
         std::cout << "어떤 기술을 사용할까?" << std::endl;
-
-        // 기술 목록을 번호와 함께 출력
         for (int i = 0; i < moveset.size(); ++i)
         {
             std::cout << i + 1 << ": " << moveset[i].GetName() << " (PP: " << moveset[i].GetCurrentPp() << "/" << moveset[i].GetMaxPp() << ")" << std::endl;
         }
         std::cout << moveset.size() + 1 << ": 뒤로가기" << std::endl;
         std::cout << "> ";
-
         int choice;
         std::cin >> choice;
-
         if (choice > 0 && choice <= moveset.size())
         {
-            // 기술을 올바르게 선택한 경우, 해당 기술의 주소(포인터)를 반환
-             // playerParty_는 std::vector<Pokemon>이므로, 포인터가 아닌 실제 객체입니다.
-             // 따라서 GetMoveset()으로 얻은 벡터의 요소 주소를 안전하게 반환할 수 있습니다.
-            return &playerParty_[0].GetMovesetForModify()[choice - 1];
+            // playerParty_[0] 대신 playerActivePokemon_ 사용
+            return &playerActivePokemon_->GetMovesetForModify()[choice - 1];
         }
-        else if (choice == moveset.size() + 1)
+        else if (choice == moveset.size() + 1) 
         {
-            return nullptr; // '뒤로가기'를 선택하면 null을 반환
+            return nullptr;
         }
-        else
+        else 
         {
             std::cout << "\n잘못된 입력입니다." << std::endl;
         }
     }
 }
 
-void BattleManager::ProcessTurn(const BattleAction& playerAction, const BattleAction& opponentAction)
+void BattleManager::ShowMainMenu()
 {
-    Pokemon* firstAttacker = nullptr;
-    Pokemon* secondAttacker = nullptr;
-    const Move* firstMove = nullptr;
-    const Move* secondMove = nullptr;
+    std::cout << "\n" << playerActivePokemon_->GetName() << "는(은)" << "\n무엇을 할까?" << std::endl;
+    std::cout << "1: 싸운다   2: 가방" << std::endl;
+    std::cout << "3: 포켓몬   4: 도망친다" << std::endl;
+}
 
-    // --- 행동 순서 결정 ---
-    // 1. 우선도 비교
-    int playerPriority = playerAction.move->GetPriority();
-    int opponentPriority = opponentAction.move->GetPriority();
+void BattleManager::ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move)
+{
+    move->DecrementPp();
+    std::cout << "\n" << attacker->GetName() << "의 " << move->GetName() << "!" << std::endl;
 
-    if (playerPriority > opponentPriority)
+    if (!HandleMoveAccuracy(attacker, move))
     {
-        firstAttacker = playerActivePokemon_;
-        firstMove = playerAction.move;
-        secondAttacker = opponentActivePokemon_;
-        secondMove = opponentAction.move;
-    }
-    else if (opponentPriority > playerPriority)
-    {
-        firstAttacker = opponentActivePokemon_;
-        firstMove = opponentAction.move;
-        secondAttacker = playerActivePokemon_;
-        secondMove = playerAction.move;
-    }
-    else // 2. 우선도가 같으면 스피드 비교
-    {
-        int playerScore = playerActivePokemon_->GetStat(Stat::SPEED);
-        int opponentScore = opponentActivePokemon_->GetStat(Stat::SPEED);
-
-        if (playerScore >= opponentScore) // 스피드가 같으면 플레이어가 먼저
-        {
-            firstAttacker = playerActivePokemon_;
-            firstMove = playerAction.move;
-            secondAttacker = opponentActivePokemon_;
-            secondMove = opponentAction.move;
-        }
-        else
-        {
-            firstAttacker = opponentActivePokemon_;
-            firstMove = opponentAction.move;
-            secondAttacker = playerActivePokemon_;
-            secondMove = playerAction.move;
-        }
-    }
-
-    Pokemon* firstTarget = (firstAttacker == playerActivePokemon_) ? opponentActivePokemon_ : playerActivePokemon_;
-    Pokemon* secondTarget = (secondAttacker == playerActivePokemon_) ? opponentActivePokemon_ : playerActivePokemon_;
-
-    // --- 첫 번째 포켓몬 행동 실행 ---
-    ExecuteMove(firstAttacker, firstTarget, firstMove);
-
-    // 행동 직후 상대가 기절했는지 확인
-    if (firstTarget->IsFainted())
-    {
-        std::cout << firstTarget->GetName() << "은(는) 쓰러졌다!" << std::endl;
-        // 상대가 쓰러졌으므로 두 번째 포켓몬은 행동할 필요 없이 턴 종료
+        std::cout << "하지만 기술이 빗나갔다!" << std::endl;
         return;
     }
 
-    // --- 두 번째 포켓몬 행동 실행 ---
-    ExecuteMove(secondAttacker, secondTarget, secondMove);
+    ApplyMoveEffect(attacker, target, move);
 
-    // 행동 직후 상대가 기절했는지 확인
-    if (secondTarget->IsFainted())
+    if (move->GetCategory() != MoveCategory::STATUS)
     {
-        std::cout << secondTarget->GetName() << "은(는) 쓰러졌다!" << std::endl;
+        DamageResult result = CalculateAndApplyDamage(attacker, target, move);
+
+        if (result.typeEffectiveness > 1.0) std::cout << "효과가 굉장했다!" << std::endl;
+        if (result.typeEffectiveness < 1.0 && result.typeEffectiveness > 0) std::cout << "효과가 별로인 듯하다..." << std::endl;
+        if (result.typeEffectiveness == 0) 
+        {
+            std::cout << "효과가 없는 것 같다..." << std::endl;
+        }
+
+        std::cout << target->GetName() << "은(는) " << result.damageDealt << "의 데미지를 받았다!" << std::endl;
+        std::cout << target->GetName() << "의 남은 HP: " << target->GetCurrentHP() << "/" << target->GetMaxHP() << std::endl;
     }
 }
 
-void BattleManager::ExecuteMove(Pokemon* attacker, Pokemon* target, const Move* move)
+bool BattleManager::HandleMoveAccuracy(Pokemon* attacker, const Move* move)
 {
-    // const Move*를 Move*로 캐스팅하여 PP를 수정할 수 있게 합니다.
-    // 이는 플레이어 파티의 Move 객체를 수정하기 위함입니다.
-    // 조금 위험할 수 있지만, 지금 단계에서는 가장 간단한 방법입니다.
-    Move* modifiableMove = const_cast<Move*>(move);
-    modifiableMove->DecrementPp(); // <<< PP를 1 감소시킵니다.
+    int moveAccuracy = move->GetAccuracy();
+    if (moveAccuracy > 100) return true; // 항상 성공하는 기술 (편의상 100 초과)
 
-    std::cout << "\n" << attacker->GetName() << "의 " << move->GetName() << "!" << std::endl;
+    // 멤버 변수인 randomNumberEngine_ 사용
+    std::uniform_int_distribution<> distrib(1, 100);
+    int randomValue = distrib(randomNumberEngine_);
 
-    // 1. 변화 기술인지 확인 (변화 기술은 데미지 계산을 하지 않음)
-    if (move->GetCategory() == MoveCategory::STATUS)
+    // TODO: 여기에 공격자의 명중률, 대상의 회피율 랭크 보정 추가
+
+    return randomValue <= moveAccuracy;
+}
+
+void BattleManager::ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move)
+{
+    // 앞으로 '울음소리' 등의 효과가 여기에 구현
+    if (move->GetCategory() == MoveCategory::STATUS) 
     {
         std::cout << "하지만 아무 일도 일어나지 않았다..." << std::endl;
-        // TODO: 변화 기술 효과 처리 로직
-        return;
     }
+}
 
-    // 2. 데미지 계산에 필요한 기본 정보 가져오기
+DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move)
+{
+    DamageResult result; // 반환할 결과 객체
+
     int attackerLevel = attacker->GetLevel();
     int movePower = move->GetPower();
-    int attackStat = 0;
-    int defenseStat = 0;
+    int attackStat = (move->GetCategory() == MoveCategory::PHYSICAL) ? attacker->GetStat(Stat::ATTACK) : attacker->GetStat(Stat::SPECIAL_ATTACK);
+    int defenseStat = (move->GetCategory() == MoveCategory::PHYSICAL) ? target->GetStat(Stat::DEFENSE) : target->GetStat(Stat::SPECIAL_DEFENSE);
 
-    // 3. 기술의 종류(물리/특수)에 따라 사용할 능력치를 결정
-    if (move->GetCategory() == MoveCategory::PHYSICAL)
-    {
-        attackStat = attacker->GetStat(Stat::ATTACK);
-        defenseStat = target->GetStat(Stat::DEFENSE);
-    }
-    else // MoveCategory::SPECIAL
-    {
-        attackStat = attacker->GetStat(Stat::SPECIAL_ATTACK);
-        defenseStat = target->GetStat(Stat::SPECIAL_DEFENSE);
-    }
-
-    // 4. 기본 데미지 계산
     int damage = ((((attackerLevel * 2 / 5) + 2) * movePower * attackStat / defenseStat) / 50) + 2;
 
-    // --- 5. 데미지 보정 적용 ---
     double modifier = 1.0;
 
-    // 5-1. 자속 보정 (STAB - Same-Type Attack Bonus)
-    // 공격하는 포켓몬의 타입과 사용하는 기술의 타입이 같으면 데미지 1.5배
-    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2())
+    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2()) 
     {
         modifier *= 1.5;
     }
 
-    // 5-2. 타입 상성 보정
-    double typeMatchup = 1.0;
-    Type moveType = move->GetType();
-    Type targetType1 = target->GetType1();
-    Type targetType2 = target->GetType2();
-
-    // 첫 번째 타입에 대한 상성
-    typeMatchup *= DataManager::GetInstance().GetTypeMatchup(moveType, targetType1);
-    // 두 번째 타입이 있다면 상성을 마저 곱함
-    if (targetType2 != Type::NONE)
+    double typeMatchup = DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType1());
+    if (target->GetType2() != Type::NONE) 
     {
-        typeMatchup *= DataManager::GetInstance().GetTypeMatchup(moveType, targetType2);
+        typeMatchup *= DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType2());
     }
-
-    // 타입 상성 메시지 출력
-    if (typeMatchup > 1.0) std::cout << "효과가 굉장했다!" << std::endl;
-    if (typeMatchup < 1.0 && typeMatchup > 0) std::cout << "효과가 별로인 듯하다..." << std::endl;
-    if (typeMatchup == 0) std::cout << "효과가 없는 것 같다..." << std::endl;
-
+    result.typeEffectiveness = typeMatchup;
     modifier *= typeMatchup;
 
-    // TODO: 여기에 급소(Critical Hit), 특성, 아이템 등 다른 보정들을 추가
-
-    // 6. 최종 데미지 계산 및 적용
     int finalDamage = static_cast<int>(damage * modifier);
-    if (finalDamage < 1) finalDamage = 1; // 최소 1의 데미지는 주도록 보정
+    if (finalDamage < 1 && typeMatchup > 0) finalDamage = 1;
 
-    target->TakeDamage(finalDamage);
+    result.damageDealt = finalDamage;
+    target->TakeDamage(result.damageDealt);
 
-    // 7. 결과 출력
-    std::cout << target->GetName() << "은(는) " << finalDamage << "의 데미지를 받았다!" << std::endl;
-    std::cout << target->GetName() << "의 남은 HP: " << target->GetCurrentHP() << "/" << target->GetMaxHP() << std::endl;
+    return result; // 결과 반환!
 }
 
-bool BattleManager::IsBattleOver()
+std::pair<TurnAction, TurnAction> BattleManager::DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction)
 {
-    // 플레이어 파티가 전멸했는지 확인
-    bool playerAllFainted = true;
-    for (const auto& pokemon : playerParty_)
-    {
-        if (!pokemon.IsFainted()) // 아직 쓰러지지 않은 포켓몬이 있다면
-        {
-            playerAllFainted = false; // 전멸이 아님
-            break;
-        }
-    }
+    TurnAction playerTurn{ playerActivePokemon_, opponentActivePokemon_, playerAction.move };
+    TurnAction opponentTurn{ opponentActivePokemon_, playerActivePokemon_, opponentAction.move };
 
-    // 상대 파티가 전멸했는지 확인
-    bool opponentAllFainted = true;
-    for (const auto& pokemon : opponentParty_)
-    {
-        if (!pokemon.IsFainted()) // 아직 쓰러지지 않은 포켓몬이 있다면
-        {
-            opponentAllFainted = false; // 전멸이 아님
-            break;
-        }
-    }
+    int playerPriority = playerAction.move->GetPriority();
+    int opponentPriority = opponentAction.move->GetPriority();
 
-    // 둘 중 한쪽이라도 전멸했다면 true를 반환하여 전투 종료
-    return playerAllFainted || opponentAllFainted;
+    bool playerGoesFirst = (playerPriority > opponentPriority) ||
+        (playerPriority == opponentPriority && playerActivePokemon_->GetStat(Stat::SPEED) >= opponentActivePokemon_->GetStat(Stat::SPEED));
+
+    if (playerGoesFirst) 
+    {
+        return { playerTurn, opponentTurn };
+    }
+    else 
+    {
+        return { opponentTurn, playerTurn };
+    }
 }

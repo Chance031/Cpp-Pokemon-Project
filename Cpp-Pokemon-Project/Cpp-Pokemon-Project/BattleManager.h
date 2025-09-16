@@ -1,37 +1,44 @@
 #pragma once
 
+#include <random>
 #include <vector>
+#include <string>
+#include <utility>
 
-#include "BattleAction.h"
+#include "BattleTypes.h"
 #include "Pokemon.h"
-
-class Move;
 
 class BattleManager
 {
 public:
-	// 생성자
 	BattleManager(std::vector<Pokemon>& playerParty, std::vector<Pokemon>& opponentParty);
-
-	void Start();	// 전투 시작 로직
+	void Start();
 
 private:
+	// 전투 흐름 관리
 	void PlayIntroSequence();
-	void ShowMainMenu();
-
-	BattleAction SelectPlayerAction();
-	BattleAction SelectOpponentAction();
-	const Move* SelectMove();
-
 	void ProcessTurn(const BattleAction& playerAction, const BattleAction& opponentAction);
-	void ExecuteMove(Pokemon* attacker, Pokemon* target, const Move* move);
 	bool IsBattleOver();
 
+	// 사용자 입력 및 AI
+	BattleAction SelectPlayerAction();
+	BattleAction SelectOpponentAction();
+	Move* SelectMove();
+	void ShowMainMenu();
+
+	// 핵심 실행 로직
+	void ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move);
+	bool HandleMoveAccuracy(Pokemon* attacker, const Move* move);
+	void ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move);
+	DamageResult CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move);
+	std::pair<TurnAction, TurnAction> DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction);
+
+	// 멤버 변수
 	std::vector<Pokemon>& playerParty_;
 	std::vector<Pokemon>& opponentParty_;
-
-	// 현재 필드에 나와 있는 포켓몬을 가리키는 '포인터'
 	Pokemon* playerActivePokemon_ = nullptr;
 	Pokemon* opponentActivePokemon_ = nullptr;
+
+	std::mt19937 randomNumberEngine_;
 };
 
