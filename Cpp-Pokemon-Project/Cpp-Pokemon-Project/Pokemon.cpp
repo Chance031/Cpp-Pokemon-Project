@@ -256,8 +256,8 @@ void Pokemon::RecalculateStats()
 		if (stat == Stat::HP) continue;
 
 		double natureMod = 1.0;
-		if (stat == raisedStat) natureMod = 1.1;
-		if (stat == loweredStat) natureMod = 0.9;
+		if (static_cast<int>(stat) == static_cast<int>(raisedStat)) natureMod = 1.1;
+		if (static_cast<int>(stat) == static_cast<int>(loweredStat)) natureMod = 0.9;
 
 		finalStats_[stat] = CalculateStatInternal(stat, natureMod);
 	}
