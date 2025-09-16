@@ -82,5 +82,7 @@ private:
 	std::vector<Move> moveset_{};					// 기술
 	const AbilityData* activeAbility_ = nullptr;	// 특성
 	std::map<Stat, int> statStages_{};				// 능력치 랭크 변화를 저장할 map
+	std::vector<VolatileStatus> volatileStatuses{};
+	bool isShiny = false; // 이로치 여부를 저장 (기본값은 false)
 	// StatusCondition primaryStatus_;
 };
