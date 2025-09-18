@@ -13,6 +13,14 @@ namespace Gdiplus
 	class Bitmap;
 }
 
+// 페이드 상태를 관리하기 위한 enum
+enum class FadeState
+{
+	None,
+	FadingOut,
+	FadingIn
+};
+
 class Game
 {
 public:
@@ -32,6 +40,8 @@ private:
 
 	// --- 멤버 변수 ---
 	HWND m_hWnd = NULL;	// 윈도우 핸들
+	int m_clientWidth = 800;
+	int m_clientHeight = 600;
 
 	// GDI+ 관련
 	ULONG_PTR m_gdiplusToken = 0;
@@ -45,15 +55,16 @@ private:
 	Gdiplus::Bitmap* m_pUiSheet = nullptr;
 
 	// 게임 상태
-	GameState m_gameState = GameState::FadingIn;
+	GameState m_gameState = GameState::Intro_GameFreak;
 	GameState m_nextGameState = GameState::Intro_GameFreak;
+
 	BattleManager* m_pBattleManager = nullptr;
 	float m_sceneTimer = 0.0f;
-
+    
 	// 페이드 효과
-	bool m_isFadingOut = false;
+	FadeState m_fadeState = FadeState::FadingIn; // 게임 시작 시 페이드인
+	float m_fadeTimer = 0.0f;
 	int m_fadeAlpha = 255;
-	bool m_showBlinkingText = true;
 
 	// 포켓몬 파티
 	std::vector<Pokemon> m_playerParty;

@@ -27,10 +27,10 @@ bool Game::Init(HWND hWnd)
 	DataManager::GetInstance().LoadAllData();
 
 	// 리소스 로드
+	m_pBuffer = new Bitmap(m_clientWidth, m_clientHeight);
 	m_pIntroSheet = new Bitmap(L"../assets/images/ui/intro_sheet.png");
-	m_pBuffer = new Bitmap(800, 600);
-	//m_pBattleBackground = new Bitmap(L"../asset/images/backgrounds/grass_battle.png");
-	//m_pUiSheet = new Bitmap(L"../assets/images/ui/battle_ui.png");
+	//m_pBattleBackground = new Bitmap(L"assets/images/backgrounds/grass_battle.png");
+	//m_pUiSheet = new Bitmap(L"assets/images/ui/battle_ui.png");
 
 	// 리소스 로드 실패 확인
 	/*if (m_pIntroSheet->GetLastStatus() != Ok || m_pBuffer->GetLastStatus() != Ok || m_pBattleBackground->GetLastStatus() != Ok || m_pUiSheet->GetLastStatus() != Ok)
@@ -43,8 +43,6 @@ bool Game::Init(HWND hWnd)
 		MessageBox(m_hWnd, L"필수 이미지 리소스를 불러오는 데 실패했습니다.", L"리소스 오류", MB_OK);
 		return false;
 	}
-
-	m_nextGameState = GameState::Intro_GameFreak;
 
 	return true;
 }
@@ -96,9 +94,16 @@ LRESULT Game::MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMessage)
 	{
+	case WM_SIZE:
+	{
+		m_clientWidth = LOWORD(lParam);
+		m_clientHeight = HIWORD(lParam);
+		delete m_pBuffer;
+		m_pBuffer = new Bitmap(m_clientWidth, m_clientHeight);
+		return 0;
+	}
 	case WM_PAINT:
 	{
-		// 직접 그리기 로직은 Render() 함수로 이동
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		Render();
@@ -122,73 +127,64 @@ LRESULT Game::MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 void Game::Update(float deltaTime)
 {
-	m_sceneTimer += deltaTime;
-
-	switch (m_gameState)
+	// 페이드 로직 처리
+	if (m_fadeState != FadeState::None)
 	{
-		// 1. 화면이 밝아지는 상태
-	case GameState::FadingIn:
-	{
-		float fadeDuration = 0.2f; // 0.5초 동안 밝아짐
-		m_fadeAlpha = 255 - static_cast<int>((m_sceneTimer / fadeDuration) * 255.0f);
+		m_fadeTimer += deltaTime;
+		float fadeDuration = (m_fadeState == FadeState::FadingIn) ? 0.7f : 1.0f;
 
-		if (m_fadeAlpha <= 0) {
-			m_fadeAlpha = 0;
-			m_gameState = m_nextGameState; // 페이드인이 끝나면, 목표했던 다음 장면으로 전환
-			m_sceneTimer = 0.0f;
+		if (m_fadeState == FadeState::FadingIn) 
+		{
+			m_fadeAlpha = 255 - static_cast<int>((m_fadeTimer / fadeDuration) * 255.0f);
+			if (m_fadeAlpha <= 0) 
+			{
+				m_fadeAlpha = 0;
+				m_fadeState = FadeState::None;
+				m_gameState = m_nextGameState;
+				m_sceneTimer = 0.0f;
+			}
 		}
-		break;
-	}
-
-	// 2. GameFreak 로고가 표시되는 상태
-	case GameState::Intro_GameFreak:
-	{
-		// 2초간 장면을 보여준 뒤,
-		if (m_sceneTimer > 2.0f) {
-			m_nextGameState = GameState::Intro_BattleAnim; // 다음 장면을 '전투 애니메이션'으로 설정하고
-			m_gameState = GameState::FadingOut;           // 페이드아웃 시작
-			m_sceneTimer = 0.0f;
+		else 
+		{ // FadingOut
+			m_fadeAlpha = static_cast<int>((m_fadeTimer / fadeDuration) * 255.0f);
+			if (m_fadeAlpha >= 255) 
+			{
+				m_fadeAlpha = 255;
+				m_fadeState = FadeState::None;    // [수정] 페이드 종료 (다시 페이드인 하지 않음)
+				m_gameState = m_nextGameState;  // [수정] 바로 다음 장면으로 전환
+				m_sceneTimer = 0.0f;
+			}
 		}
-		break;
 	}
-
-	// 3. 화면이 어두워지는 상태
-	case GameState::FadingOut:
+	// 일반 게임 상태 업데이트 (페이드 중이 아닐 때)
+	else
 	{
-		float fadeDuration = 1.0f; // 1초 동안 어두워짐
-		m_fadeAlpha = static_cast<int>((m_sceneTimer / fadeDuration) * 255.0f);
-
-		if (m_fadeAlpha >= 255) {
-			m_fadeAlpha = 255;
-			m_gameState = GameState::FadingIn; // 페이드아웃이 끝나면, 다음 장면을 위해 페이드인 시작
-			m_sceneTimer = 0.0f;
+		m_sceneTimer += deltaTime;
+		switch (m_gameState)
+		{
+		case GameState::Intro_GameFreak:
+			if (m_sceneTimer > 2.0f) 
+			{
+				m_nextGameState = GameState::Intro_BattleAnim;
+				m_fadeState = FadeState::FadingOut; // 페이드아웃 시작
+				m_fadeTimer = 0.0f;
+			}
+			break;
+		case GameState::Intro_BattleAnim:
+			if (m_sceneTimer > 5.0f) 
+			{
+				m_nextGameState = GameState::TitleScreen;
+				m_fadeState = FadeState::FadingOut; // 페이드아웃 시작
+				m_fadeTimer = 0.0f;
+			}
+			break;
+		case GameState::TitleScreen:
+			// 깜빡이는 텍스트 로직은 Render에서 처리
+			break;
+		case GameState::InBattle:
+			// TODO: 전투 로직 업데이트
+			break;
 		}
-		break;
-	}
-
-	// 4. 전투 애니메이션이 표시되는 상태
-	case GameState::Intro_BattleAnim:
-	{
-		// 5초간 장면을 보여준 뒤,
-		if (m_sceneTimer > 5.0f) {
-			m_nextGameState = GameState::TitleScreen; // 다음 장면을 '타이틀 화면'으로 설정하고
-			m_gameState = GameState::FadingOut;     // 페이드아웃 시작
-			m_sceneTimer = 0.0f;
-		}
-		break;
-	}
-
-	// 5. 타이틀 화면이 표시되는 상태
-	case GameState::TitleScreen:
-	{
-		m_showBlinkingText = (static_cast<int>(m_sceneTimer * 2.0f) % 2 == 0);
-		// 이 상태에서는 키 입력을 기다리므로 자동으로 다음 상태로 넘어가지 않음
-		break;
-	}
-
-	case GameState::InBattle:
-		// TODO: 전투 로직 업데이트
-		break;
 	}
 }
 
@@ -199,14 +195,10 @@ void Game::Render()
 	bufferGraphics.SetPixelOffsetMode(PixelOffsetModeHalf);
 	bufferGraphics.Clear(Color(0, 0, 0));
 
-	// 화면 비율 유지 계산
-	float originalWidth = 240.0f;
-	float originalHeight = 160.0f;
+	float originalWidth = 240.0f, originalHeight = 160.0f;
 	float originalAspectRatio = originalWidth / originalHeight;
-	float windowWidth = 800.0f;
-	float windowHeight = 600.0f;
-	float destHeight = windowWidth / originalAspectRatio;
-	float destWidth = windowWidth;
+	float windowWidth = static_cast<float>(m_clientWidth), windowHeight = static_cast<float>(m_clientHeight);
+	float destWidth = windowWidth, destHeight = windowWidth / originalAspectRatio;
 	if (destHeight > windowHeight) {
 		destHeight = windowHeight;
 		destWidth = windowHeight * originalAspectRatio;
@@ -215,87 +207,54 @@ void Game::Render()
 	float destY = (windowHeight - destHeight) / 2.0f;
 	RectF gameScreenRect(destX, destY, destWidth, destHeight);
 
-	GameState stateToRender = m_gameState;
-	if (m_gameState == GameState::FadingIn) {
-		stateToRender = m_nextGameState; // 밝아지는 중일 땐, 다음에 나올 장면을 미리 그림
-	}
+	GameState stateToRender = (m_fadeState == FadeState::FadingIn) ? m_nextGameState : m_gameState;
 
-	// 현재 상태에 맞는 장면 그리기
-	switch (m_gameState)
+	switch (stateToRender)
 	{
 	case GameState::Intro_GameFreak:
-	{
-		// [수정] 알려주신 정확한 좌표로 교체
-		bufferGraphics.DrawImage(m_pIntroSheet, gameScreenRect, 8.0f, 42.0f, 245.0f, 161.5f, UnitPixel);
+		bufferGraphics.DrawImage(m_pIntroSheet, gameScreenRect, 8, 42, 240, 160, UnitPixel);
 		break;
-	}
 	case GameState::Intro_BattleAnim:
-	{
-		// 인트로 전투 배경 그리기
-		bufferGraphics.DrawImage(m_pIntroSheet, gameScreenRect, 0, 0, 240, 160, UnitPixel);
+		bufferGraphics.DrawImage(m_pIntroSheet, gameScreenRect, 8, 203, 240, 160, UnitPixel);
 		break;
-	}
 	case GameState::TitleScreen:
-	{
-		// 타이틀 화면 그리기
 		bufferGraphics.DrawImage(m_pIntroSheet, gameScreenRect, 251, 0, 240, 160, UnitPixel);
-
-		float logoWidth = destWidth * 0.8f;
-		float logoHeight = logoWidth / (480.0f / 288.0f);
-		float logoX = destX + (destWidth - logoWidth) / 2.0f;
-		float logoY = destY + destHeight * 0.1f;
-		RectF logoRect(logoX, logoY, logoWidth, logoHeight);
-
-		bufferGraphics.DrawImage(m_pIntroSheet, logoRect, 495, 0, 480, 288, UnitPixel);
+		// Title 로고는 비율 유지된 화면 위에 다시 그림
 		break;
-	}
 	case GameState::InBattle:
-		// TODO: 전투 화면 그리기
+		// 전투 화면 그리기
 		break;
 	}
 
 	// 페이드 효과 덧그리기
-	if (m_gameState == GameState::FadingOut) {
-		SolidBrush fadeBrush(Color(m_fadeAlpha, 0, 0, 0)); // 검은색
-		bufferGraphics.FillRectangle(&fadeBrush, 0, 0, 800, 600);
-	}
-	else if (m_gameState == GameState::FadingIn) {
-		SolidBrush fadeBrush(Color(m_fadeAlpha, 255, 255, 255)); // 흰색
-		bufferGraphics.FillRectangle(&fadeBrush, 0, 0, 800, 600);
+	if (m_fadeState != FadeState::None) {
+		Color fadeColor = (m_fadeState == FadeState::FadingIn) ? Color(m_fadeAlpha, 255, 255, 255) : Color(m_fadeAlpha, 0, 0, 0);
+		SolidBrush fadeBrush(fadeColor);
+		bufferGraphics.FillRectangle(&fadeBrush, 0, 0, m_clientWidth, m_clientHeight);
 	}
 
 	Graphics screenGraphics(m_hWnd);
-	screenGraphics.DrawImage(m_pBuffer, 0, 0);
+	screenGraphics.DrawImage(m_pBuffer, 0, 0, m_clientWidth, m_clientHeight);
 }
 
 void Game::StartBattle()
 {
-	delete m_pBattleManager;
-	m_pBattleManager = nullptr;
 	m_playerParty.clear();
 	m_wildParty.clear();
+	delete m_pBattleManager;
 
-	// [수정] PokemonIndividual 구조체를 안전하게 초기화
 	PokemonIndividual bulbasaurIndividual;
 	bulbasaurIndividual.level = 5;
-	bulbasaurIndividual.nature = Nature::HARDY;
 	Pokemon bulbasaur(DataManager::GetInstance().GetPokemonSpecies(1), bulbasaurIndividual);
-	bulbasaur.LearnMove(DataManager::GetInstance().GetMoveData(33));
 	m_playerParty.push_back(bulbasaur);
 
-	PokemonIndividual charmanderIndividual;
-	charmanderIndividual.level = 5;
-	charmanderIndividual.nature = Nature::HARDY;
-	Pokemon charmander(DataManager::GetInstance().GetPokemonSpecies(4), charmanderIndividual);
-	charmander.LearnMove(DataManager::GetInstance().GetMoveData(10));
-	m_wildParty.push_back(charmander);
+	PokemonIndividual arbokIndividual;
+	arbokIndividual.level = 5;
+	Pokemon arbok(DataManager::GetInstance().GetPokemonSpecies(24), arbokIndividual);
+	m_wildParty.push_back(arbok);
 
 	m_pBattleManager = new BattleManager(m_playerParty, m_wildParty);
-	m_gameState = GameState::InBattle;
-
-	delete m_pOpponentSprite;
-	// [수정] 올바른 파일 경로 사용
-	m_pOpponentSprite = new Bitmap(L"assets/images/pokemon/front/1.png");
-	delete m_pPlayerSprite;
-	m_pPlayerSprite = new Bitmap(L"assets/images/pokemon/back/4.png");
+	m_nextGameState = GameState::InBattle;
+	m_fadeState = FadeState::FadingOut; // 전투 시작 시 페이드아웃
+	m_fadeTimer = 0.0f;
 }
