@@ -35,7 +35,7 @@ public:
 
 private:
 	void Update(float deltaTime);
-	void Render();
+	void Render(HDC hdc);
 	void StartBattle();
 
 	// --- 멤버 변수 ---
@@ -65,6 +65,16 @@ private:
 	FadeState m_fadeState = FadeState::FadingIn; // 게임 시작 시 페이드인
 	float m_fadeTimer = 0.0f;
 	int m_fadeAlpha = 255;
+
+	// [추가] 별 스크롤 효과용 변수
+	float m_starScrollX = 0.0f;
+
+	// ▼▼▼▼▼ 화면 흔들림 변수들을 삭제하고 아래 변수들로 교체 ▼▼▼▼▼
+	bool m_isRevealing = false;    // 현재 장면이 열리는 중인지
+	float m_revealTimer = 0.0f;   // 열리는 애니메이션 시간 측정용
+	float m_revealOffset = 0.0f;  // 열리는 막대의 이동 거리
+
+	std::mt19937 m_rng;
 
 	// 포켓몬 파티
 	std::vector<Pokemon> m_playerParty;

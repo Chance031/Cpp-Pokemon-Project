@@ -52,32 +52,31 @@ void Game::Run()
 	MSG msg = {};
 	ULONGLONG lastTime = GetTickCount64();
 
-	while (true) // 1. 무한 루프를 돕니다.
+	while (true)
 	{
-		// 2. 처리할 윈도우 메시지가 있는지 '확인만 하고' 바로 넘어갑니다 (PeekMessage).
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT)
-				break; // 종료 메시지를 받으면 루프를 탈출합니다.
+				break;
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else // 3. 처리할 메시지가 없다면, 게임 로직을 실행합니다.
+		else
 		{
 			ULONGLONG currentTime = GetTickCount64();
 			float deltaTime = (currentTime - lastTime) / 1000.0f;
 			lastTime = currentTime;
 
-			Update(deltaTime); // 게임 상태를 업데이트하고
-			InvalidateRect(m_hWnd, NULL, FALSE); // 화면을 다시 그리라고 요청합니다.
+			Update(deltaTime);
+			InvalidateRect(m_hWnd, NULL, FALSE);
 		}
 	}
 }
 
 void Game::Release()
 {
-	// 동적으로 할당된 모든 리소스를 해제합니다.
+	// 동적으로 할당된 모든 리소스를 해제
 	delete m_pIntroSheet;
 	delete m_pBuffer;
 	delete m_pBattleBackground;
@@ -106,7 +105,7 @@ LRESULT Game::MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
-		Render();
+		Render(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
@@ -131,7 +130,7 @@ void Game::Update(float deltaTime)
 	if (m_fadeState != FadeState::None)
 	{
 		m_fadeTimer += deltaTime;
-		float fadeDuration = (m_fadeState == FadeState::FadingIn) ? 0.7f : 1.0f;
+		float fadeDuration = (m_fadeState == FadeState::FadingIn) ? 0.2f : 1.0f;
 
 		if (m_fadeState == FadeState::FadingIn) 
 		{
@@ -142,6 +141,13 @@ void Game::Update(float deltaTime)
 				m_fadeState = FadeState::None;
 				m_gameState = m_nextGameState;
 				m_sceneTimer = 0.0f;
+				
+				// Intro_BattleAnim 장면으로 전환될 때만 리빌 애니메이션 시작
+				if (m_gameState == GameState::Intro_BattleAnim) 
+				{
+					m_isRevealing = true;
+					m_revealTimer = 0.0f;
+				}
 			}
 		}
 		else 
@@ -150,10 +156,33 @@ void Game::Update(float deltaTime)
 			if (m_fadeAlpha >= 255) 
 			{
 				m_fadeAlpha = 255;
-				m_fadeState = FadeState::None;    // [수정] 페이드 종료 (다시 페이드인 하지 않음)
-				m_gameState = m_nextGameState;  // [수정] 바로 다음 장면으로 전환
+				m_nextGameState = (m_gameState == GameState::Intro_GameFreak) ? GameState::Intro_BattleAnim : GameState::TitleScreen;
+				m_gameState = m_nextGameState; // [수정] 페이드아웃 후 바로 다음 장면으로 전환 (검은 화면 상태)
+				m_fadeState = FadeState::None;
 				m_sceneTimer = 0.0f;
+
+				// [수정] 다음 장면이 전투 애니메이션일 때만 리빌 시작
+				if (m_nextGameState == GameState::Intro_BattleAnim)
+				{
+					m_isRevealing = true;
+					m_revealTimer = 0.0f;
+				}
+
 			}
+		}
+	}
+	// 창이 열리는 애니메이션 로직
+	else if (m_isRevealing)
+	{
+		m_revealTimer += deltaTime;
+		float revealDuration = 0.5f; // [수정] 속도를 0.5초로 빠르게 조절
+
+		if (m_revealTimer >= revealDuration) {
+			m_isRevealing = false; // [수정] 한 번만 실행되도록 애니메이션 종료
+		}
+		else
+		{
+			m_revealOffset = (m_revealTimer / revealDuration) * (m_clientHeight / 2.0f);
 		}
 	}
 	// 일반 게임 상태 업데이트 (페이드 중이 아닐 때)
@@ -165,30 +194,37 @@ void Game::Update(float deltaTime)
 		case GameState::Intro_GameFreak:
 			if (m_sceneTimer > 2.0f) 
 			{
-				m_nextGameState = GameState::Intro_BattleAnim;
-				m_fadeState = FadeState::FadingOut; // 페이드아웃 시작
+				// [추가] 별 스크롤 위치 업데이트
+				m_starScrollX -= 50.0f * deltaTime; // 1초에 50픽셀씩 왼쪽으로 이동 (속도 조절 가능)
+
+				// 별 패턴의 가로 크기 (화면 비율에 맞춰 계산)
+				float starPatternWidth = 42.0f * (gameScreenRect.Width / 240.0f);
+				if (m_starScrollX < -starPatternWidth) 
+				{
+					m_starScrollX += starPatternWidth; // 완전히 화면 밖으로 나가면 다시 원위치
+				}
+				m_fadeState = FadeState::FadingOut;
 				m_fadeTimer = 0.0f;
 			}
 			break;
 		case GameState::Intro_BattleAnim:
-			if (m_sceneTimer > 5.0f) 
-			{
+			if (m_sceneTimer > 5.0f) {
 				m_nextGameState = GameState::TitleScreen;
-				m_fadeState = FadeState::FadingOut; // 페이드아웃 시작
+				m_fadeState = FadeState::FadingOut;
 				m_fadeTimer = 0.0f;
 			}
 			break;
 		case GameState::TitleScreen:
-			// 깜빡이는 텍스트 로직은 Render에서 처리
+			// 깜빡이는 텍스트 로직
 			break;
 		case GameState::InBattle:
-			// TODO: 전투 로직 업데이트
+			// 전투 로직
 			break;
 		}
 	}
 }
 
-void Game::Render()
+void Game::Render(HDC hdc)
 {
 	Graphics bufferGraphics(m_pBuffer);
 	bufferGraphics.SetInterpolationMode(InterpolationModeNearestNeighbor);
@@ -207,7 +243,18 @@ void Game::Render()
 	float destY = (windowHeight - destHeight) / 2.0f;
 	RectF gameScreenRect(destX, destY, destWidth, destHeight);
 
-	GameState stateToRender = (m_fadeState == FadeState::FadingIn) ? m_nextGameState : m_gameState;
+	// 1. 현재 상태에 맞는 장면 그리기
+	// 페이드인/리빌 중에는 다음에 나올 장면을 미리 그려줍니다.
+	GameState stateToRender = m_gameState;
+	if (m_fadeState == FadeState::FadingIn || m_isRevealing) {
+		stateToRender = m_nextGameState;
+	}
+	// 리빌 효과가 Intro_BattleAnim 에서 일어나므로, nextGameState가 Intro_BattleAnim일 때
+	// Intro_BattleAnim을 미리 그려주도록 수정합니다.
+	if (m_gameState == GameState::Intro_GameFreak && m_fadeState == FadeState::FadingOut)
+	{
+		stateToRender = GameState::Intro_GameFreak;
+	}
 
 	switch (stateToRender)
 	{
@@ -226,6 +273,52 @@ void Game::Render()
 		break;
 	}
 
+	// 2. [추가] 별 스크롤 효과 그리기
+	if (m_pIntroSheet)
+	{
+		// 스프라이트 시트에서 별 이미지의 정보
+		float starSourceX = 515.0f;
+		float starSourceY = 177.0f;
+		float starSourceWidth = 42.0f;
+		float starSourceHeight = 14.0f;
+
+		// 화면 비율에 맞춰 별이 그려질 크기와 Y 위치 계산
+		float scale = gameScreenRect.Width / 240.0f; // 원본 대비 화면 확대 비율
+		float renderStarHeight = starSourceHeight * scale;
+		float renderStarY = gameScreenRect.Y + (42.0f * scale); // 로고 배경의 Y좌표(42)에 맞춰 위치
+
+		// 별 패턴의 화면상 너비
+		float renderStarPatternWidth = starSourceWidth * scale;
+
+		// 화면을 꽉 채우고도 남도록 별을 여러 번 그려서 끊김 없는 스크롤 효과 생성
+		for (int i = -1; i < (m_clientWidth / renderStarPatternWidth) + 2; ++i)
+		{
+			RectF starDestRect(
+				gameScreenRect.X + m_starScrollX + (i * renderStarPatternWidth),
+				renderStarY,
+				renderStarPatternWidth,
+				renderStarHeight
+			);
+
+			// DrawImage로 별 부분만 잘라내어 그립니다.
+			bufferGraphics.DrawImage(m_pIntroSheet, starDestRect,
+				starSourceX, starSourceY,
+				starSourceWidth, starSourceHeight, UnitPixel);
+		}
+	}
+
+	// 2. 장면 위에 열리는 검은 막대 그리기
+	if (m_isRevealing)
+	{
+		SolidBrush blackBrush(Color(255, 0, 0, 0));
+		// 위쪽 막대
+		RectF topRect(0.0f, 0.0f, (float)m_clientWidth, (m_clientHeight / 2.0f) - m_revealOffset);
+		bufferGraphics.FillRectangle(&blackBrush, topRect);
+		// 아래쪽 막대
+		RectF bottomRect(0.0f, (m_clientHeight / 2.0f) + m_revealOffset, (float)m_clientWidth, (m_clientHeight / 2.0f));
+		bufferGraphics.FillRectangle(&blackBrush, bottomRect);
+	}
+
 	// 페이드 효과 덧그리기
 	if (m_fadeState != FadeState::None) {
 		Color fadeColor = (m_fadeState == FadeState::FadingIn) ? Color(m_fadeAlpha, 255, 255, 255) : Color(m_fadeAlpha, 0, 0, 0);
@@ -233,7 +326,7 @@ void Game::Render()
 		bufferGraphics.FillRectangle(&fadeBrush, 0, 0, m_clientWidth, m_clientHeight);
 	}
 
-	Graphics screenGraphics(m_hWnd);
+	Graphics screenGraphics(hdc);
 	screenGraphics.DrawImage(m_pBuffer, 0, 0, m_clientWidth, m_clientHeight);
 }
 
