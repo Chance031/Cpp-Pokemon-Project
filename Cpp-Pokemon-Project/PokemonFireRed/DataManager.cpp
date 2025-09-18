@@ -14,7 +14,7 @@ DataManager& DataManager::GetInstance()
 
 void DataManager::LoadAllData()
 {
-    std::string basePath = "../data/";
+    std::string basePath = "../assets/data/";
 
     // 각 데이터 로딩 함수를 순서대로 호출
     LoadPokemonSpecies(basePath + "Pokemon_species.csv");

@@ -132,23 +132,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Cpp-Pokemon-Project\AbilityData.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\BattleManager.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\BattleTypes.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\DataManager.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\Enums.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\Move.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\MoveData.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\MoveEffectData.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\Pokemon.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\PokemonData.h" />
-    <ClInclude Include="..\Cpp-Pokemon-Project\StringUtils.h" />
+    <ResourceCompile Include="PokemonFireRed.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="PokemonFireRed.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BattleManager.cpp" />
+    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Move.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Pokemon.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="AbilityData.h" />
     <ClInclude Include="BattleManager.h" />
     <ClInclude Include="BattleTypes.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameTypes.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="MoveData.h" />
@@ -159,34 +167,6 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Cpp-Pokemon-Project\BattleManager.cpp" />
-    <ClCompile Include="..\Cpp-Pokemon-Project\DataManager.cpp" />
-    <ClCompile Include="..\Cpp-Pokemon-Project\main.cpp" />
-    <ClCompile Include="..\Cpp-Pokemon-Project\Move.cpp" />
-    <ClCompile Include="..\Cpp-Pokemon-Project\Pokemon.cpp" />
-    <ClCompile Include="..\Cpp-Pokemon-Project\StringUtils.cpp" />
-    <ClCompile Include="BattleManager.cpp" />
-    <ClCompile Include="DataManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Move.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Pokemon.cpp" />
-    <ClCompile Include="StringUtils.cpp" />
-    <ClCompile Include="WinMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="PokemonFireRed.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="PokemonFireRed.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
