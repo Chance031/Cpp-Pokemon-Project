@@ -10,7 +10,6 @@ using namespace Gdiplus;
 Game::Game() {}
 Game::~Game() {}
 
-// 게임 초기화 함수
 bool Game::Init(HWND hWnd)
 {
 	m_hWnd = hWnd;	// 윈도우 핸들 저장
@@ -36,7 +35,6 @@ bool Game::Init(HWND hWnd)
 	return true;
 }
 
-// 게임 리소스 해제 함수
 void Game::Release()
 {
 	// 현재 Scene이 할당되어 있다면, 해당 Scene의 리소스를 먼저 해제하고 메모리에서 삭제
@@ -52,7 +50,6 @@ void Game::Release()
 	GdiplusShutdown(m_gdiplusToken);
 }
 
-// 메인 게임 루프 함수
 void Game::Run()
 {
 	MSG msg = {};
@@ -91,7 +88,6 @@ void Game::Run()
 	}
 }
 
-// 게임 상태 업데이트 함수
 void Game::Update(float deltaTime)
 {
 	// 현재 Scene이 존재할 경우, 해당 Scene의 Update 함수를 호출
@@ -110,7 +106,6 @@ void Game::Update(float deltaTime)
 	}
 }
 
-// 화면 랜더링 함수
 void Game::Render(HDC hdc)
 {
 	// 백 버퍼(m_pBuffer)에 그림을 그릴 Graphics 객체를 생성
@@ -131,7 +126,6 @@ void Game::Render(HDC hdc)
 	screenGraphics.DrawImage(m_pBuffer, 0, 0, m_clientWidth, m_clientHeight);
 }
 
-// 장면 교체 함수
 void Game::ChangeScene(Scene* newScene)
 {
 	// 기존에 실행 중이던 Scene이 있다면, 리소스를 해제하고 메모리에서 삭제
@@ -156,7 +150,6 @@ void Game::ChangeScene(Scene* newScene)
 	}
 }
 
-// 윈도우 메시지 처리 함수
 LRESULT Game::MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	// 모든 메시지는 일단 현재 Scene에게 먼저 전달하여 처리할 기회 제공

@@ -10,7 +10,6 @@ BattleManager::BattleManager(std::vector<Pokemon>& playerParty, std::vector<Poke
     randomNumberEngine_.seed(rd());
 }
 
-// 전투 시작 처리를 담당
 void BattleManager::Start(std::vector<TurnEvent>& events)
 {
     // 각 파티의 첫 번째 포켓몬을 배틀 필드의 활성 포켓몬으로 설정
@@ -30,7 +29,6 @@ void BattleManager::Start(std::vector<TurnEvent>& events)
     }
 }
 
-// 플레이어의 행동을 받아 한 턴을 진행하고, 그 결과를 TurnResult로 반환
 TurnResult BattleManager::ProcessTurn(const BattleAction& playerAction)
 {
     TurnResult result; // 이 턴의 모든 결과를 담을 객체
@@ -70,7 +68,6 @@ TurnResult BattleManager::ProcessTurn(const BattleAction& playerAction)
     return result;
 }
 
-// 전투가 종료되었는지 확인
 bool BattleManager::IsBattleOver()
 {
     bool playerAllFainted = std::all_of(playerParty_.begin(), playerParty_.end(), [](const Pokemon& p) { return p.IsFainted(); });
@@ -78,11 +75,6 @@ bool BattleManager::IsBattleOver()
     return playerAllFainted || opponentAllFainted;
 }
 
-// =================================================================
-// 비공개(private) 헬퍼 함수들
-// =================================================================
-
-// 상대 AI의 행동을 결정
 BattleAction BattleManager::SelectOpponentAction()
 {
     BattleAction action;
@@ -101,7 +93,6 @@ BattleAction BattleManager::SelectOpponentAction()
     return action;
 }
 
-// 한 포켓몬의 완전한 행동(기술 사용)을 실행하고, 발생하는 모든 이벤트 기록
 void BattleManager::ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move, std::vector<TurnEvent>& events)
 {
     // 기술 사용 메시지를 이벤트로 추가
@@ -119,9 +110,18 @@ void BattleManager::ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move
     if (move->GetCategory() != MoveCategory::STATUS)
     {
         damageResult = CalculateAndApplyDamage(attacker, target, move, events);
-        if (damageResult.typeEffectiveness > 1.0) events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 굉장했다!" });
-        if (damageResult.typeEffectiveness < 1.0 && damageResult.typeEffectiveness > 0) events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 별로인 듯하다..." });
-        if (damageResult.typeEffectiveness == 0) events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 없는 것 같다..." });
+        if (damageResult.typeEffectiveness > 1.0)
+        {
+            events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 굉장했다!" });
+        }
+        if (damageResult.typeEffectiveness < 1.0 && damageResult.typeEffectiveness > 0) 
+        {
+            events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 별로인 듯하다..." });
+        }
+        if (damageResult.typeEffectiveness == 0)
+        {
+            events.push_back({ TurnEventType::TEXT_MESSAGE, nullptr, "효과가 없는 것 같다..." });
+        }
         if (damageResult.damageDealt > 0)
         {
             events.push_back({ TurnEventType::DAMAGE, target, "", damageResult.damageDealt });
@@ -140,7 +140,6 @@ void BattleManager::ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move
     }
 }
 
-// 기술의 명중 여부를 판정
 bool BattleManager::HandleMoveAccuracy(Pokemon* attacker, const Move* move)
 {
     int moveAccuracy = move->GetAccuracy();
@@ -156,7 +155,6 @@ bool BattleManager::HandleMoveAccuracy(Pokemon* attacker, const Move* move)
     return randomValue <= moveAccuracy;
 }
 
-// 기술의 부가 효과를 적용하고 이벤트를 기록
 void BattleManager::ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move, std::vector<TurnEvent>& events)
 {
     int effectId = move->GetEffectId();
@@ -200,7 +198,6 @@ void BattleManager::ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Mo
     }
 }
 
-// 데미지를 계산하고 포켓몬에게 적용. 발생하는 이벤트(급소)도 기록
 DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move, std::vector<TurnEvent>& events)
 {
     DamageResult result;
@@ -231,7 +228,8 @@ DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* 
         attackStat = static_cast<int>(attacker->GetStat(Stat::ATTACK) * getStageMultiplier(attackStage));
         defenseStat = static_cast<int>(target->GetStat(Stat::DEFENSE) * getStageMultiplier(defenseStage));
     }
-    else {
+    else 
+    {
         int attackStage = isCritical && attacker->GetStatStage(Stat::SPECIAL_ATTACK) < 0 ? 0 : attacker->GetStatStage(Stat::SPECIAL_ATTACK);
         int defenseStage = isCritical && target->GetStatStage(Stat::SPECIAL_DEFENSE) > 0 ? 0 : target->GetStatStage(Stat::SPECIAL_DEFENSE);
         attackStat = static_cast<int>(attacker->GetStat(Stat::SPECIAL_ATTACK) * getStageMultiplier(attackStage));
@@ -249,53 +247,64 @@ DamageResult BattleManager::CalculateAndApplyDamage(Pokemon* attacker, Pokemon* 
     // 최종 보정치(modifier) 계산
     double modifier = 1.0;
     if (isCritical) modifier *= 1.5;
-    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2()) modifier *= 1.5;
+    if (move->GetType() == attacker->GetType1() || move->GetType() == attacker->GetType2())
+    {
+        modifier *= 1.5;
+    }
 
     result.typeEffectiveness = DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType1());
-    if (target->GetType2() != Type::NONE) {
+    if (target->GetType2() != Type::NONE) 
+    {
         result.typeEffectiveness *= DataManager::GetInstance().GetTypeMatchup(move->GetType(), target->GetType2());
     }
     modifier *= result.typeEffectiveness;
 
     // 최종 데미지 확정 밎 적용
     result.damageDealt = std::max(1, static_cast<int>(baseDamage * modifier));
-    if (result.typeEffectiveness == 0) result.damageDealt = 0;
+    if (result.typeEffectiveness == 0)
+    {
+        result.damageDealt = 0;
+    }
 
     target->TakeDamage(result.damageDealt);
     return result;
 }
 
-// 우선도와 스피드를 비교하여 행동 순서를 결정
 std::pair<Pokemon*, Move*> BattleManager::DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction)
 {
     if (playerAction.move->GetPriority() != opponentAction.move->GetPriority()) 
     {
-        return (playerAction.move->GetPriority() > opponentAction.move->GetPriority()) ?
-            std::make_pair(playerActivePokemon_, playerAction.move) : std::make_pair(opponentActivePokemon_, opponentAction.move);
+        return (playerAction.move->GetPriority() > opponentAction.move->GetPriority()) ? std::make_pair(playerActivePokemon_, playerAction.move) : std::make_pair(opponentActivePokemon_, opponentAction.move);
     }
     return (playerActivePokemon_->GetStat(Stat::SPEED) >= opponentActivePokemon_->GetStat(Stat::SPEED)) ? std::make_pair(playerActivePokemon_, playerAction.move) : std::make_pair(opponentActivePokemon_, opponentAction.move);
 }
 
-// 턴 종료 시 발생하는 효과(독 데미지 등)를 처리하고 이벤트를 기록
 void BattleManager::ProcessEndOfTurnEffects(Pokemon* pokemon, std::vector<TurnEvent>& events)
 {
-    if (pokemon->IsFainted()) return;
+    if (pokemon->IsFainted())
+    {
+        return;
+    }
 
-    if (pokemon->GetPrimaryStatus() == StatusCondition::POISON) {
+    if (pokemon->GetPrimaryStatus() == StatusCondition::POISON) 
+    {
         events.push_back({ TurnEventType::TEXT_MESSAGE, pokemon, pokemon->GetName() + "은(는) 독의 데미지를 입었다!" });
         int poisonDamage = std::max(1, pokemon->GetMaxHP() / 8);
         pokemon->TakeDamage(poisonDamage);
         events.push_back({ TurnEventType::DAMAGE, pokemon, "", poisonDamage });
-        if (pokemon->IsFainted()) {
+        if (pokemon->IsFainted()) 
+        {
             events.push_back({ TurnEventType::FAINT, pokemon, pokemon->GetName() + "은(는) 쓰러졌다!" });
         }
     }
 }
 
-// 포켓몬이 필드에 등장했을 때 발동하는 특성('위협' 등)을 처리하고 이벤트를 기록
 void BattleManager::TriggerSwitchInAbilities(Pokemon* switchedInPokemon, Pokemon* opponent, std::vector<TurnEvent>& events)
 {
-    if (switchedInPokemon->IsFainted()) return;
+    if (switchedInPokemon->IsFainted())
+    {
+        return;
+    }
     const AbilityData* ability = switchedInPokemon->GetAbility();
     if (!ability || ability->trigger != AbilityTrigger::ON_SWITCH_IN)
     {
@@ -303,7 +312,7 @@ void BattleManager::TriggerSwitchInAbilities(Pokemon* switchedInPokemon, Pokemon
     }
 
     if (ability->id == 22) 
-    { // '위협'
+    {
         events.push_back({ TurnEventType::TEXT_MESSAGE, switchedInPokemon, switchedInPokemon->GetName() + "의 특성 [위협]!" });
         opponent->ApplyStatStageChange(Stat::ATTACK, -1);
         std::string message = opponent->GetName() + "의 공격이 떨어졌다!";
@@ -311,10 +320,10 @@ void BattleManager::TriggerSwitchInAbilities(Pokemon* switchedInPokemon, Pokemon
     }
 }
 
-// 포켓몬 교체를 실행하고 관련 이벤트를 기록
 void BattleManager::ExecuteSwitch(Pokemon*& activePokemon, std::vector<Pokemon>& party, int newPokemonIndex, std::vector<TurnEvent>& events)
 {
-    if (activePokemon && !activePokemon->IsFainted()) {
+    if (activePokemon && !activePokemon->IsFainted())
+    {
         events.push_back({ TurnEventType::TEXT_MESSAGE, activePokemon, activePokemon->GetName() + ", 돌아와!" });
         activePokemon->ResetStatStages();
     }
