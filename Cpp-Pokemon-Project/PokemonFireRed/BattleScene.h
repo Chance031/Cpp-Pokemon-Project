@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gdiplus.h>
 #include <queue>
 
 #include "BattleManager.h"
@@ -79,4 +80,12 @@ private:
 	// --- HP 애니메이션용 변수 ---
 	float m_playerVisualHp = 0;				// 화면에 '보여지는' 플레이어 포켓몬의 HP
 	float m_opponentVisualHp = 0;			// 화면에 '보여지는' 상대 포켓몬의 HP
+
+	// --- 포켓몬 스프라이트 ---
+	Gdiplus::Bitmap* m_pPlayerPokemonSprite = nullptr;
+	Gdiplus::Bitmap* m_pOpponentPokemonSprite = nullptr;
+
+	// --- 폰트 컬렉션 ---
+	Gdiplus::PrivateFontCollection* m_pFontCollection = nullptr;
+	Gdiplus::Font* m_pMainFont = nullptr;
 };

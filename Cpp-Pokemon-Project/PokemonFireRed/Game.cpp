@@ -1,9 +1,8 @@
+#include "framework.h"
 #include "Game.h"
 #include "IntroScene.h"
 #include "BattleScene.h"
 #include "DataManager.h"
-
-#pragma comment(lib, "gdiplus.lib")	// GDI+ 라이브러리 링크
 
 using namespace Gdiplus;
 
@@ -25,8 +24,8 @@ bool Game::Init(HWND hWnd)
 	DataManager::GetInstance().LoadAllData();
 
 	// 게임의 첫 장면으로 IntroScene을 생성
-	m_pCurrentScene = new IntroScene(m_hWnd, m_clientWidth, m_clientHeight);
-	
+	m_pCurrentScene = std::make_unique<IntroScene>(m_hWnd, m_clientWidth, m_clientHeight);
+
 	// 첫 장면의 초기화 함수를 호출, 실패시 false를 반환
 	if (!m_pCurrentScene->Init()) 
 	{
@@ -37,14 +36,6 @@ bool Game::Init(HWND hWnd)
 
 void Game::Release()
 {
-	// 현재 Scene이 할당되어 있다면, 해당 Scene의 리소스를 먼저 해제하고 메모리에서 삭제
-	if (m_pCurrentScene)
-	{
-		m_pCurrentScene->Release();
-		delete m_pCurrentScene;
-		m_pCurrentScene = nullptr;
-	}
-
 	// 백 버퍼와 GDI+를 해제
 	delete m_pBuffer;
 	GdiplusShutdown(m_gdiplusToken);
@@ -96,7 +87,7 @@ void Game::Update(float deltaTime)
 		m_pCurrentScene->Update(deltaTime);
 
 		// --- 장면 전환 로직 ---
-		IntroScene* intro = dynamic_cast<IntroScene*>(m_pCurrentScene);
+		IntroScene* intro = dynamic_cast<IntroScene*>(m_pCurrentScene.get());
 		// IntroScene이 맞고, IsFinished()가 ture를 반환했다면
 		if (intro && intro->IsFinished()) 
 		{
@@ -132,8 +123,7 @@ void Game::ChangeScene(Scene* newScene)
 	if (m_pCurrentScene) 
 	{
 		m_pCurrentScene->Release();
-		delete m_pCurrentScene;
-	}
+		m_pCurrentScene.reset(newScene);
 
 	// 멤버 변수가 새로운 Scene을 가리키도록 교체
 	m_pCurrentScene = newScene;

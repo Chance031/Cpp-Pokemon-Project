@@ -19,7 +19,7 @@ public:
 	TurnResult ProcessTurn(const BattleAction& playerAction);																		// 플레이어의 행동을 받아 한 턴 전체를 진행하고, 그 결과를 TurnResult로 반환
 	void ExecuteSwitch(Pokemon*& activePokemon, std::vector<Pokemon>& party, int newPokemonIndex, std::vector<TurnEvent>& events);	// 포켓몬 교체를 실행하고 관련 이벤트를 기록
 
-	// --- 상태 조회 (Getter) ---
+	// --- 정보 조회 (Getters) ---
 	Pokemon* GetPlayerActivePokemon() const { return playerActivePokemon_; }
 	Pokemon* GetOpponentActivePokemon() const { return opponentActivePokemon_; }
 	bool IsBattleOver();

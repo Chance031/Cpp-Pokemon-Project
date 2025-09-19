@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "BattleScene.h"
 #include "DataManager.h"
 #include <gdiplus.h>
@@ -25,6 +26,23 @@ bool BattleScene::Init()
 		return false;
 	}
 
+	// --- 커스텀 폰트 로드 ---
+	m_pFontCollection = new PrivateFontCollection();
+	m_pFontCollection->AddFontFile(L"../assets/fonts/Galmuri14.ttf");
+
+	// --- 폰트 객체 생성 ---
+	FontFamily fontFamily;
+	int numFound = 0;
+	m_pFontCollection->GetFamilies(1, &fontFamily, &numFound);
+	if (numFound > 0)
+	{
+		m_pMainFont = new Font(&fontFamily, 14, FontStyleRegular, UnitPixel);
+	}
+	else // 폰트 로드 실패 시 대체 폰트 사용
+	{
+		m_pMainFont = new Font(L"돋움", 14, FontStyleRegular, UnitPixel);
+	}
+
 	// 테스트용 포켓몬 파티 생성
 	const PokemonSpecies& species1 = DataManager::GetInstance().GetPokemonSpecies(1);
 	Pokemon p1(species1, { 5 });
@@ -39,6 +57,25 @@ bool BattleScene::Init()
 
 	// BattleManager 생성
 	m_pBattleManager = new BattleManager(m_playerParty, m_opponentParty);
+
+	// --- 포켓몬 스프라이트 로드 ---
+	Pokemon* playerMon = m_pBattleManager->GetPlayerActivePokemon();
+	Pokemon* opponentMon = m_pBattleManager->GetOpponentActivePokemon();
+
+	// 포켓몬 ID를 이용해 동적으로 파일 경로 생성
+	// std::to_wstring 함수는 숫자를 와이드 문자열로 변환합니다.
+	std::wstring playerSpritePath = L"../assets/images/pokemon/back/" + std::to_wstring(playerMon->GetSpecies().id) + L".png";
+	std::wstring opponentSpritePath = L"../assets/images/pokemon/front/" + std::to_wstring(opponentMon->GetSpecies().id) + L".png";
+
+	m_pPlayerPokemonSprite = new Bitmap(playerSpritePath.c_str());
+	m_pOpponentPokemonSprite = new Bitmap(opponentSpritePath.c_str());
+
+	// 이미지 로드 실패 시 에러 처리
+	if (m_pPlayerPokemonSprite->GetLastStatus() != Ok || m_pOpponentPokemonSprite->GetLastStatus() != Ok)
+	{
+		MessageBox(m_hWnd, L"포켓몬 스프라이트 이미지를 불러올 수 없습니다.", L"리소스 오류", MB_OK);
+		return false;
+	}
 
 	// 전투 시작 이벤트를 생성하고 큐에 삽입
 	std::vector<TurnEvent> startEvents;
@@ -64,6 +101,14 @@ void BattleScene::Release()
 	delete m_pBattleManager; m_pBattleManager = nullptr;
 	delete m_pBackground; m_pBackground = nullptr;
 	delete m_pBattleUI; m_pBattleUI = nullptr;
+
+	// --- 스프라이트 리소스 해제 ---
+	delete m_pPlayerPokemonSprite; m_pPlayerPokemonSprite = nullptr;
+	delete m_pOpponentPokemonSprite; m_pOpponentPokemonSprite = nullptr;
+
+	// --- 폰트 컬렉션 리소스 해제 ---
+	delete m_pMainFont; m_pMainFont = nullptr;
+	delete m_pFontCollection; m_pFontCollection = nullptr;
 }
 
 void BattleScene::Update(float deltaTime)
@@ -349,20 +394,17 @@ void BattleScene::RenderUI(Gdiplus::Graphics& g)
 
 void BattleScene::RenderText(Gdiplus::Graphics& g)
 {
-	FontFamily fontFamily(L"돋움");
-	Font font(&fontFamily, 10, FontStyleRegular, UnitPixel);
+	// 멤버 변수에 저장된 폰트 객체를 사용
 	SolidBrush brush(Color(255, 80, 80, 80));
 	StringFormat format;
 	format.SetAlignment(StringAlignmentNear);
-	PointF pointF(m_gameScreenRect.X + 20.0f, m_gameScreenRect.Y + m_gameScreenRect.Height - 35.0f);
+	PointF pointF(m_gameScreenRect.X + 20.0f, m_gameScreenRect.Y + m_gameScreenRect.Height - 38.0f);
 
-	if (m_currentState == BATTLE_UI_STATE::AWAITING_INPUT) 
-	{
-		g.DrawString(L"무엇을 할까?", -1, &font, pointF, &format, &brush);
+	if (m_currentState == BATTLE_UI_STATE::AWAITING_INPUT) {
+		g.DrawString(L"무엇을 할까?", -1, m_pMainFont, pointF, &format, &brush);
 	}
-	else if (m_isProcessingEvent && !m_visibleMessage.empty()) 
-	{
-		g.DrawString(m_visibleMessage.c_str(), -1, &font, pointF, &format, &brush);
+	else if (m_isProcessingEvent && !m_visibleMessage.empty()) {
+		g.DrawString(m_visibleMessage.c_str(), -1, m_pMainFont, pointF, &format, &brush);
 	}
 }
 
@@ -388,7 +430,41 @@ void BattleScene::RenderHpBars(Gdiplus::Graphics& g)
 
 void BattleScene::RenderPokemonSprites(Gdiplus::Graphics& g)
 {
-	// TODO: 포켓몬 스프라이트 그리기
+	if (!m_pPlayerPokemonSprite || !m_pOpponentPokemonSprite)
+	{
+		return;
+	}
+
+	Pokemon* playerMon = m_pBattleManager->GetPlayerActivePokemon();
+	Pokemon* opponentMon = m_pBattleManager->GetOpponentActivePokemon();
+
+	// 상대 포켓몬 (앞모습) 그리기 - 기절하지 않았을 때만!
+	if (opponentMon && !opponentMon->IsFainted())
+	{
+		float spriteWidth = (float)m_pOpponentPokemonSprite->GetWidth();
+		float spriteHeight = (float)m_pOpponentPokemonSprite->GetHeight();
+		RectF destRect(
+			m_gameScreenRect.X + m_gameScreenRect.Width - spriteWidth - 55.0f,
+			m_gameScreenRect.Y + 25.0f,
+			spriteWidth,
+			spriteHeight
+		);
+		g.DrawImage(m_pOpponentPokemonSprite, destRect, 0.0f, 0.0f, spriteWidth, spriteHeight, UnitPixel);
+	}
+
+	// 플레이어 포켓몬 (뒷모습) 그리기 - 기절하지 않았을 때만!
+	if (playerMon && !playerMon->IsFainted())
+	{
+		float spriteWidth = (float)m_pPlayerPokemonSprite->GetWidth();
+		float spriteHeight = (float)m_pPlayerPokemonSprite->GetHeight();
+		RectF destRect(
+			m_gameScreenRect.X + 30.0f,
+			m_gameScreenRect.Y + m_gameScreenRect.Height - spriteHeight - 32.0f,
+			spriteWidth,
+			spriteHeight
+		);
+		g.DrawImage(m_pPlayerPokemonSprite, destRect, 0.0f, 0.0f, spriteWidth, spriteHeight, UnitPixel);
+	}
 }
 
 void BattleScene::RenderFightMenu(Gdiplus::Graphics& g)
@@ -396,17 +472,11 @@ void BattleScene::RenderFightMenu(Gdiplus::Graphics& g)
 	RectF destFightMenuBox(m_gameScreenRect.X, m_gameScreenRect.Y + m_gameScreenRect.Height - 48.0f, 240.0f, 48.0f);
 	g.DrawImage(m_pBattleUI, destFightMenuBox, 122.0f, 0.0f, 118.0f, 48.0f, UnitPixel);
 
-	FontFamily fontFamily(L"돋움");
-	Font font(&fontFamily, 10, FontStyleRegular, UnitPixel);
+	// [수정] 매번 폰트를 생성하는 대신, 멤버 변수에 저장된 폰트 객체를 사용
 	SolidBrush brush(Color(255, 80, 80, 80));
-	const auto& moves = m_pBattleManager->GetPlayerActivePokemon()->GetMoveset();
-	for (size_t i = 0; i < moves.size(); ++i) 
-	{
-		std::wstring moveName(moves[i].GetName().begin(), moves[i].GetName().end());
-		float x = m_gameScreenRect.X + 25.0f + (i % 2) * 80.0f;
-		float y = m_gameScreenRect.Y + m_gameScreenRect.Height - 35.0f + (i / 2) * 16.0f;
-		g.DrawString(moveName.c_str(), -1, &font, PointF(x, y), &brush);
-	}
+	StringFormat format;
+	format.SetAlignment(StringAlignmentNear);
+	PointF pointF(m_gameScreenRect.X + 20.0f, m_gameScreenRect.Y + m_gameScreenRect.Height - 38.0f);
 
 	float cursorX = m_gameScreenRect.X + 15.0f + (m_fightMenuSelection % 2) * 80.0f;
 	float cursorY = m_gameScreenRect.Y + m_gameScreenRect.Height - 36.0f + (m_fightMenuSelection / 2) * 16.0f;

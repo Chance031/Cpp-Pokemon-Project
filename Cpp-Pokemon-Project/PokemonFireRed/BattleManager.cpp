@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "BattleManager.h"
 #include "DataManager.h"
 #include "Move.h"

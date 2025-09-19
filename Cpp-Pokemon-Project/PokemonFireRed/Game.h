@@ -1,11 +1,9 @@
 #pragma once
-#include <windows.h>
-#include <gdiplus.h>
+
 #include "Scene.h"
 
-// ================================================================================
-// 게임의 전체 생명 주기와 핵심 로직(게임 루프, 장면 관리)을 담당하는 메인 엔진 클래스
-// ================================================================================
+#include <memory>
+
 class Game
 {
 public:
@@ -33,5 +31,5 @@ private:
 	ULONG_PTR m_gdiplusToken = 0;			// GDI+ 라이브러리 사용을 위한 토큰
 	Gdiplus::Bitmap* m_pBuffer = nullptr;	// 더블 버퍼링을 위한 백 버퍼 비트맵
 	
-	Scene* m_pCurrentScene = nullptr;		// 현재 활성화된 장면(Scene)을 가리키는 포인터
+	std::unique_ptr<Scene> m_pCurrentScene;	// 현재 활성화된 장면(Scene)을 가리키는 포인터
 };
