@@ -140,24 +140,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BattleManager.cpp" />
+    <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Pokemon.cpp" />
+    <ClCompile Include="Scene.h" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbilityData.h" />
     <ClInclude Include="BattleManager.h" />
+    <ClInclude Include="BattleScene.h" />
     <ClInclude Include="BattleTypes.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameTypes.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="MoveData.h" />
     <ClInclude Include="MoveEffectData.h" />

@@ -1,82 +1,37 @@
 #pragma once
-
 #include <windows.h>
 #include <gdiplus.h>
-#include <vector>
-#include <string>
+#include "Scene.h"
 
-#include "BattleManager.h"
-#include "GameTypes.h"
-
-namespace Gdiplus
-{
-	class Bitmap;
-}
-
-// 페이드 상태를 관리하기 위한 enum
-enum class FadeState
-{
-	None,
-	FadingOut,
-	FadingIn
-};
-
+// ================================================================================
+// 게임의 전체 생명 주기와 핵심 로직(게임 루프, 장면 관리)을 담당하는 메인 엔진 클래스
+// ================================================================================
 class Game
 {
 public:
+	// --- 생성자 및 소멸자 ---
 	Game();
 	~Game();
 
-	bool Init(HWND hWnd); // 초기화
-	void Run();           // 메인 게임 루프
-	void Release();       // 리소스 해제
-
-	LRESULT MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);	// 윈도우 메시지 처리
+	// --- 공개 인터페이스 ---
+	bool Init(HWND hWnd);	// 게임에 필요한 모든 리소스와 GDI+를 초기화
+	void Run();				// 메인 게임 루프를 시작하고 실행
+	void Release();			// 게임이 종료될 때 사용된 모든 리소스를 해제
+	LRESULT MsgProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);	// 윈도우 메시지를 처리하는 프로시저
 
 private:
-	void Update(float deltaTime);
-	void Render(HDC hdc);
-	void StartBattle();
+	// --- 내부 로직 함수 ---
+	void Update(float deltaTime);			// 게임의 상태를 업데이트 (매 프레임 호출)
+	void Render(HDC hdc);					// 게임 화면을 그림 (매 프레임 호출)
+	void ChangeScene(Scene* newScene);		// 현재 장면을 다른 장면으로 교체
 
 	// --- 멤버 변수 ---
-	HWND m_hWnd = NULL;	// 윈도우 핸들
-	int m_clientWidth = 800;
-	int m_clientHeight = 600;
+	HWND m_hWnd = NULL;						// 메인 윈도우 핸들
+	int m_clientWidth = 800;				// 클라이언트 영역의 너비
+	int m_clientHeight = 600;				// 클라이언트 영역의 높이
 
-	// GDI+ 관련
-	ULONG_PTR m_gdiplusToken = 0;
-	Gdiplus::Bitmap* m_pBuffer = nullptr;	// 더블 버퍼링용
-
-	// 리소스
-	Gdiplus::Bitmap* m_pIntroSheet = nullptr;
-	Gdiplus::Bitmap* m_pBattleBackground = nullptr;
-	Gdiplus::Bitmap* m_pOpponentSprite = nullptr;
-	Gdiplus::Bitmap* m_pPlayerSprite = nullptr;
-	Gdiplus::Bitmap* m_pUiSheet = nullptr;
-
-	// 게임 상태
-	GameState m_gameState = GameState::Intro_GameFreak;
-	GameState m_nextGameState = GameState::Intro_GameFreak;
-
-	BattleManager* m_pBattleManager = nullptr;
-	float m_sceneTimer = 0.0f;
-    
-	// 페이드 효과
-	FadeState m_fadeState = FadeState::FadingIn; // 게임 시작 시 페이드인
-	float m_fadeTimer = 0.0f;
-	int m_fadeAlpha = 255;
-
-	// [추가] 별 스크롤 효과용 변수
-	float m_starScrollX = 0.0f;
-
-	// ▼▼▼▼▼ 화면 흔들림 변수들을 삭제하고 아래 변수들로 교체 ▼▼▼▼▼
-	bool m_isRevealing = false;    // 현재 장면이 열리는 중인지
-	float m_revealTimer = 0.0f;   // 열리는 애니메이션 시간 측정용
-	float m_revealOffset = 0.0f;  // 열리는 막대의 이동 거리
-
-	std::mt19937 m_rng;
-
-	// 포켓몬 파티
-	std::vector<Pokemon> m_playerParty;
-	std::vector<Pokemon> m_wildParty;
+	ULONG_PTR m_gdiplusToken = 0;			// GDI+ 라이브러리 사용을 위한 토큰
+	Gdiplus::Bitmap* m_pBuffer = nullptr;	// 더블 버퍼링을 위한 백 버퍼 비트맵
+	
+	Scene* m_pCurrentScene = nullptr;		// 현재 활성화된 장면(Scene)을 가리키는 포인터
 };

@@ -11,38 +11,34 @@
 class BattleManager
 {
 public:
+	// --- 생성자 ---
 	BattleManager(std::vector<Pokemon>& playerParty, std::vector<Pokemon>& opponentParty);
-	void Start();
 
-private:
-	// 전투 흐름 관리
-	void PlayIntroSequence();
-	void ProcessTurn(const BattleAction& playerAction, const BattleAction& opponentAction);
+	// --- 공개 인터페이스 ---	
+	void Start(std::vector<TurnEvent>& events);																						// 전투 시작 시 필요한 초기 설정을 수행하고, 시작 이벤트를 생성
+	TurnResult ProcessTurn(const BattleAction& playerAction);																		// 플레이어의 행동을 받아 한 턴 전체를 진행하고, 그 결과를 TurnResult로 반환
+	void ExecuteSwitch(Pokemon*& activePokemon, std::vector<Pokemon>& party, int newPokemonIndex, std::vector<TurnEvent>& events);	// 포켓몬 교체를 실행하고 관련 이벤트를 기록
+
+	// --- 상태 조회 (Getter) ---
+	Pokemon* GetPlayerActivePokemon() const { return playerActivePokemon_; }
+	Pokemon* GetOpponentActivePokemon() const { return opponentActivePokemon_; }
 	bool IsBattleOver();
 
-	// 사용자 입력 및 AI
-	BattleAction SelectPlayerAction();
+private:
+	// --- 내부 로직 ---
 	BattleAction SelectOpponentAction();
-	Move* SelectMove();
-	void ShowMainMenu();
-
-	// 핵심 실행 로직
-	void ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move);
+	void ExecuteAction(Pokemon* attacker, Pokemon* target, Move* move, std::vector<TurnEvent>& events);
 	bool HandleMoveAccuracy(Pokemon* attacker, const Move* move);
-	void ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move);
-	DamageResult CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move);
-	std::pair<TurnAction, TurnAction> DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction);
-	void ProcessEndOfTurnEffects(Pokemon* pokemon);
-	void TriggerSwitchInAbilities(Pokemon* switchedInPokemon);
-	int SelectPokemonToSwitch(); // 교체할 포켓몬 선택 메뉴 (파티 인덱스 반환)
-	void ExecuteSwitch(Pokemon*& activePokemon, std::vector<Pokemon>& party, int newPokemonIndex);
+	void ApplyMoveEffect(Pokemon* attacker, Pokemon* target, const Move* move, std::vector<TurnEvent>& events);
+	DamageResult CalculateAndApplyDamage(Pokemon* attacker, Pokemon* target, const Move* move, std::vector<TurnEvent>& events);
+	std::pair<Pokemon*, Move*> DetermineActionOrder(const BattleAction& playerAction, const BattleAction& opponentAction);
+	void ProcessEndOfTurnEffects(Pokemon* pokemon, std::vector<TurnEvent>& events);
+	void TriggerSwitchInAbilities(Pokemon* switchedInPokemon, Pokemon* opponent, std::vector<TurnEvent>& events);
 
-	// 멤버 변수
-	std::vector<Pokemon> playerParty_;
-	std::vector<Pokemon> opponentParty_;
+	// --- 멤버 변수 ---
+	std::vector<Pokemon>& playerParty_;
+	std::vector<Pokemon>& opponentParty_;
 	Pokemon* playerActivePokemon_ = nullptr;
 	Pokemon* opponentActivePokemon_ = nullptr;
-
 	std::mt19937 randomNumberEngine_;
 };
-
